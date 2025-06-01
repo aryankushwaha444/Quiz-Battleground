@@ -9,7 +9,6 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
 
     <App />
-    <Footer/>x
 
   </StrictMode>,
 )
