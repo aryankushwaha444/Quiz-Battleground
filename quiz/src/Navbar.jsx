@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+
+// { import icons }
+
 import {
   Menu as MenuIcon,
   Home as HomeIcon,
@@ -17,7 +20,7 @@ function Navbar() {
   const menuItems = [
     { label: "Home", path: "/", icon: <HomeIcon fontSize="small" /> },
     { label: "About Us", path: "/about", icon: <InfoIcon fontSize="small" /> },
-    { label: "Join Quiz", path: "/join-qui", icon: <CreateIcon fontSize="small" /> },
+    { label: "Join Quiz", path: "/join-quiz", icon: <CreateIcon fontSize="small" /> },
     { label: "Leaderboard", path: "/leaderboard", icon: <TrophyIcon fontSize="small" /> },
     { label: "Contact Us", path: "/contact", icon: <ContactIcon fontSize="small" /> },
     { label: "Login", path: "/login", icon: <JoinIcon fontSize="small" /> },
@@ -31,6 +34,7 @@ function Navbar() {
         </div>
 
         {/* Hamburger Icon for small screens */}
+        
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
             <MenuIcon />

@@ -1,6 +1,9 @@
 import { Create, Login, EmojiEvents } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex flex-col items-center pt-24 pb-10">
       <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-500 mb-4 animate-fade-in">
@@ -18,6 +21,7 @@ function HomePage() {
           desc="Design your own quiz with custom questions and invite others to compete"
           btnText="Create Now"
           btnColor="bg-blue-500 hover:bg-blue-600"
+          onClick={() => navigate("/create-quiz")}
         />
 
         {/* Join Quiz */}
@@ -27,6 +31,7 @@ function HomePage() {
           desc="Enter a room code to join an existing quiz and compete with others"
           btnText="Join Now"
           btnColor="bg-pink-500 hover:bg-pink-600"
+          onClick={() => navigate("/join-quiz")}
         />
 
         {/* Leaderboard */}
@@ -36,20 +41,23 @@ function HomePage() {
           desc="View top performers and track your ranking in the quiz battles"
           btnText="View Rankings"
           btnColor="bg-orange-500 hover:bg-orange-600"
+          onClick={() => navigate("/rank")}
         />
       </div>
     </div>
   );
 }
 
-function Card({ title, icon, desc, btnText, btnColor }) {
+
+function Card({ title, icon, desc, btnText, btnColor, onClick }) {
   return (
     <div className="bg-purple-100 p-6 rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300 w-full max-w-sm text-center">
       <div className="text-4xl mb-4">{icon}</div>
       <h2 className="text-xl font-semibold mb-2">{title}</h2>
       <p className="text-gray-600 mb-4">{desc}</p>
       <button
-        className={`text-white font-medium py-2 px-5 rounded-full shadow-md transition-all duration-300 ${btnColor}`}
+        onClick={onClick}
+        className={`text-white font-medium py-2 px-5 rounded-full shadow-md cursor-pointer duration-300 transform hover:scale-105 transition-transform ${btnColor}`}
       >
         {btnText}
       </button>

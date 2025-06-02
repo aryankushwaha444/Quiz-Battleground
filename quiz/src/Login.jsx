@@ -7,12 +7,12 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex items-center justify-center px-4">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
-        <h2 className="text-2xl font-bold text-center text-red-800 mb-6">
+      <div className=" bg-purple-100 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform  p-8 w-full max-w-sm">
+        <h2 className="text-2xl font-bold text-center text-blue-500 mb-6">
           Login to Your Account
         </h2>
 
-        <form className="space-y-5">
+        <form className="space-y-5 ">
           {/* Email */}
           <div>
             <label className="block mb-1 text-xl text-gray-600">

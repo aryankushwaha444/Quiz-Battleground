@@ -6,8 +6,8 @@ function Register() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex items-center justify-center px-4">
-        <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
-          <h2 className="text-2xl font-bold text-center text-red-800 mb-6">Login to Your Account</h2>
+        <div className="bg-purple-100 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform p-8 w-full max-w-sm">
+          <h2 className="text-2xl font-bold text-center text-blue-500 mb-6">Register to Your Account</h2>
   
           <form className="space-y-5">
             <div>
@@ -71,14 +71,6 @@ function Register() {
               </button>
             </div>
           </div>
-  
-            <div className="flex justify-between text-sm">
-              <label className="flex items-center gap-2">
-                <input type="checkbox" />
-                Remember me
-              </label>
-              <a href="#" className="text-indigo-600 hover:underline hover:text-red-600">Forgot password?</a>
-            </div>
   
             <button
               type="submit"
