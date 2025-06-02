@@ -11,9 +11,9 @@ function Contact() {
       <div className="bg-white rounded-3xl shadow-xl p-6 max-w-4xl mx-auto mb-12 transform hover:scale-105 transition-transform">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
           <img
-            src="../images/ourTeam/l.PNG"
+            src="../images/ourTeam/leader.PNG"
             alt="Leader"
-            className="w-40 h-40 object-cover rounded-full border-4 border-indigo-500 shadow"
+            className="w-40 h-40 object-cover rounded-full border-4 border-indigo-500 shadow transform hover:scale-170 transition-transform"
           />
           <div className="flex-1 text-center md:text-left">
             <h2 className="text-2xl font-bold text-indigo-800 mb-1 transform hover:scale-120 transition-transform">Aryan Kushwaha</h2>
@@ -63,7 +63,7 @@ function Contact() {
           <img
             src="../images/ourTeam/one.JPG" 
             alt="Collaborator 1"
-            className="w-28 h-28 mx-auto rounded-full object-cover border-4 border-purple-400"
+            className="w-28 h-28 mx-auto rounded-full object-cover border-4 border-purple-400 transform hover:scale-170 transition-transform"
           />
           <h3 className="text-xl font-semibold mt-4 text-purple-700 transform hover:scale-120 transition-transform">Arabin Shrestha</h3>
           <p className="text-gray-600">Collaborator</p>
@@ -74,7 +74,7 @@ function Contact() {
           <img
             src="../images/ourTeam/two.jpg" 
             alt="Collaborator 2"
-            className="w-28 h-28 mx-auto rounded-full object-cover border-4 border-purple-400"
+            className="w-28 h-28 mx-auto rounded-full object-cover border-4 border-purple-400 transform hover:scale-170 transition-transform"
           />
           <h3 className="text-xl font-semibold mt-4 text-purple-700 transform hover:scale-120 transition-transform">Saurav Gautam</h3>
           <p className="text-gray-600">Collaborator</p>
