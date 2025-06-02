@@ -9,9 +9,9 @@ return (
       </h2>
       <form className="space-y-4">
         <label className="block text-lg text-gray-700">
-          Enter 8-character Join ID:
+          Enter 8-character Join ID <span><sup className="text-xl text-red-600">*</sup></span>
         </label>
-        <input
+        <input required
           type="text"
           maxLength={8}
           placeholder="e.g. AB12CD34"
