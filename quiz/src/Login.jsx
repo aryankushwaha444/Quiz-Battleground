@@ -50,7 +50,7 @@ function Login() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-red-400 transition"
+            className="w-full bg-indigo-600 text-white font-semibold py-2 rounded-full hover:bg-red-400 transition"
           >
             Login
           </button>
