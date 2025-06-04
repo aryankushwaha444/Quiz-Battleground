@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
-const quizBattleground = new mongoose.Schema(
+const quizbattleground = new mongoose.Schema(
   {
-    joinID:{
-        type: String,
-        required: true
-    },
     name: {
       type: String,
       required:true,
@@ -21,9 +17,10 @@ const quizBattleground = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps:
+     true }
 );
 
-const User = mongoose.model("User", quizBattleground);
+const User =new mongoose.model("User", quizbattleground);
 
 export default User;

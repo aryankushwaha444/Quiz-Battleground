@@ -1,26 +1,41 @@
+
 import dotenv from "dotenv";
 dotenv.config();
 
+
 import express from "express";
 import connectDB from "./db/connetion.js";
+import userRoutes from "./routes/user.routes.js";
+
 
 const app = express();
 
-//
-const PORT = process.env.PORT || 6000;
-app.listen(PORT, () =>
-{
-    console.log(`Server is running on port ${PORT}`);
-    });
+app.use(express.json());
 
+app.get("/", (req, res) => {
+    res.send("🚀 Server is working fine on port 5000!");
+  });
+  
+app.use("/api", userRoutes);
 
-
-// Connect to MongoDB
-connectDB().then(()=>{
-    console.log("Successfull connected to MongoDB");
-}).catch((error)=>{
-    console.log(error);
+app.get('/list' , (req,res)=>{
+  res.send(data);
 })
 
 
 
+
+const PORT = process.env.PORT || 8080;
+
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`✅ Server is running on port ${PORT}`);
+      console.log(`✅ Successfully connected to MongoDB`);
+    });
+  })
+  .catch((error) => {
+    console.error("❌ MongoDB connection failed:", error.message);
+    process.exit(1);
+  }
+  );
