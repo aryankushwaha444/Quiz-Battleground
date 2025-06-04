@@ -2,7 +2,7 @@
 function CreateQuiz() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-600 px-4 py-8">
-      <form className="bg-purple-100 rounded-3xl shadow-2xl p-4 w-full max-w-xl space-y-6 transform hover:scale-105 transition-transform">
+      <form className="bg-purple-100 rounded-3xl shadow-2xl p-4 w-full max-w-xl m-15 space-y-6 transform hover:scale-105 transition-transform">
         <h1 className="text-3xl font-bold text-center text-blue-500">
           Create Quiz
         </h1>
@@ -44,6 +44,17 @@ function CreateQuiz() {
               className="w-full border rounded-lg p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           ))}
+        </div>
+
+        <div>
+          <label className="block text-lg font-medium text-gray-700 mb-1">
+            Correct Answer <span><sup className="text-lg text-red-600">*</sup></span>
+          </label>
+          <input required
+            type="text"
+            placeholder="Enter correcr answer"
+            className="w-full h-12 border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          />
         </div>
 
         {/* Submit Button */}
