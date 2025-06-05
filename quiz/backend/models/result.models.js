@@ -6,23 +6,34 @@ const resultSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    name: { type: String, required: true },
-    questions: {
+    name: {
       type: String,
       required: true,
-      unique: true,
     },
-    correctQuestions: {
-      type: Number,
-      required: true,
-    },
+    questions: [
+      {
+        quizQues: {
+          type: String,
+          required: true,
+          unique: true,
+        },
+        correctAns: {
+          type: Number,
+          default:0
+        },
+        inCorrectAns: {
+          type: Number,
+          default:0
+        },
+        nullAns: {
+          type: Number,
+          default: 0,
+        },
+      }
+    ],
     totalAttempt: {
       type: Number,
-      required: true,
-    },
-    inCorrectQuestions: {
-      type: Number,
-      required: true,
+      default: 0,
     },
   },
   {

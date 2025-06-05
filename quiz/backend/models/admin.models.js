@@ -3,12 +3,14 @@ import mongoose from "mongoose";
 const adminSchema = new mongoose.Schema({
     name: { 
         type: String, 
-        
-        required: true
+        required: true,
+        unique:true,
+        length:5
      },
     password:{
         type:String,
-        required:true
+        required:true,
+        length:5
     }
 },
 {
