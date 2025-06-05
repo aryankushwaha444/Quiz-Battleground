@@ -9,7 +9,7 @@ function Register() {
         <div className="bg-purple-100 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform p-8 w-full max-w-sm">
           <h2 className="text-2xl font-bold text-center text-blue-500 mb-6">Register to Your Account</h2>
   
-          <form className="space-y-5">
+          <form className="space-y-5" method="POST">
             <div>
               <label className="block mb-1 text-xl text-gray-600">Email <span><sup className="text-xl text-red-600">*</sup></span></label>
               <input required

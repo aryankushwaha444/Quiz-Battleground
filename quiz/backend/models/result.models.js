@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const quizBattleground = new mongoose.Schema(
+const resultSchema = new mongoose.Schema(
   {
     joinID: {
       type: String,
@@ -30,6 +30,6 @@ const quizBattleground = new mongoose.Schema(
   }
 );
 
-const Result = mongoose.model("Result", quizBattleground);
+const Result = mongoose.model("Result", resultSchema);
 
 export default Result;

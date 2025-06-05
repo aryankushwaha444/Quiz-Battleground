@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const quizBattleground = new mongoose.Schema(
+const createQuizSchema = new mongoose.Schema(
   {
     question: {
       type: String,
@@ -37,5 +37,5 @@ const quizBattleground = new mongoose.Schema(
   }
 );
 
-const Questions = mongoose.model("Questions", quizBattleground);
+const Questions = mongoose.model("Questions", createQuizSchema);
 export default Questions;

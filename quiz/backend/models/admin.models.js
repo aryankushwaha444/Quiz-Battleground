@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
-const quizBattleground = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     name: { 
         type: String, 
-        required: true },
+        
+        required: true
+     },
     password:{
         type:String,
         required:true
@@ -13,5 +15,5 @@ const quizBattleground = new mongoose.Schema({
     timestamps: true
 });
 
-const Admin = mongoose.Schema("Admin" , quizBattleground);
+const Admin = mongoose.Schema("Admin" , adminSchema);
 export default Admin;
