@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const createQuizSchema = new mongoose.Schema(
   {
-    question: {
+    questions: {
       type: String,
       required: true,
       unique: true,
