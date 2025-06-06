@@ -20,17 +20,17 @@ function Navbar() {
   const menuItems = [
     { label: "Home", path: "/", icon: <HomeIcon fontSize="small" /> },
     { label: "About Us", path: "/about", icon: <InfoIcon fontSize="small" /> },
-    { label: "Join Quiz", path: "/join-quiz", icon: <CreateIcon fontSize="small" /> },
+    { label: "Play Quiz", path: "/join-quiz", icon: <CreateIcon fontSize="small" /> },
     { label: "Leaderboard", path: "/leaderboard", icon: <TrophyIcon fontSize="small" /> },
     { label: "Contact Us", path: "/contact", icon: <ContactIcon fontSize="small" /> },
-    { label: "Login", path: "/login", icon: <JoinIcon fontSize="small" /> },
+    { label: "Login lobby", path: "/login", icon: <JoinIcon fontSize="small" /> },
   ];
 
   return (
     <nav className="bg-gray-900 text-white fixed top-0 left-0 w-full z-50 shadow">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="text-lg font-bold">
-          <Link to="/" className="hover:text-red-500">QuizApp</Link>
+          <Link to="/" className="hover:text-red-500">Quizzy</Link>
         </div>
 
         {/* Hamburger Icon for small screens */}

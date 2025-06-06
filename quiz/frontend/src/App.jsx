@@ -1,4 +1,4 @@
-import Navbar from "./NavBar"
+import Navbar from "./Navbar"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login"; // Your Login page
 import Footer from "./footer";

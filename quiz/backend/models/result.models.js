@@ -10,6 +10,16 @@ const resultSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    score: {
+      type: Number,
+      required: true,
+    },
+    categoryQuiz:{
+      type: String,
+      required: true,
+      attempt:Number
+    },
+    
     questions: [
       {
         quizQues: {
@@ -25,16 +35,12 @@ const resultSchema = new mongoose.Schema(
           type: Number,
           default:0
         },
-        nullAns: {
-          type: Number,
-          default: 0,
-        },
+        userAns: {
+          type:String,
+          require:true
+        }
       }
     ],
-    totalAttempt: {
-      type: Number,
-      default: 0,
-    },
   },
   {
     timestamps: true,

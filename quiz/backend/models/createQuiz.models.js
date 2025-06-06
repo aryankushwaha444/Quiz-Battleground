@@ -1,41 +1,16 @@
 import mongoose from "mongoose";
 
-const createQuizSchema = new mongoose.Schema(
-  {
-    questions: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    answer: {
-      type: String,
-      required: true,
-    },
-    option1: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    option2: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    option3: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    option4: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
+const quizSchema = new mongoose.Schema({
+  category: String,
+  type: String,
+  difficulty: String,
+  question: String,
+  correct_answer: String,
+  incorrect_answers: [String],
+},
+{
+  timestamps: true,
+});
 
-const Questions = mongoose.model("Questions", createQuizSchema);
+const Questions = mongoose.model("Questions", quizSchema);
 export default Questions;
