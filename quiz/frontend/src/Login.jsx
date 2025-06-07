@@ -14,7 +14,6 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // setMessage("");
 
     try {
       const res = await axios.post("/api/user/login", {
@@ -22,7 +21,10 @@ function Login() {
         password,
       });
 
-      login(); // Update auth context
+      // Extract user from response
+      const { user } = res.data;
+
+      login(user); // Update auth context
       console.log("Login successful:", res.data);
       setMessage("✅ Login successful");
       navigate('/');

@@ -1,41 +1,54 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-// Create context
 const AuthContext = createContext();
 
-// Provider component
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem("isAuthenticated") === "true";
-  });
+  // Get auth status from localStorage
+  const getStoredAuth = () => localStorage.getItem("isAuthenticated") === "true";
+  const getStoredUser = () => {
+    try {
+      return JSON.parse(localStorage.getItem("user")) || null;
+    } catch {
+      return null;
+    }
+  };
 
-  // Login function
-  const login = () => {
-    setIsAuthenticated(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(getStoredAuth);
+  const [user, setUser] = useState(getStoredUser);
+
+  // Store user in localStorage and update state
+  const login = (user) => {
     localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("user", JSON.stringify(user));
+    setIsAuthenticated(true);
+    setUser(user);
   };
 
-  // Logout function
+  // Clear all auth-related data
   const logout = () => {
-    setIsAuthenticated(false);
     localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("user");
+    setIsAuthenticated(false);
+    setUser(null);
   };
 
-  // Optional: keep auth in sync if localStorage changes elsewhere
+  // Sync across tabs
   useEffect(() => {
-    const handleStorage = () => {
-      setIsAuthenticated(localStorage.getItem("isAuthenticated") === "true");
+    const syncAuthState = () => {
+      setIsAuthenticated(getStoredAuth());
+      setUser(getStoredUser());
     };
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
+
+    window.addEventListener("storage", syncAuthState);
+    return () => window.removeEventListener("storage", syncAuthState);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to use auth
+// Custom hook
 export const useAuth = () => useContext(AuthContext);

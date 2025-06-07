@@ -19,7 +19,7 @@ async function getData() {
 
     // Insert into MongoDB
     await Questions.insertMany(quizData);
-    console.log("✅ Quiz data saved to MongoDB");
+    console.log("Quiz data saved to MongoDB");
 
     mongoose.disconnect();
   } catch (error) {

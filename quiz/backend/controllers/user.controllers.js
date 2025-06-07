@@ -21,6 +21,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
+
 // Login User
 export const loginUser = async (req, res) => {
   try {
@@ -36,8 +37,17 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    return res.status(200).json({ message: "Login successful", user });
+    // Only send safe fields
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        name: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture || null,
+      },
+    });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

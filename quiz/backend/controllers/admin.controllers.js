@@ -1,5 +1,4 @@
 import Admin from '../models/admin.models.js';
-import Questions from '../models/createQuiz.models.js';
 import argon2 from 'argon2';
 
 // Register Admin
@@ -43,24 +42,4 @@ export const loginAdmin = async (req, res) => {
     console.error("Login error:", error.message);
     res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
-};
-
-
-
-// Creating a quiz
-export const createQuiz = async (req, res) =>{
-    try{
-        const {questions, answer, option1,option2,option3,option4} = req.body;
-        console.log("Questions Created" , {questions});
-        const quizData = await Questions.create({questions, answer, option1,option2,option3,option4});
-        console.log("Quiz Created" , {quizData});
-
-        res.status(201).json({message: "Quiz created successfully", quizData});
-      
-    }
-    catch(error)
-    {
-        console.error("Error !" , error.message);
-        res.status(500).json({message: "Error creating quiz"});
-    }
 };
