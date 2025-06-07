@@ -1,39 +1,73 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from "axios";
+import { useAuth } from "./Auth/AuthContext";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    // setMessage("");
+
+    try {
+      const res = await axios.post("/api/user/login", {
+        email,
+        password,
+      });
+
+      login(); // Update auth context
+      console.log("Login successful:", res.data);
+      setMessage("✅ Login successful");
+      navigate('/');
+      
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || "Login failed";
+      setMessage(`❌ ${errorMsg}`);
+      console.error("Login error:", errorMsg);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex items-center justify-center px-4">
-      <div className=" bg-purple-100 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform  p-8 w-full max-w-sm">
+      <div className="bg-purple-100 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform p-8 w-full max-w-sm">
         <h2 className="text-2xl font-bold text-center text-blue-500 mb-6">
           Login to Your Account
         </h2>
 
-        <form className="space-y-5 ">
-          {/* Email */}
+        <form className="space-y-5" onSubmit={handleLogin}>
+          {/* Email Field */}
           <div>
             <label className="block mb-1 text-xl text-gray-600">
-              Email <span><sup className="text-xl text-red-600">*</sup></span>
+              Email <sup className="text-red-600">*</sup>
             </label>
-            <input required
+            <input
+              required
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
-          {/* Password with Toggle */}
-          
+          {/* Password Field */}
           <div>
             <label className="block mb-1 text-xl text-gray-600">
-              Password <span><sup className="text-xl text-red-600">*</sup></span>
+              Password <sup className="text-red-600">*</sup>
             </label>
             <div className="relative">
-              <input required
+              <input
+                required
                 type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
@@ -47,13 +81,18 @@ function Login() {
             </div>
           </div>
 
-          {/* Submit */}
+          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white font-semibold py-2 rounded-full hover:bg-red-400 transition"
           >
             Login
           </button>
+
+          {/* Message */}
+          {message && (
+            <p className="text-center text-red-600 font-semibold">{message}</p>
+          )}
         </form>
 
         {/* Signup Link */}

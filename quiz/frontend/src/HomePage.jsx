@@ -6,14 +6,14 @@ function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex flex-col items-center pt-24 pb-10 ">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex flex-col items-center pt-24 pb-10 mb-5">
       <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-500 animate-fade-in mt-4">
         Quiz Battleground
       </h1>
       <p className="text-black text-lg mb-12 animate-fade-in delay-200 text-center max-w-xl">
         Compete in real-time quiz battles with friends and challenge your knowledge
         <div>
-        <button className="bg-purple-500 rounded-sm m-3 hover:bg-red-600 transform hover:scale-105 transition-transform " onClick={()=> navigate("/join-quiz")}><span>Play Quiz</span></button>
+        <button className="bg-purple-500 rounded-full m-3 hover:bg-red-600 transform hover:scale-120 transition-transform w-25 " onClick={()=> navigate("/join-quiz")}><span>Play Quiz</span></button>
 
         </div>
       </p>

@@ -1,36 +1,36 @@
-import Navbar from "./Navbar"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./Login"; // Your Login page
+import Navbar from "./Navbar";
 import Footer from "./footer";
 import HomePage from "./HomePage";
+import Login from "./Login";
 import Register from "./Register";
 import About from "./About";
 import Contact from "./Contact";
 import JoinQuiz from "./JoinQuiz";
 import CreateQuiz from "./CreateQuiz";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./Auth/AuthContext"; // ✅ Import AuthProvider
 
 function App() {
-
   return (
-    <Router>
-      <Navbar/>
-      <Routes>
+    <AuthProvider> {/* ✅ Provide authentication context */}
+      <Router>
+        <Navbar /> {/* ✅ Navbar will now respond to login status */}
+        
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/join-quiz" element={<JoinQuiz />} />
+          <Route path="/create-quiz" element={<CreateQuiz />} />
+          {/* You can also add a route for Leaderboard here */}
+        </Routes>
 
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/register" element={<Register/>}/>
-      <Route path="/about" element={<About/>}/>
-     <Route path="/contact" element={<Contact/>}/>
-     <Route path="/join-quiz" element={<JoinQuiz/>}/>
-     <Route path="/create-quiz" element={<CreateQuiz/>}/>
-
-
-      </Routes>
-      <Footer/>
-    </Router>
-
-  )
-
+        <Footer />
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

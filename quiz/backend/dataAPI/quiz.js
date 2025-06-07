@@ -7,7 +7,7 @@ import Questions from "../models/createQuiz.models.js";
 connectDB();
 
 // Fetch and Store
-const requestUrl = "https://opentdb.com/api.php?amount=10&category=18&type=multiple";
+const requestUrl = "https://opentdb.com/api.php?amount=50&category=18&type=multiple";
 
 async function getData() {
   try {

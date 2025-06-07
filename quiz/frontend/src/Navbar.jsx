@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "./Auth/AuthContext";
 
-// { import icons }
-
+// MUI Icons
 import {
   Menu as MenuIcon,
   Home as HomeIcon,
@@ -11,19 +11,37 @@ import {
   EmojiEvents as TrophyIcon,
   Info as InfoIcon,
   ContactMail as ContactIcon,
+  Logout as LogoutIcon,
 } from "@mui/icons-material";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation(); 
+  const location = useLocation();
+  const { isAuthenticated, logout } = useAuth(); // ⬅️ access auth state and logout function
 
   const menuItems = [
     { label: "Home", path: "/", icon: <HomeIcon fontSize="small" /> },
     { label: "About Us", path: "/about", icon: <InfoIcon fontSize="small" /> },
     { label: "Play Quiz", path: "/join-quiz", icon: <CreateIcon fontSize="small" /> },
-    { label: "Leaderboard", path: "/leaderboard", icon: <TrophyIcon fontSize="small" /> },
+    ...(isAuthenticated
+      ? [
+          {
+            label: "Leaderboard",
+            path: "/leaderboard",
+            icon: <TrophyIcon fontSize="small" />,
+          },
+        ]
+      : []),
     { label: "Contact Us", path: "/contact", icon: <ContactIcon fontSize="small" /> },
-    { label: "Login lobby", path: "/login", icon: <JoinIcon fontSize="small" /> },
+    ...(!isAuthenticated
+      ? [
+          {
+            label: "Login lobby",
+            path: "/login",
+            icon: <JoinIcon fontSize="small" />,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -33,8 +51,7 @@ function Navbar() {
           <Link to="/" className="hover:text-red-500">Quizzy</Link>
         </div>
 
-        {/* Hamburger Icon for small screens */}
-        
+        {/* Hamburger Icon */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
             <MenuIcon />
@@ -52,9 +69,7 @@ function Navbar() {
               <Link
                 to={path}
                 className={`flex items-center gap-2 px-4 py-2 transition-all duration-200 ${
-                  location.pathname === path
-                    ? "text-red-400 font-semibold"
-                    : " "
+                  location.pathname === path ? "text-red-400 font-semibold" : ""
                 }`}
               >
                 {icon}
@@ -62,6 +77,19 @@ function Navbar() {
               </Link>
             </li>
           ))}
+
+          {/* Logout Button (only when authenticated) */}
+          {isAuthenticated && (
+            <li>
+              <button
+                onClick={logout}
+                className="flex items-center gap-2 px-4 py-2 text-indigo-400 font-semibold hover:text-red-600 cursor-alias transition"
+              >
+                <LogoutIcon fontSize="small" />
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </nav>
