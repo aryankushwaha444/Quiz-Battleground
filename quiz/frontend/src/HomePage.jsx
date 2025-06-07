@@ -13,7 +13,7 @@ function HomePage() {
       <p className="text-black text-lg mb-12 animate-fade-in delay-200 text-center max-w-xl">
         Compete in real-time quiz battles with friends and challenge your knowledge
         <div>
-        <button className="bg-purple-500 rounded-full m-3 hover:bg-red-600 transform hover:scale-120 transition-transform w-25 " onClick={()=> navigate("/join-quiz")}><span>Play Quiz</span></button>
+        <button className="bg-purple-500 shadow-3xl rounded-full m-3 hover:bg-red-600 transform hover:scale-120 transition-transform duration-200 w-25 " onClick={()=> navigate("/join-quiz")}><span>Play Quiz</span></button>
 
         </div>
       </p>
