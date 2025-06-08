@@ -9,6 +9,7 @@ import JoinQuiz from "./JoinQuiz";
 import CreateQuiz from "./CreateQuiz";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Auth/AuthContext"; // ✅ Import AuthProvider
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
   return (
@@ -22,9 +23,14 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/join-quiz" element={<JoinQuiz />} />
-          <Route path="/create-quiz" element={<CreateQuiz />} />
-          {/* You can also add a route for Leaderboard here */}
+
+          <Route path="/join-quiz" element={     // Protect Route
+            <PrivateRoute>
+              <JoinQuiz/>
+            </PrivateRoute>
+          }>
+          </Route>
+
         </Routes>
 
         <Footer />

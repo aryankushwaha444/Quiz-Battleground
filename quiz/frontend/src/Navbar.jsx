@@ -28,13 +28,34 @@ function Navbar() {
   const menuItems = [
     { label: "Home", path: "/", icon: <HomeIcon fontSize="small" /> },
     { label: "About Us", path: "/about", icon: <InfoIcon fontSize="small" /> },
-    { label: "Play Quiz", path: "/join-quiz", icon: <CreateIcon fontSize="small" /> },
+    {
+      label: "Play Quiz",
+      path: isAuthenticated ? "/join-quiz" : "/login",
+      icon: <CreateIcon fontSize="small" />,
+    },
+
     ...(isAuthenticated
-      ? [{ label: "Leaderboard", path: "/leaderboard", icon: <TrophyIcon fontSize="small" /> }]
+      ? [
+          {
+            label: "Leaderboard",
+            path: "/leaderboard",
+            icon: <TrophyIcon fontSize="small" />,
+          },
+        ]
       : []),
-    { label: "Contact Us", path: "/contact", icon: <ContactIcon fontSize="small" /> },
+    {
+      label: "Contact Us",
+      path: "/contact",
+      icon: <ContactIcon fontSize="small" />,
+    },
     ...(!isAuthenticated
-      ? [{ label: "Login", path: "/login", icon: <JoinIcon fontSize="small" /> }]
+      ? [
+          {
+            label: "Login",
+            path: "/login",
+            icon: <JoinIcon fontSize="small" />,
+          },
+        ]
       : []),
   ];
 
@@ -46,18 +67,11 @@ function Navbar() {
           Quizzy
         </Link>
 
-        {/* Menu Icon - Mobile */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
-            <MenuIcon fontSize="large" />
-          </button>
-        </div>
-
         {/* Desktop Nav */}
-        <ul className="hidden md:flex md:items-center md:space-x-6">
+        <ul className="hidden md:flex md:items-center md:space-x-2">
           {menuItems.map(({ label, path, icon }) => (
-            <li key={path}>
-              <Link
+            <li key={`${label}-${path}`}>
+            <Link
                 to={path}
                 className={`flex items-center gap-2 px-4 py-2 transition duration-200 ${
                   location.pathname === path
@@ -71,6 +85,17 @@ function Navbar() {
             </li>
           ))}
         </ul>
+
+
+              {/* Menu Icon - Mobile */}
+      <div className="md:hidden">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="focus:outline-none"
+        >
+          <MenuIcon fontSize="large" />
+        </button>
+      </div>
 
         {/* User Avatar */}
         {isAuthenticated && (
@@ -93,13 +118,18 @@ function Navbar() {
                 />
               )}
 
-              <p className="font-semibold text-gray-800">{user?.name || "Username"}</p>
-              <p className="text-sm text-gray-500">{user?.email || "example@example.com"}</p>
+              <p className="font-semibold text-gray-800">
+                {user?.name || "Username"}
+              </p>
+              <p className="text-sm text-gray-500">
+                {user?.email || "example@example.com"}
+              </p>
 
               <button
                 onClick={logout}
                 className="mt-4 bg-indigo-400 text-white py-2 px-6 rounded-2xl hover:bg-red-600 hover:scale-105 cursor-alias transition-transform duration-300 flex items-center justify-center mx-auto"
               >
+
                 <LogoutIcon className="mr-1" /> Logout
               </button>
             </div>
@@ -107,12 +137,14 @@ function Navbar() {
         )}
       </div>
 
+
+
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-gray-800">
           <ul className="flex flex-col space-y-2 p-4">
             {menuItems.map(({ label, path, icon }) => (
-              <li key={path}>
+            <li key={path}>
                 <Link
                   to={path}
                   className={`flex items-center gap-2 px-2 py-2 transition duration-200 ${

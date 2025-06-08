@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(user));
     setIsAuthenticated(true);
     setUser(user);
+
   };
 
   // Clear all auth-related data
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     setIsAuthenticated(false);
     setUser(null);
+
   };
 
   // Sync across tabs

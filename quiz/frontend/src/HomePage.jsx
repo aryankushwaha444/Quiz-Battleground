@@ -1,8 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import Card from "./Card";
+import { useAuth } from "./Auth/AuthContext.jsx";
 
 function HomePage() {
   const navigate = useNavigate();
+  const {isAuthenticated} = useAuth();
+
+  const handleAuthQueiz = () =>
+  {
+    isAuthenticated ? navigate("/join-quiz") : navigate("/login");
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex flex-col items-center pt-24 pb-10">
@@ -15,13 +22,13 @@ function HomePage() {
       </p>
 
       <button
-        onClick={() => navigate("/join-quiz")}
+        onClick={handleAuthQueiz}
         className="bg-purple-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105 mb-12"
       >
         Play Quiz
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 mb-8 w-full max-w-6xl">
+      <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 mb-8 w-full max-w-6xl ">
         <Card
           title="Quiz Questioning"
           imgSrc="../images/homePage/quiz-question.gif"
