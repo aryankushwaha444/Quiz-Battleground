@@ -1,49 +1,42 @@
 import mongoose from "mongoose";
 
-// Define the schema for each question
-const questionSchema = new mongoose.Schema({
-  question: {
+const userResultSchema = new mongoose.Schema({
+  nameUser: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  nameCategory: {
     type: String,
     required: true,
-    unique: true
   },
-  answer: {
-    type: String
-  },
-  correct: {
-    type: Number,
-    default: 0
-  },
-  score: {
-    type: Number,
-    default: 0
-  }
+  questions: [{
+    question: {
+      type: String,
+      required: true
+    },
+    answer: {
+      type: String
+    },
+    correct: {
+      type: Number,
+      default: false
+    },
+    score: {
+      type: Number,
+      default: 0
+    }
+  }]
+}, {
+  timestamps: true
 });
 
-// Define the overall user result schema
-const userResultSchema = new mongoose.Schema(
-  {
-    nameCategory: {
-      type: String,
-      required: true
-    },
-    nameUser: {
-      type: String,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true
-    },
-    questions: [questionSchema] // Note the plural 'questions' and embedded schema
-  },
-  {
-    timestamps: true
-  }
-);
+// ✅ Compound unique index to prevent duplicate (nameUser + nameCategory)
+userResultSchema.index({ email:0, nameCategory:0 }, { unique: true });
 
-// Model name updated to 'UserResult' for clarity
-const Categories = mongoose.model("Categories", userResultSchema);
+const Categories = mongoose.model('Categories', userResultSchema);
 
 export default Categories;
