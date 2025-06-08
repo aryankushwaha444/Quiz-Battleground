@@ -10,6 +10,7 @@ import CreateQuiz from "./CreateQuiz";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Auth/AuthContext"; // ✅ Import AuthProvider
 import PrivateRoute from "./PrivateRoute";
+import UserLeaderboard from "./UserLeaderboard.jsx";
 
 function App() {
   return (
@@ -23,13 +24,14 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/leaderboard" element={<UserLeaderboard/>}/>
 
           <Route path="/join-quiz" element={     // Protect Route
             <PrivateRoute>
               <JoinQuiz/>
             </PrivateRoute>
-          }>
-          </Route>
+          }/>
+          
 
         </Routes>
 

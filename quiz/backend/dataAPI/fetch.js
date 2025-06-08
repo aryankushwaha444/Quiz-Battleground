@@ -3,10 +3,8 @@ import Questions from "../models/createQuiz.models.js";
 
 connectDB();
 
-
 async function fetchQuizData() {
   try {
-
     const allQuizzes = await Questions.find(); // Fetch all documents
     console.log("Quiz Data Fetched:");
     console.log(allQuizzes);

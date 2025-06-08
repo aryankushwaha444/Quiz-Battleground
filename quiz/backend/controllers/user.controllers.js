@@ -1,5 +1,6 @@
 import User from "../models/user.models.js";
 import argon2 from "argon2";
+import Categories from "../models/user.Result.models.js";
 
 // Register User
 export const registerUser = async (req, res) => {
@@ -50,4 +51,40 @@ export const loginUser = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
+};
+
+
+// Store data user Result 
+
+export const storeUserResult = async (req, res) =>{
+  try {
+    const result = new Categories(req.body);
+    await result.save();
+    res.status(201).json({ message: "Result stored" });
+  }
+  catch (error) {
+    res.status(500).json({ message: "Error storing result", error: error.message });
+  }
+};
+
+
+// fetch Store data user Result 
+
+export const fetchUserResult = async (req, res) =>{
+  try {
+    const result = await UserResult.aggregate([
+      { $match: { email } },
+      {
+          correct: { $sum: "$questions.correct" },
+          score: { $sum: "$questions.score" },
+
+      }
+    ]);
+
+    res.json(result[0]);
+}
+catch(error)
+{
+  console.error(error);
+}
 };
