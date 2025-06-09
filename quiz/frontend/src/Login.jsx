@@ -19,10 +19,7 @@ function Login() {
       const res = await axios.post("/api/user/login", {
         email,
         password,
-      }
- 
-    
-    );
+      });
 
       // Extract user from response
       const { user } = res.data;
@@ -30,8 +27,7 @@ function Login() {
       login(user); // Update auth context
       console.log("Login successful:", res.data);
       setMessage("✅ Login successful");
-      navigate('/');
-      
+      navigate("/");
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Login failed";
       setMessage(`❌ ${errorMsg}`);

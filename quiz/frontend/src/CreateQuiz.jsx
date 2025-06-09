@@ -1,4 +1,3 @@
-
 function CreateQuiz() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-600 px-4 py-8">
@@ -10,7 +9,10 @@ function CreateQuiz() {
         {/* Level Select */}
         <div>
           <label className="block text-lg font-medium text-gray-700 mb-1">
-            Select Level <span><sup className="text-xl text-red-600">*</sup></span>
+            Select Level{" "}
+            <span>
+              <sup className="text-xl text-red-600">*</sup>
+            </span>
           </label>
           <select className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400">
             <option value="easy">Easy</option>
@@ -22,9 +24,13 @@ function CreateQuiz() {
         {/* Question */}
         <div>
           <label className="block text-lg font-medium text-gray-700 mb-1">
-            Question <span><sup className="text-lg text-red-600">*</sup></span>
+            Question{" "}
+            <span>
+              <sup className="text-lg text-red-600">*</sup>
+            </span>
           </label>
-          <input required
+          <input
+            required
             type="text"
             placeholder="Enter your question"
             className="w-full h-12 border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -34,7 +40,10 @@ function CreateQuiz() {
         {/* Options */}
         <div>
           <label className="block text-lg font-medium text-gray-700 mb-2">
-            Options <span><sup className="text-xl text-red-600">*</sup></span>
+            Options{" "}
+            <span>
+              <sup className="text-xl text-red-600">*</sup>
+            </span>
           </label>
           {[1, 2, 3, 4].map((num) => (
             <input
@@ -48,9 +57,13 @@ function CreateQuiz() {
 
         <div>
           <label className="block text-lg font-medium text-gray-700 mb-1">
-            Correct Answer <span><sup className="text-lg text-red-600">*</sup></span>
+            Correct Answer{" "}
+            <span>
+              <sup className="text-lg text-red-600">*</sup>
+            </span>
           </label>
-          <input required
+          <input
+            required
             type="text"
             placeholder="Enter correcr answer"
             className="w-full h-12 border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"

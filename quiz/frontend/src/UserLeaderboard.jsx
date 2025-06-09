@@ -15,16 +15,12 @@ const Leaderboard = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const { data } = await axios.get(
-          "/api/user/leaderboard"
-        );
+        const { data } = await axios.get("/api/user/leaderboard");
         if (!Array.isArray(data)) {
           throw new Error("Unexpected response format");
         }
         setUsers(data);
-        setCurrentUserStats(
-          data.find((u) => u.email === user?.email) || null
-        );
+        setCurrentUserStats(data.find((u) => u.email === user?.email) || null);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -63,7 +59,10 @@ const Leaderboard = () => {
             className="w-20 h-20 rounded-full object-cover"
           />
         ) : (
-          <AccountCircleIcon style={{ fontSize: 80 }} className="text-gray-400" />
+          <AccountCircleIcon
+            style={{ fontSize: 80 }}
+            className="text-gray-400"
+          />
         )}
         <div>
           <p className="text-xl font-semibold">{user.name}</p>
@@ -96,11 +95,7 @@ const Leaderboard = () => {
               <span className="text-sm mt-2">Comeback</span>
             </div>
             <div className="flex flex-col items-center">
-              <img
-                src="/avatars/lucky.png"
-                alt="Lucky"
-                className="w-16 h-16"
-              />
+              <img src="/avatars/lucky.png" alt="Lucky" className="w-16 h-16" />
               <span className="text-sm mt-2">Lucky</span>
             </div>
           </div>
@@ -140,7 +135,10 @@ const Leaderboard = () => {
                         className="w-12 h-12 rounded-full"
                       />
                     ) : (
-                      <AccountCircleIcon style={{ fontSize: 48 }} className="text-gray-400" />
+                      <AccountCircleIcon
+                        style={{ fontSize: 48 }}
+                        className="text-gray-400"
+                      />
                     )}
                     <div>
                       <p className="font-semibold">{u.name}</p>

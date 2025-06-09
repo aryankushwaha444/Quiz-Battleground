@@ -1,6 +1,6 @@
 import User from "../models/user.models.js";
 import argon2 from "argon2";
-import Categories  from "../models/user.Result.models.js";
+import Categories from "../models/user.Result.models.js";
 
 // Register User
 export const registerUser = async (req, res) => {
@@ -21,7 +21,6 @@ export const registerUser = async (req, res) => {
       .json({ message: "Could not register user", error: error.message });
   }
 };
-
 
 // Login User
 export const loginUser = async (req, res) => {
@@ -53,35 +52,34 @@ export const loginUser = async (req, res) => {
   }
 };
 
+// Store data user Result
 
-// Store data user Result 
-
-export const storeUserResult = async (req, res) =>{
+export const storeUserResult = async (req, res) => {
   try {
     const result = new Categories(req.body);
     await result.save();
     res.status(201).json({ message: "Result stored" });
-  }
-  catch (error) {
-    res.status(500).json({ message: "Error storing result", error: error.message });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error storing result", error: error.message });
   }
 };
 
-
-// fetch Store data user Result 
+// fetch Store data user Result
 
 export const getLeaderboardStats = async (req, res) => {
   try {
     // Get all results from the database
     const results = await Categories.find();
-    console.log('Found results:', results.length);
-    
+    console.log("Found results:", results.length);
+
     // Group results by user and calculate stats
     const groupedResults = {};
-    
-    results.forEach(result => {
+
+    results.forEach((result) => {
       const { email, nameUser, questions } = result;
-      
+
       if (!groupedResults[email]) {
         groupedResults[email] = {
           name: nameUser,
@@ -90,15 +88,18 @@ export const getLeaderboardStats = async (req, res) => {
           score: 0,
           wins: 0,
           points: 0,
-          totalQuestions: 0
+          totalQuestions: 0,
         };
       }
-      
+
       // Calculate stats for this result
-      const correct = questions.reduce((sum, q) => sum + (q.correct ? 1 : 0), 0);
+      const correct = questions.reduce(
+        (sum, q) => sum + (q.correct ? 1 : 0),
+        0
+      );
       const score = questions.reduce((sum, q) => sum + q.score, 0);
-      const wins = questions.reduce((sum,q) => sum + (q.winner ? 1 : 0), 0);
-      
+      const wins = questions.reduce((sum, q) => sum + (q.winner ? 1 : 0), 0);
+
       // Update user's stats
       groupedResults[email].correct += correct;
       groupedResults[email].score += score;
@@ -110,14 +111,16 @@ export const getLeaderboardStats = async (req, res) => {
     // Convert to array and sort by points
     const leaderboard = Object.values(groupedResults)
       .sort((a, b) => b.points - a.points)
-      .map(user => ({
+      .map((user) => ({
         ...user,
-        rank: user.correct / user.totalQuestions * 100
+        rank: (user.correct / user.totalQuestions) * 100,
       }));
 
     res.json(leaderboard);
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
-    res.status(500).json({ message: "Error fetching leaderboard", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching leaderboard", error: error.message });
   }
 };

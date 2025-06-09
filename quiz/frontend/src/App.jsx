@@ -1,15 +1,14 @@
 import Navbar from "./Navbar";
-import Footer from "./footer";
-import HomePage from "./HomePage";
-import Login from "./Login";
-import Register from "./Register";
-import About from "./About";
-import Contact from "./Contact";
-import JoinQuiz from "./JoinQuiz";
-import CreateQuiz from "./CreateQuiz";
+import Footer from "./Footer.jsx";
+import HomePage from "./HomePage.jsx";
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
+import About from "./About.jsx";
+import Contact from "./Contact.jsx";
+import JoinQuiz from "./JoinQuiz.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./Auth/AuthContext"; // ✅ Import AuthProvider
-import PrivateRoute from "./PrivateRoute";
+import { AuthProvider } from "./Auth/AuthContext";
+import PrivateRoute from "./PrivateRoute.jsx";
 import UserLeaderboard from "./UserLeaderboard.jsx";
 
 function App() {

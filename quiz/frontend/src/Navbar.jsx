@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./Auth/AuthContext.jsx";
 
-
 import {
   Menu as MenuIcon,
   Home as HomeIcon,
@@ -16,8 +15,6 @@ import {
   AccountCircle as AccountCircleIcon,
 } from "@mui/icons-material";
 
-
-
 function Navbar() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -25,10 +22,10 @@ function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
   const dropdownRef = useRef();
 
-  const logouthandler = () =>{
+  const logouthandler = () => {
     logout();
     navigate("/");
-  }
+  };
 
   useEffect(() => {
     setIsOpen(false); // Close menu when route changes
@@ -80,7 +77,7 @@ function Navbar() {
         <ul className="hidden md:flex md:items-center md:space-x-2">
           {menuItems.map(({ label, path, icon }) => (
             <li key={`${label}-${path}`}>
-            <Link
+              <Link
                 to={path}
                 className={`flex items-center gap-2 px-4 py-2 transition duration-200 ${
                   location.pathname === path
@@ -95,16 +92,15 @@ function Navbar() {
           ))}
         </ul>
 
-
-              {/* Menu Icon - Mobile */}
-      <div className="md:hidden">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="focus:outline-none"
-        >
-          <MenuIcon fontSize="large" />
-        </button>
-      </div>
+        {/* Menu Icon - Mobile */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="focus:outline-none"
+          >
+            <MenuIcon fontSize="large" />
+          </button>
+        </div>
 
         {/* User Avatar */}
         {isAuthenticated && (
@@ -138,7 +134,6 @@ function Navbar() {
                 onClick={logouthandler}
                 className="mt-4 bg-indigo-400 text-white py-2 px-6 rounded-2xl hover:bg-red-600 hover:scale-105 cursor-alias transition-transform duration-300 flex items-center justify-center mx-auto"
               >
-
                 <LogoutIcon className="mr-1" /> Logout
               </button>
             </div>
@@ -146,14 +141,12 @@ function Navbar() {
         )}
       </div>
 
-
-
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-gray-800">
           <ul className="flex flex-col space-y-2 p-4">
             {menuItems.map(({ label, path, icon }) => (
-            <li key={path}>
+              <li key={path}>
                 <Link
                   to={path}
                   className={`flex items-center gap-2 px-2 py-2 transition duration-200 ${

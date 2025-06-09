@@ -4,13 +4,11 @@ import { useAuth } from "./Auth/AuthContext.jsx";
 
 function HomePage() {
   const navigate = useNavigate();
-  const {isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  const handleAuthQueiz = async () =>
-  {
+  const handleAuthQueiz = async () => {
     isAuthenticated ? navigate("/join-quiz") : navigate("/login");
-
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex flex-col items-center pt-24 pb-10">
@@ -19,7 +17,8 @@ function HomePage() {
       </h1>
 
       <p className="text-black text-lg text-center max-w-xl mt-4 mb-8 animate-fade-in delay-200">
-        Compete in real-time quiz battles with friends and challenge your knowledge.
+        Compete in real-time quiz battles with friends and challenge your
+        knowledge.
       </p>
 
       <button
