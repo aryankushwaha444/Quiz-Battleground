@@ -97,7 +97,7 @@ export const getLeaderboardStats = async (req, res) => {
       // Calculate stats for this result
       const correct = questions.reduce((sum, q) => sum + (q.correct ? 1 : 0), 0);
       const score = questions.reduce((sum, q) => sum + q.score, 0);
-      const wins = questions.filter((q) => q.score >= 10).length;
+      const wins = questions.reduce((sum,q) => sum + (q.winner ? 1 : 0), 0);
       
       // Update user's stats
       groupedResults[email].correct += correct;

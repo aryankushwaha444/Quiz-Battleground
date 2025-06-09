@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./Auth/AuthContext.jsx";
+
 
 import {
   Menu as MenuIcon,
@@ -15,11 +16,19 @@ import {
   AccountCircle as AccountCircleIcon,
 } from "@mui/icons-material";
 
+
+
 function Navbar() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
   const dropdownRef = useRef();
+
+  const logouthandler = () =>{
+    logout();
+    navigate("/");
+  }
 
   useEffect(() => {
     setIsOpen(false); // Close menu when route changes
@@ -126,7 +135,7 @@ function Navbar() {
               </p>
 
               <button
-                onClick={logout}
+                onClick={logouthandler}
                 className="mt-4 bg-indigo-400 text-white py-2 px-6 rounded-2xl hover:bg-red-600 hover:scale-105 cursor-alias transition-transform duration-300 flex items-center justify-center mx-auto"
               >
 

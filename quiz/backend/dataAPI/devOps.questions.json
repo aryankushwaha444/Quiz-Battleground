@@ -1,0 +1,354 @@
+[
+  {
+    "question": "What does CI/CD stand for?",
+    "answer": "Continuous Integration and Continuous Deployment",
+    "option1": "Continuous Improvement and Continuous Delivery",
+    "option2": "Continuous Integration and Continuous Deployment",
+    "option3": "Code Integration and Code Deployment",
+    "option4": "Continuous Inspection and Continuous Debugging"
+  },
+  {
+    "question": "Which tool is commonly used for container orchestration?",
+    "answer": "Kubernetes",
+    "option1": "Docker",
+    "option2": "Ansible",
+    "option3": "Kubernetes",
+    "option4": "Terraform"
+  },
+  {
+    "question": "What is Infrastructure as Code (IaC)?",
+    "answer": "Managing infrastructure using code and automation",
+    "option1": "Manual server configuration",
+    "option2": "Managing infrastructure using code and automation",
+    "option3": "Writing application code",
+    "option4": "Using cloud services only"
+  },
+  {
+    "question": "Which tool is used for configuration management?",
+    "answer": "Ansible",
+    "option1": "Docker",
+    "option2": "Git",
+    "option3": "Ansible",
+    "option4": "Jenkins"
+  },
+  {
+    "question": "What is a common use of Jenkins?",
+    "answer": "Automating builds and deployments",
+    "option1": "Version control",
+    "option2": "Automating builds and deployments",
+    "option3": "Container management",
+    "option4": "Cloud hosting"
+  },
+  {
+    "question": "What does 'immutable infrastructure' mean?",
+    "answer": "Infrastructure that is replaced rather than changed",
+    "option1": "Infrastructure that is frequently updated",
+    "option2": "Infrastructure that is replaced rather than changed",
+    "option3": "Infrastructure that is manually configured",
+    "option4": "Infrastructure that is always virtual"
+  },
+  {
+    "question": "Which version control system is most commonly used in DevOps?",
+    "answer": "Git",
+    "option1": "SVN",
+    "option2": "Mercurial",
+    "option3": "Git",
+    "option4": "CVS"
+  },
+  {
+    "question": "What is a container?",
+    "answer": "A lightweight, portable executable package of software",
+    "option1": "A physical server",
+    "option2": "A lightweight, portable executable package of software",
+    "option3": "A type of database",
+    "option4": "A version control system"
+  },
+  {
+    "question": "Which tool is used for containerization?",
+    "answer": "Docker",
+    "option1": "Kubernetes",
+    "option2": "Docker",
+    "option3": "Terraform",
+    "option4": "Ansible"
+  },
+  {
+    "question": "What is the purpose of monitoring in DevOps?",
+    "answer": "To track system performance and issues",
+    "option1": "To deploy new code",
+    "option2": "To track system performance and issues",
+    "option3": "To backup data",
+    "option4": "To manage users"
+  },
+  {
+    "question": "Which tool is commonly used for monitoring?",
+    "answer": "Prometheus",
+    "option1": "Git",
+    "option2": "Prometheus",
+    "option3": "Ansible",
+    "option4": "Docker"
+  },
+  {
+    "question": "What does 'blue-green deployment' refer to?",
+    "answer": "Deploying new versions with minimal downtime by switching environments",
+    "option1": "Using two clouds simultaneously",
+    "option2": "Deploying new versions with minimal downtime by switching environments",
+    "option3": "Having two databases",
+    "option4": "Running tests in parallel"
+  },
+  {
+    "question": "Which tool is used for infrastructure provisioning?",
+    "answer": "Terraform",
+    "option1": "Jenkins",
+    "option2": "Docker",
+    "option3": "Terraform",
+    "option4": "Git"
+  },
+  {
+    "question": "What is the primary benefit of Continuous Integration?",
+    "answer": "Detecting bugs early by frequently integrating code",
+    "option1": "Deploying applications",
+    "option2": "Detecting bugs early by frequently integrating code",
+    "option3": "Backing up data",
+    "option4": "Configuring servers"
+  },
+  {
+    "question": "What is 'artifact' in DevOps?",
+    "answer": "A file created as a result of a build process",
+    "option1": "Source code",
+    "option2": "A file created as a result of a build process",
+    "option3": "A bug report",
+    "option4": "A server configuration"
+  },
+  {
+    "question": "Which language is commonly used to write Ansible playbooks?",
+    "answer": "YAML",
+    "option1": "JSON",
+    "option2": "YAML",
+    "option3": "XML",
+    "option4": "Python"
+  },
+  {
+    "question": "What is rollback in deployment?",
+    "answer": "Restoring a previous version after failure",
+    "option1": "Deploying new features",
+    "option2": "Restoring a previous version after failure",
+    "option3": "Backing up databases",
+    "option4": "Running tests"
+  },
+  {
+    "question": "Which platform provides managed Kubernetes services?",
+    "answer": "Google Kubernetes Engine (GKE)",
+    "option1": "AWS Lambda",
+    "option2": "Google Kubernetes Engine (GKE)",
+    "option3": "Azure DevOps",
+    "option4": "Jenkins"
+  },
+  {
+    "question": "What does 'scaling' mean in DevOps?",
+    "answer": "Increasing or decreasing resources based on demand",
+    "option1": "Adding more developers",
+    "option2": "Increasing or decreasing resources based on demand",
+    "option3": "Deploying new versions",
+    "option4": "Monitoring logs"
+  },
+  {
+    "question": "Which of these is a continuous testing tool?",
+    "answer": "Selenium",
+    "option1": "Selenium",
+    "option2": "Docker",
+    "option3": "Terraform",
+    "option4": "Git"
+  },
+  {
+    "question": "What is the main purpose of container orchestration?",
+    "answer": "Managing deployment, scaling, and operation of containers",
+    "option1": "Building containers",
+    "option2": "Managing deployment, scaling, and operation of containers",
+    "option3": "Writing code",
+    "option4": "Version control"
+  },
+  {
+    "question": "Which DevOps tool is designed for automated testing?",
+    "answer": "Jenkins",
+    "option1": "Terraform",
+    "option2": "Jenkins",
+    "option3": "Docker",
+    "option4": "Kubernetes"
+  },
+  {
+    "question": "What does the term 'pipeline' refer to in DevOps?",
+    "answer": "A set of automated processes to build, test, and deploy code",
+    "option1": "A sequence of manual tasks",
+    "option2": "A set of automated processes to build, test, and deploy code",
+    "option3": "A cloud service",
+    "option4": "A programming language"
+  },
+  {
+    "question": "What is the benefit of using containers over virtual machines?",
+    "answer": "Containers are lightweight and start faster",
+    "option1": "Containers are slower but more secure",
+    "option2": "Containers are lightweight and start faster",
+    "option3": "Containers require more storage",
+    "option4": "Containers cannot run multiple apps"
+  },
+  {
+    "question": "Which command is used to create a new Git repository?",
+    "answer": "git init",
+    "option1": "git clone",
+    "option2": "git commit",
+    "option3": "git init",
+    "option4": "git push"
+  },
+  {
+    "question": "What is the purpose of a version control system?",
+    "answer": "To manage changes to source code over time",
+    "option1": "To deploy applications",
+    "option2": "To manage changes to source code over time",
+    "option3": "To monitor servers",
+    "option4": "To backup data"
+  },
+  {
+    "question": "What does 'shift-left testing' mean?",
+    "answer": "Testing earlier in the software development lifecycle",
+    "option1": "Testing after deployment",
+    "option2": "Testing earlier in the software development lifecycle",
+    "option3": "Testing only UI",
+    "option4": "Ignoring tests"
+  },
+  {
+    "question": "What is the role of a repository in DevOps?",
+    "answer": "Storage location for source code and artifacts",
+    "option1": "Running containers",
+    "option2": "Storage location for source code and artifacts",
+    "option3": "Deploying apps",
+    "option4": "Monitoring performance"
+  },
+  {
+    "question": "What is a 'commit' in Git?",
+    "answer": "Saving changes to the local repository",
+    "option1": "Deleting files",
+    "option2": "Saving changes to the local repository",
+    "option3": "Deploying code",
+    "option4": "Backing up data"
+  },
+  {
+    "question": "Which tool is used for automated code review?",
+    "answer": "SonarQube",
+    "option1": "SonarQube",
+    "option2": "Docker",
+    "option3": "Kubernetes",
+    "option4": "Terraform"
+  },
+  {
+    "question": "What is the purpose of the 'dockerfile'?",
+    "answer": "Defines how to build a Docker image",
+    "option1": "Defines deployment scripts",
+    "option2": "Defines how to build a Docker image",
+    "option3": "Defines Kubernetes pods",
+    "option4": "Defines CI pipeline"
+  },
+  {
+    "question": "What is a microservice?",
+    "answer": "An independently deployable small service",
+    "option1": "A monolithic app",
+    "option2": "An independently deployable small service",
+    "option3": "A database type",
+    "option4": "A programming language"
+  },
+  {
+    "question": "What does 'orchestration' mean in container management?",
+    "answer": "Automating container deployment and management",
+    "option1": "Manual container setup",
+    "option2": "Automating container deployment and management",
+    "option3": "Deleting containers",
+    "option4": "Writing container code"
+  },
+  {
+    "question": "Which file is used to define Kubernetes deployments?",
+    "answer": "YAML file",
+    "option1": "JSON file",
+    "option2": "XML file",
+    "option3": "YAML file",
+    "option4": "TXT file"
+  },
+  {
+    "question": "What is the purpose of load balancing?",
+    "answer": "Distributing network traffic across servers",
+    "option1": "Storing data",
+    "option2": "Distributing network traffic across servers",
+    "option3": "Backup management",
+    "option4": "Security enforcement"
+  },
+  {
+    "question": "Which cloud platform provides DevOps tools integrated with Azure?",
+    "answer": "Azure DevOps",
+    "option1": "AWS CodePipeline",
+    "option2": "Azure DevOps",
+    "option3": "Google Cloud Build",
+    "option4": "Jenkins"
+  },
+  {
+    "question": "What is a 'build agent'?",
+    "answer": "A machine that runs build jobs",
+    "option1": "A developer",
+    "option2": "A machine that runs build jobs",
+    "option3": "A server admin",
+    "option4": "A container"
+  },
+  {
+    "question": "What is a 'pipeline as code'?",
+    "answer": "Defining pipelines in version-controlled files",
+    "option1": "Manual deployment",
+    "option2": "Defining pipelines in version-controlled files",
+    "option3": "Writing build scripts only",
+    "option4": "Ignoring pipelines"
+  },
+  {
+    "question": "What is the main advantage of automated testing?",
+    "answer": "Faster feedback and fewer human errors",
+    "option1": "Slower testing",
+    "option2": "Faster feedback and fewer human errors",
+    "option3": "Manual checking",
+    "option4": "No need for developers"
+  },
+  {
+    "question": "What is the function of a container registry?",
+    "answer": "Store and distribute container images",
+    "option1": "Run containers",
+    "option2": "Store and distribute container images",
+    "option3": "Build containers",
+    "option4": "Monitor containers"
+  },
+  {
+    "question": "What does 'canary deployment' mean?",
+    "answer": "Releasing to a small group before full deployment",
+    "option1": "Deploying to all users at once",
+    "option2": "Releasing to a small group before full deployment",
+    "option3": "Rolling back deployments",
+    "option4": "Manual testing"
+  },
+  {
+    "question": "What is a 'build pipeline'?",
+    "answer": "Automated sequence of steps to build software",
+    "option1": "Manual build process",
+    "option2": "Automated sequence of steps to build software",
+    "option3": "User feedback",
+    "option4": "Code review"
+  },
+  {
+    "question": "Which language is commonly used for scripting in Jenkins pipelines?",
+    "answer": "Groovy",
+    "option1": "Python",
+    "option2": "Groovy",
+    "option3": "Java",
+    "option4": "Ruby"
+  },
+  {
+    "question": "What is the main goal of DevOps?",
+    "answer": "To shorten development lifecycle and increase deployment frequency",
+    "option1": "To slow down deployment",
+    "option2": "To shorten development lifecycle and increase deployment frequency",
+    "option3": "To reduce code quality",
+    "option4": "To increase manual work"
+  }
+]

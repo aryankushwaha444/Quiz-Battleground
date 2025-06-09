@@ -6,9 +6,10 @@ function HomePage() {
   const navigate = useNavigate();
   const {isAuthenticated} = useAuth();
 
-  const handleAuthQueiz = () =>
+  const handleAuthQueiz = async () =>
   {
     isAuthenticated ? navigate("/join-quiz") : navigate("/login");
+
   }
 
   return (

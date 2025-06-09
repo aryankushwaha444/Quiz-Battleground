@@ -1,0 +1,370 @@
+[
+  {
+    "question": "What is the primary purpose of a firewall?",
+    "answer": "To block unauthorized access while permitting authorized communications",
+    "option1": "To block unauthorized access while permitting authorized communications",
+    "option2": "To encrypt data in transit",
+    "option3": "To scan for viruses",
+    "option4": "To store user credentials"
+  },
+  {
+    "question": "Which protocol is commonly used for secure remote login?",
+    "answer": "SSH",
+    "option1": "FTP",
+    "option2": "HTTP",
+    "option3": "SSH",
+    "option4": "Telnet"
+  },
+  {
+    "question": "What does IDS stand for in cybersecurity?",
+    "answer": "Intrusion Detection System",
+    "option1": "Internal Data Server",
+    "option2": "Intrusion Detection System",
+    "option3": "Internet Data Service",
+    "option4": "Information Defense System"
+  },
+  {
+    "question": "What is the role of antivirus software?",
+    "answer": "To detect and remove malicious software",
+    "option1": "To detect and remove malicious software",
+    "option2": "To block network traffic",
+    "option3": "To provide firewall protection",
+    "option4": "To backup data"
+  },
+  {
+    "question": "Which technique is used to limit network access based on IP addresses?",
+    "answer": "Access Control Lists (ACLs)",
+    "option1": "VPN",
+    "option2": "Access Control Lists (ACLs)",
+    "option3": "Port Forwarding",
+    "option4": "Encryption"
+  },
+  {
+    "question": "What is the purpose of patch management?",
+    "answer": "To fix vulnerabilities in software",
+    "option1": "To upgrade hardware",
+    "option2": "To fix vulnerabilities in software",
+    "option3": "To install new software",
+    "option4": "To backup data"
+  },
+  {
+    "question": "Which of the following is a method to prevent data loss?",
+    "answer": "Data Backup",
+    "option1": "Phishing",
+    "option2": "Data Backup",
+    "option3": "Malware Injection",
+    "option4": "Brute Force Attack"
+  },
+  {
+    "question": "What is Multi-Factor Authentication (MFA)?",
+    "answer": "A security system that requires multiple credentials",
+    "option1": "Using only password to login",
+    "option2": "A security system that requires multiple credentials",
+    "option3": "A firewall configuration",
+    "option4": "A type of encryption"
+  },
+  {
+    "question": "Which of the following is a physical security control?",
+    "answer": "Biometric access controls",
+    "option1": "Antivirus software",
+    "option2": "Biometric access controls",
+    "option3": "Encryption",
+    "option4": "Firewall"
+  },
+  {
+    "question": "What does VPN stand for?",
+    "answer": "Virtual Private Network",
+    "option1": "Virtual Public Network",
+    "option2": "Virtual Private Network",
+    "option3": "Variable Protection Network",
+    "option4": "Verified Protocol Network"
+  },
+  {
+    "question": "Which tool monitors network traffic for suspicious activity?",
+    "answer": "Network Intrusion Detection System (NIDS)",
+    "option1": "Firewall",
+    "option2": "Network Intrusion Detection System (NIDS)",
+    "option3": "Antivirus",
+    "option4": "Backup Software"
+  },
+  {
+    "question": "What is the main goal of endpoint security?",
+    "answer": "To secure devices that connect to the network",
+    "option1": "To secure devices that connect to the network",
+    "option2": "To secure physical buildings",
+    "option3": "To monitor social media",
+    "option4": "To encrypt emails"
+  },
+  {
+    "question": "Which is NOT a best practice for password management?",
+    "answer": "Sharing passwords via email",
+    "option1": "Using strong passwords",
+    "option2": "Changing passwords regularly",
+    "option3": "Using password managers",
+    "option4": "Sharing passwords via email"
+  },
+  {
+    "question": "What is the primary use of encryption?",
+    "answer": "To protect data confidentiality",
+    "option1": "To protect data confidentiality",
+    "option2": "To speed up network traffic",
+    "option3": "To backup data",
+    "option4": "To block hackers"
+  },
+  {
+    "question": "Which is an example of two-factor authentication?",
+    "answer": "Password and SMS code",
+    "option1": "Username and password",
+    "option2": "Password and SMS code",
+    "option3": "Password only",
+    "option4": "Fingerprint only"
+  },
+  {
+    "question": "What is social engineering?",
+    "answer": "Manipulating people to reveal confidential information",
+    "option1": "Hacking into servers",
+    "option2": "Manipulating people to reveal confidential information",
+    "option3": "Encrypting data",
+    "option4": "Installing antivirus"
+  },
+  {
+    "question": "Which type of attack involves flooding a network with traffic?",
+    "answer": "Denial of Service (DoS)",
+    "option1": "Phishing",
+    "option2": "Denial of Service (DoS)",
+    "option3": "SQL Injection",
+    "option4": "Man in the Middle"
+  },
+  {
+    "question": "What is the purpose of a security audit?",
+    "answer": "To assess the security posture of systems",
+    "option1": "To install new software",
+    "option2": "To assess the security posture of systems",
+    "option3": "To configure firewalls",
+    "option4": "To back up data"
+  },
+  {
+    "question": "What does SIEM stand for?",
+    "answer": "Security Information and Event Management",
+    "option1": "Security Information and Event Management",
+    "option2": "System Information and Encryption Method",
+    "option3": "Secure Internet Email Management",
+    "option4": "Security Internal Event Monitor"
+  },
+  {
+    "question": "What is a zero-day vulnerability?",
+    "answer": "A security flaw unknown to vendors",
+    "option1": "A patched security issue",
+    "option2": "A security flaw unknown to vendors",
+    "option3": "An outdated antivirus",
+    "option4": "A type of firewall"
+  },
+  {
+    "question": "What is phishing?",
+    "answer": "Fraudulent attempt to obtain sensitive information",
+    "option1": "Fraudulent attempt to obtain sensitive information",
+    "option2": "An encryption method",
+    "option3": "A firewall feature",
+    "option4": "A backup technique"
+  },
+  {
+    "question": "What is a honeypot in cybersecurity?",
+    "answer": "A decoy system to attract attackers",
+    "option1": "A backup server",
+    "option2": "A decoy system to attract attackers",
+    "option3": "A firewall",
+    "option4": "A type of virus"
+  },
+  {
+    "question": "Which protocol is used to securely transfer files?",
+    "answer": "SFTP",
+    "option1": "FTP",
+    "option2": "HTTP",
+    "option3": "SFTP",
+    "option4": "SMTP"
+  },
+  {
+    "question": "What is meant by 'defense in depth'?",
+    "answer": "Multiple layers of security controls",
+    "option1": "Using only a firewall",
+    "option2": "Multiple layers of security controls",
+    "option3": "Only antivirus software",
+    "option4": "Using passwords only"
+  },
+  {
+    "question": "What is a brute force attack?",
+    "answer": "Trying many passwords until one works",
+    "option1": "Stealing data",
+    "option2": "Trying many passwords until one works",
+    "option3": "Sending spam emails",
+    "option4": "Manipulating software"
+  },
+  {
+    "question": "What is the purpose of a DMZ in networking?",
+    "answer": "To isolate external-facing services",
+    "option1": "To protect internal servers",
+    "option2": "To isolate external-facing services",
+    "option3": "To encrypt internal traffic",
+    "option4": "To block malware"
+  },
+  {
+    "question": "What is the use of a proxy server in security?",
+    "answer": "To filter and control traffic between networks",
+    "option1": "To speed up internet",
+    "option2": "To filter and control traffic between networks",
+    "option3": "To store data",
+    "option4": "To scan for viruses"
+  },
+  {
+    "question": "Which tool is used to monitor network packets?",
+    "answer": "Wireshark",
+    "option1": "Nmap",
+    "option2": "Wireshark",
+    "option3": "Metasploit",
+    "option4": "John the Ripper"
+  },
+  {
+    "question": "What is meant by 'least privilege'?",
+    "answer": "Users get only the access they need",
+    "option1": "Users get full system access",
+    "option2": "Users get only the access they need",
+    "option3": "Users share passwords",
+    "option4": "Users have admin rights"
+  },
+  {
+    "question": "What is a botnet?",
+    "answer": "A network of infected computers controlled remotely",
+    "option1": "A type of antivirus",
+    "option2": "A network of infected computers controlled remotely",
+    "option3": "A firewall type",
+    "option4": "A backup solution"
+  },
+  {
+    "question": "What does SSL/TLS do?",
+    "answer": "Encrypts data between client and server",
+    "option1": "Scans for viruses",
+    "option2": "Encrypts data between client and server",
+    "option3": "Blocks IP addresses",
+    "option4": "Manages passwords"
+  },
+  {
+    "question": "What is patch management's main goal?",
+    "answer": "To fix security vulnerabilities",
+    "option1": "To install new features",
+    "option2": "To fix security vulnerabilities",
+    "option3": "To delete old files",
+    "option4": "To backup data"
+  },
+  {
+    "question": "What is a common sign of a malware infection?",
+    "answer": "System running slowly and crashing",
+    "option1": "System running slowly and crashing",
+    "option2": "Faster internet",
+    "option3": "New icons on desktop",
+    "option4": "Improved battery life"
+  },
+  {
+    "question": "Which one is a multi-factor authentication factor?",
+    "answer": "Something you have, something you know, something you are",
+    "option1": "Password only",
+    "option2": "Something you have, something you know, something you are",
+    "option3": "Username only",
+    "option4": "IP address"
+  },
+  {
+    "question": "What is ransomware?",
+    "answer": "Malware that encrypts data and demands payment",
+    "option1": "Malware that encrypts data and demands payment",
+    "option2": "A virus that deletes files",
+    "option3": "Software update tool",
+    "option4": "Firewall"
+  },
+  {
+    "question": "What is network segmentation?",
+    "answer": "Dividing a network into smaller parts for security",
+    "option1": "Combining all networks",
+    "option2": "Dividing a network into smaller parts for security",
+    "option3": "Increasing bandwidth",
+    "option4": "Installing antivirus"
+  },
+  {
+    "question": "What is the purpose of data classification?",
+    "answer": "To categorize data based on sensitivity",
+    "option1": "To delete data",
+    "option2": "To categorize data based on sensitivity",
+    "option3": "To backup data",
+    "option4": "To encrypt data"
+  },
+  {
+    "question": "What does MFA stand for?",
+    "answer": "Multi-Factor Authentication",
+    "option1": "Multi-Factor Authentication",
+    "option2": "Multiple Firewall Access",
+    "option3": "Malware Forensic Analysis",
+    "option4": "Managed File Access"
+  },
+  {
+    "question": "What is a security policy?",
+    "answer": "A set of rules governing system security",
+    "option1": "Software update guide",
+    "option2": "A set of rules governing system security",
+    "option3": "User manual",
+    "option4": "Hardware configuration"
+  },
+  {
+    "question": "What is a secure coding practice?",
+    "answer": "Writing code that prevents vulnerabilities",
+    "option1": "Writing code that prevents vulnerabilities",
+    "option2": "Writing fast code",
+    "option3": "Writing code without comments",
+    "option4": "Writing unencrypted data"
+  },
+  {
+    "question": "What is the main purpose of access control?",
+    "answer": "To restrict unauthorized access",
+    "option1": "To increase internet speed",
+    "option2": "To restrict unauthorized access",
+    "option3": "To monitor emails",
+    "option4": "To backup files"
+  },
+  {
+    "question": "What is a security incident?",
+    "answer": "An event that compromises security",
+    "option1": "Routine maintenance",
+    "option2": "A security breach",
+    "option3": "An event that compromises security",
+    "option4": "A software update"
+  },
+  {
+    "question": "What is the function of a security token?",
+    "answer": "To provide an additional authentication factor",
+    "option1": "To encrypt data",
+    "option2": "To provide an additional authentication factor",
+    "option3": "To backup files",
+    "option4": "To scan for viruses"
+  },
+  {
+    "question": "What is a vulnerability scan?",
+    "answer": "An automated check for security weaknesses",
+    "option1": "Manual code review",
+    "option2": "An automated check for security weaknesses",
+    "option3": "Virus removal",
+    "option4": "Backup verification"
+  },
+  {
+    "question": "What is the main goal of data loss prevention (DLP)?",
+    "answer": "Prevent unauthorized data exfiltration",
+    "option1": "To speed up data transfer",
+    "option2": "Prevent unauthorized data exfiltration",
+    "option3": "To encrypt data",
+    "option4": "To delete old files"
+  },
+  {
+    "question": "What does the principle of least privilege help prevent?",
+    "answer": "Unauthorized access and damage",
+    "option1": "Faster system performance",
+    "option2": "Unauthorized access and damage",
+    "option3": "Better backups",
+    "option4": "More storage"
+  }
+]

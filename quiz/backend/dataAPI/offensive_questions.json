@@ -1,0 +1,402 @@
+[
+    {
+      "question": "What does SQL injection target? [1]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [2]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [3]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [4]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [5]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [6]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [7]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [8]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [9]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [10]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [11]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [12]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [13]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [14]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [15]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [16]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [17]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [18]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [19]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [20]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [21]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [22]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [23]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [24]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [25]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [26]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [27]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [28]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [29]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [30]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [31]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [32]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [33]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [34]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [35]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [36]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [37]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [38]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [39]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [40]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [41]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [42]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [43]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [44]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [45]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    },
+    {
+      "question": "What does SQL injection target? [46]",
+      "answer": "Databases",
+      "option1": "Web browsers",
+      "option2": "Operating systems",
+      "option3": "Firewalls",
+      "option4": "Databases"
+    },
+    {
+      "question": "Which tool is commonly used for network penetration testing? [47]",
+      "answer": "Nmap",
+      "option1": "Photoshop",
+      "option2": "Nmap",
+      "option3": "Blender",
+      "option4": "MySQL"
+    },
+    {
+      "question": "What is the primary goal of a DoS attack? [48]",
+      "answer": "Make a system unavailable",
+      "option1": "Improve performance",
+      "option2": "Update security",
+      "option3": "Make a system unavailable",
+      "option4": "Patch vulnerabilities"
+    },
+    {
+      "question": "What does XSS stand for? [49]",
+      "answer": "Cross Site Scripting",
+      "option1": "Extended Secure System",
+      "option2": "Cross Side Storage",
+      "option3": "Cross Server Scripting",
+      "option4": "Cross Site Scripting"
+    },
+    {
+      "question": "Which of the following is a brute-force attack tool? [50]",
+      "answer": "Hydra",
+      "option1": "Metasploit",
+      "option2": "Hydra",
+      "option3": "Nessus",
+      "option4": "Wireshark"
+    }
+  ]

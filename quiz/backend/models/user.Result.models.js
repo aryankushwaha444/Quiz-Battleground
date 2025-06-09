@@ -35,7 +35,7 @@ const userResultSchema = new mongoose.Schema({
 });
 
 // ✅ Compound unique index to prevent duplicate (nameUser + nameCategory)
-userResultSchema.index({ email:0, nameCategory:0 }, { unique: true });
+userResultSchema.index({ email:1, nameCategory:1 }, { unique: true });
 
 const Categories = mongoose.model('Categories', userResultSchema);
 

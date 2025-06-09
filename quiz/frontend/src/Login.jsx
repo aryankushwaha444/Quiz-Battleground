@@ -19,7 +19,10 @@ function Login() {
       const res = await axios.post("/api/user/login", {
         email,
         password,
-      });
+      }
+ 
+    
+    );
 
       // Extract user from response
       const { user } = res.data;
