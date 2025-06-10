@@ -1,6 +1,6 @@
 import React from "react";
 
-function Card({ title, imgSrc, desc ,button}) {
+function QuestionCard({ title, imgSrc, desc ,button}) {
   return (
     <div className="bg-purple-100 p-6 rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300 w-full max-w-sm flex flex-col items-center">
       <div className="w-full h-48 mb-4 overflow-hidden rounded-md bg-white flex justify-center items-center">
@@ -13,4 +13,4 @@ function Card({ title, imgSrc, desc ,button}) {
   );
 }
 
-export default Card;
+export default QuestionCard;

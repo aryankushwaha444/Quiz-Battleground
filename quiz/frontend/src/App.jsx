@@ -10,6 +10,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Auth/AuthContext";
 import PrivateRoute from "./PrivateRoute.jsx";
 import UserLeaderboard from "./UserLeaderboard.jsx";
+import QuizPage from "./QuizPage.jsx";
+import Malware from "./Malware.jsx";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/malware" element={<Malware />} />
+
           <Route
             path="/leaderboard"
             element={
@@ -34,11 +38,19 @@ function App() {
           />
 
           <Route
+            path="/quiz"
+            element={
+              <PrivateRoute>
+                <QuizPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
             path="/join-quiz"
             element={
-              // Protect Route
               <PrivateRoute>
-                <JoinQuiz />
+                <JoinQuiz/>
               </PrivateRoute>
             }
           />

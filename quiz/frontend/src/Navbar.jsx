@@ -36,7 +36,7 @@ function Navbar() {
     { label: "About Us", path: "/about", icon: <InfoIcon fontSize="small" /> },
     {
       label: "Play Quiz",
-      path: isAuthenticated ? "/join-quiz" : "/login",
+      path: isAuthenticated ? "/quiz" : "/login",
       icon: <CreateIcon fontSize="small" />,
     },
 
