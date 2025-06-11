@@ -23,7 +23,7 @@ const userEvent = mongoose.Schema(
       type: String,
     },
     correct: {
-      type: Number,
+      type: Boolean,
     },
     score: {
       type: Number,

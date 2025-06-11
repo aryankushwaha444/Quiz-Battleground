@@ -141,8 +141,8 @@ const Leaderboard = () => {
                       />
                     )}
                     <div>
-                      <p className="font-semibold">{u.name}</p>
-                      <p className="text-sm text-gray-500">{u.email}</p>
+                      <p className="font-semibold">{user.name}</p>
+                      <p className="text-sm text-gray-500">{user.email}</p>
                     </div>
                   </div>
                   <div className="text-right">

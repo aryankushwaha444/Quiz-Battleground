@@ -6,7 +6,8 @@ import { json } from "express";
 import defensive from "../models/defensive.models.js";
 import Offensive from "../models/offensive.models.js";
 import devOps from "../models/devOps.models.js";
-import reverseEngineering from "../models/reverseEngineering.models.js"
+import reverseEngineering from "../models/reverseEngineering.models.js";
+import ResultCategories from "../models/user.Result.models.js";
 
 // Register User
 export const registerUser = async (req, res) => {
@@ -62,16 +63,48 @@ export const loginUser = async (req, res) => {
 
 export const storeUserResult = async (req, res) => {
   try {
-    const result = new Categories(req.body);
-    await result.save();
-    res.status(201).json({ message: "Result stored" });
+    const { nameUser, email, nameCategory, questions } = req.body;
+
+    const processedQuestions = await Promise.all(
+      questions.map(async (q) => {
+        // Fetch actual question from DB using text
+        const dbQuestion = await Malwares.findOne({ question: q.question });
+
+        if (!dbQuestion) {
+          return {
+            question: q.question,
+            answer: q.answer || null,
+            correct: false,
+            score: 0,
+            error: "Question not found in DB",
+          };
+        }
+
+        const isCorrect = q.answer === dbQuestion.answer;
+
+        return {
+          question: dbQuestion.question,
+          correctAnswer: dbQuestion.answer,
+          answer: q.answer || null,
+          correct: isCorrect,
+          score: isCorrect ? q.score || 1 : 0,
+        };
+      })
+    );
+
+    // Upsert user result for the category
+    const result = await ResultCategories.findOneAndUpdate(
+      { email, nameCategory },
+      { nameUser, email, nameCategory, questions: processedQuestions },
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json({ message: "User result saved", result });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error storing result", error: error.message });
+    console.error("Error saving user result:", error);
+    res.status(500).json({ message: "Failed to save user result" });
   }
 };
-
 
 
 
@@ -113,7 +146,7 @@ export const getLeaderboardStats = async (req, res) => {
       groupedResults[email].correct += correct;
       groupedResults[email].score += score;
       groupedResults[email].wins += wins;
-      groupedResults[email].points += correct * 2 + score + wins * 1;   /// should be modified as required from frontend
+      groupedResults[email].points += correct * 2 + score + wins * 1; /// should be modified as required from frontend
       groupedResults[email].totalQuestions += questions.length;
     });
 
@@ -134,72 +167,54 @@ export const getLeaderboardStats = async (req, res) => {
   }
 };
 
-
-
 // Fetching Malwares Data
-export const malwareFetch = async (req, res) =>{
+export const malwareFetch = async (req, res) => {
   try {
     const fetchMalware = await Malwares.find();
     res.json(fetchMalware);
-  }catch(error)
-  {
-    res.status(500).json({error: "Failedto fetch Malwares' Question!"})
-
+  } catch (error) {
+    res.status(500).json({ error: "Failedto fetch Malwares' Question!" });
   }
-}
-
+};
 
 // Fetching Defensive Data
-export const defensiveFetch = async (req, res) =>{
+export const defensiveFetch = async (req, res) => {
   try {
-    const fetchDefensive= await defensive.find();
+    const fetchDefensive = await defensive.find();
     res.json(fetchDefensive);
-  }catch(error)
-  {
-    res.status(500).json({error: "Failedto fetch Defensive' Question!"})
-
+  } catch (error) {
+    res.status(500).json({ error: "Failedto fetch Defensive' Question!" });
   }
-}
-
-
+};
 
 // Fetching Ofensive Data
-export const offensiveFetch = async (req, res) =>{
+export const offensiveFetch = async (req, res) => {
   try {
     const fetchOffensive = await Offensive.find();
     res.json(fetchOffensive);
-  }catch(error)
-  {
-    res.status(500).json({error: "Failedto fetch Offensive' Question!"})
-
+  } catch (error) {
+    res.status(500).json({ error: "Failedto fetch Offensive' Question!" });
   }
-}
-
-
+};
 
 // Fetching DevOps Data
-export const devOpsFetch = async (req, res) =>{
+export const devOpsFetch = async (req, res) => {
   try {
     const fetchDevOPs = await devOps.find();
     res.json(fetchDevOPs);
-  }catch(error)
-  {
-    res.status(500).json({error: "Failedto fetch DevOPs' Question!"})
-
+  } catch (error) {
+    res.status(500).json({ error: "Failedto fetch DevOPs' Question!" });
   }
-}
-
+};
 
 // Fetching Reverse Engineering Data
-export const reverseEngineerFetch = async (req, res) =>{
+export const reverseEngineerFetch = async (req, res) => {
   try {
     const fetchReverseEngineer = await reverseEngineering.find();
     res.json(fetchReverseEngineer);
-  }catch(error)
-  {
-    res.status(500).json({error: "Failedto fetch ReverseEngineering' Question!"})
-
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Failedto fetch ReverseEngineering' Question!" });
   }
-}
-
-
+};
