@@ -1,378 +1,442 @@
 [
   {
-    "question": "What is reverse engineering?",
-    "answer": "Analyzing a system to identify its components and working",
-    "option1": "Writing new software",
-    "option2": "Analyzing a system to identify its components and working",
-    "option3": "Compiling code",
-    "option4": "Running tests"
+    "question": "What is the primary goal of reverse engineering?",
+    "answer": "To understand how a system works",
+    "option": [
+      "To create malware",
+      "To understand how a system works",
+      "To test user interfaces",
+      "To write documentation"
+    ]
   },
   {
-    "question": "Which tool is commonly used for binary disassembly?",
+    "question": "Which tool is commonly used for static binary analysis?",
     "answer": "IDA Pro",
-    "option1": "Wireshark",
-    "option2": "IDA Pro",
-    "option3": "Metasploit",
-    "option4": "Burp Suite"
+    "option": [
+      "Nmap",
+      "IDA Pro",
+      "Metasploit",
+      "Burp Suite"
+    ]
   },
   {
-    "question": "What file format do Windows executables usually have?",
-    "answer": "PE (Portable Executable)",
-    "option1": "ELF",
-    "option2": "Mach-O",
-    "option3": "PE (Portable Executable)",
-    "option4": "APK"
-  },
-  {
-    "question": "Which language is commonly used in reverse engineering for scripting?",
-    "answer": "Python",
-    "option1": "Java",
-    "option2": "Python",
-    "option3": "C#",
-    "option4": "Ruby"
-  },
-  {
-    "question": "What does a debugger do?",
-    "answer": "Allows step-by-step execution and inspection of a program",
-    "option1": "Compiles code",
-    "option2": "Allows step-by-step execution and inspection of a program",
-    "option3": "Encrypts data",
-    "option4": "Manages servers"
-  },
-  {
-    "question": "Which tool is used for dynamic analysis?",
+    "question": "Which tool allows dynamic analysis of binaries on Windows?",
     "answer": "OllyDbg",
-    "option1": "IDA Pro",
-    "option2": "OllyDbg",
-    "option3": "Ghidra",
-    "option4": "Nmap"
+    "option": [
+      "OllyDbg",
+      "Wireshark",
+      "Aircrack-ng",
+      "Hydra"
+    ]
   },
   {
-    "question": "What is a disassembler?",
-    "answer": "A tool that converts machine code into assembly code",
-    "option1": "A tool that compiles source code",
-    "option2": "A tool that converts machine code into assembly code",
-    "option3": "A network scanner",
-    "option4": "A database manager"
+    "question": "What file extension is typically used for Windows executables?",
+    "answer": ".exe",
+    "option": [
+      ".exe",
+      ".dll",
+      ".sh",
+      ".bat"
+    ]
   },
   {
-    "question": "What is an opcode?",
-    "answer": "Operation code representing a machine instruction",
-    "option1": "A variable name",
-    "option2": "Operation code representing a machine instruction",
-    "option3": "A type of malware",
-    "option4": "A debugging tool"
-  },
-  {
-    "question": "What is a hex editor used for?",
-    "answer": "To view and edit raw binary data",
-    "option1": "To write source code",
-    "option2": "To view and edit raw binary data",
-    "option3": "To debug software",
-    "option4": "To run virtual machines"
-  },
-  {
-    "question": "What is the first step in reverse engineering malware?",
-    "answer": "Static analysis",
-    "option1": "Network scanning",
-    "option2": "Static analysis",
-    "option3": "Dynamic debugging",
-    "option4": "Writing signatures"
-  },
-  {
-    "question": "Which file format is typical for Linux executables?",
-    "answer": "ELF (Executable and Linkable Format)",
-    "option1": "PE",
-    "option2": "ELF (Executable and Linkable Format)",
-    "option3": "Mach-O",
-    "option4": "APK"
-  },
-  {
-    "question": "What is Ghidra?",
-    "answer": "An open-source reverse engineering framework",
-    "option1": "A firewall",
-    "option2": "An open-source reverse engineering framework",
-    "option3": "A network tool",
-    "option4": "A packet sniffer"
-  },
-  {
-    "question": "What is code obfuscation?",
-    "answer": "Techniques to make code difficult to understand",
-    "option1": "Encrypting network data",
-    "option2": "Techniques to make code difficult to understand",
-    "option3": "Improving code performance",
-    "option4": "Backing up code"
-  },
-  {
-    "question": "Which section of an executable contains executable code?",
-    "answer": ".text section",
-    "option1": ".data section",
-    "option2": ".text section",
-    "option3": ".bss section",
-    "option4": ".rdata section"
+    "question": "Which programming language are binaries commonly disassembled into?",
+    "answer": "Assembly",
+    "option": [
+      "C++",
+      "Java",
+      "Assembly",
+      "Python"
+    ]
   },
   {
     "question": "What is dynamic analysis?",
     "answer": "Analyzing a program during execution",
-    "option1": "Analyzing code without running it",
-    "option2": "Analyzing a program during execution",
-    "option3": "Compiling code",
-    "option4": "Writing tests"
+    "option": [
+      "Running antivirus tools",
+      "Analyzing a program during execution",
+      "Code refactoring",
+      "Reverse designing the UI"
+    ]
   },
   {
-    "question": "What does API stand for?",
-    "answer": "Application Programming Interface",
-    "option1": "Application Programming Interface",
-    "option2": "Advanced Program Integration",
-    "option3": "Automatic Process Invocation",
-    "option4": "Access Point Interface"
+    "question": "Which file format is used for Linux executables?",
+    "answer": "ELF",
+    "option": [
+      "PE",
+      "DLL",
+      "ELF",
+      "EXE"
+    ]
   },
   {
-    "question": "What is a 'string' in reverse engineering?",
-    "answer": "A sequence of characters in a binary",
-    "option1": "A type of malware",
-    "option2": "A sequence of characters in a binary",
-    "option3": "A debugging tool",
-    "option4": "A network protocol"
+    "question": "What does a disassembler do?",
+    "answer": "Converts binary code to assembly code",
+    "option": [
+      "Executes malware",
+      "Converts binary code to assembly code",
+      "Compiles code",
+      "Encrypts software"
+    ]
   },
   {
-    "question": "Which tool helps find strings in a binary?",
-    "answer": "strings command",
-    "option1": "netstat",
-    "option2": "strings command",
-    "option3": "ping",
-    "option4": "curl"
+    "question": "What is the function of a debugger?",
+    "answer": "Helps examine a program as it runs",
+    "option": [
+      "Encrypts source code",
+      "Helps examine a program as it runs",
+      "Monitors network traffic",
+      "Protects from reverse engineering"
+    ]
   },
   {
-    "question": "What is control flow in a program?",
-    "answer": "The order in which instructions are executed",
-    "option1": "The data stored in variables",
-    "option2": "The order in which instructions are executed",
-    "option3": "The size of the executable",
-    "option4": "The programming language used"
+    "question": "Which is a popular open-source reverse engineering framework?",
+    "answer": "Radare2",
+    "option": [
+      "Metasploit",
+      "Radare2",
+      "Hydra",
+      "Nessus"
+    ]
   },
   {
-    "question": "What does 'static linking' mean?",
-    "answer": "Including libraries directly into executable",
-    "option1": "Calling libraries at runtime",
-    "option2": "Including libraries directly into executable",
-    "option3": "Encrypting the binary",
-    "option4": "Loading modules dynamically"
+    "question": "Which CPU architecture uses x86 instruction set?",
+    "answer": "Intel",
+    "option": [
+      "Intel",
+      "ARM",
+      "MIPS",
+      "RISC-V"
+    ]
   },
   {
-    "question": "What is unpacking in reverse engineering?",
-    "answer": "Removing protection or compression from binaries",
-    "option1": "Encrypting binaries",
-    "option2": "Removing protection or compression from binaries",
-    "option3": "Compiling source code",
-    "option4": "Debugging software"
+    "question": "Which instruction in x86 is used to return from a function?",
+    "answer": "RET",
+    "option": [
+      "JMP",
+      "MOV",
+      "RET",
+      "NOP"
+    ]
   },
   {
-    "question": "Which register commonly stores the stack pointer in x86 architecture?",
-    "answer": "ESP",
-    "option1": "EAX",
-    "option2": "EBX",
-    "option3": "ESP",
-    "option4": "ECX"
+    "question": "What is a 'NOP sled' in reverse engineering?",
+    "answer": "A series of NOP instructions used in exploits",
+    "option": [
+      "A debugger tool",
+      "A file format",
+      "A series of NOP instructions used in exploits",
+      "A code obfuscation method"
+    ]
   },
   {
-    "question": "What is a breakpoint in debugging?",
-    "answer": "A point where execution pauses for inspection",
-    "option1": "A syntax error",
-    "option2": "A point where execution pauses for inspection",
-    "option3": "A compiler warning",
-    "option4": "A memory leak"
+    "question": "What is code obfuscation?",
+    "answer": "Making code difficult to understand",
+    "option": [
+      "Encrypting code with SSL",
+      "Running code faster",
+      "Making code difficult to understand",
+      "Compiling to assembly"
+    ]
   },
   {
-    "question": "What is malware reverse engineering primarily used for?",
-    "answer": "Understanding malicious behavior",
-    "option1": "Writing malware",
-    "option2": "Understanding malicious behavior",
-    "option3": "Network analysis",
-    "option4": "System administration"
+    "question": "What does anti-debugging mean?",
+    "answer": "Techniques to prevent analysis using a debugger",
+    "option": [
+      "Turning off debuggers",
+      "Removing comments from code",
+      "Techniques to prevent analysis using a debugger",
+      "Disabling malware"
+    ]
   },
   {
-    "question": "What does PE header contain?",
-    "answer": "Metadata about the executable",
-    "option1": "User data",
-    "option2": "Metadata about the executable",
-    "option3": "Network packets",
-    "option4": "Source code"
+    "question": "Which of these is NOT a reverse engineering tool?",
+    "answer": "Photoshop",
+    "option": [
+      "Ghidra",
+      "Photoshop",
+      "Radare2",
+      "OllyDbg"
+    ]
   },
   {
-    "question": "Which tool can automate reverse engineering tasks?",
-    "answer": "Ghidra",
-    "option1": "Wireshark",
-    "option2": "Ghidra",
-    "option3": "Nmap",
-    "option4": "Metasploit"
-  },
-  {
-    "question": "What is the difference between static and dynamic analysis?",
-    "answer": "Static analyzes code without running, dynamic analyzes during execution",
-    "option1": "Static is faster than dynamic",
-    "option2": "Static analyzes code without running, dynamic analyzes during execution",
-    "option3": "Dynamic requires source code",
-    "option4": "Static requires network"
-  },
-  {
-    "question": "What is a stack frame?",
-    "answer": "Memory for a function’s local variables and return address",
-    "option1": "A type of malware",
-    "option2": "Memory for a function’s local variables and return address",
-    "option3": "A file format",
-    "option4": "A debugger tool"
-  },
-  {
-    "question": "Which tool is used for network traffic analysis?",
-    "answer": "Wireshark",
-    "option1": "Wireshark",
-    "option2": "IDA Pro",
-    "option3": "OllyDbg",
-    "option4": "Ghidra"
-  },
-  {
-    "question": "What is control flow graph?",
-    "answer": "A representation of all paths that might be traversed through a program",
-    "option1": "A type of virus",
-    "option2": "A representation of all paths that might be traversed through a program",
-    "option3": "A file system",
-    "option4": "A database"
-  },
-  {
-    "question": "Which platform is Ghidra developed by?",
+    "question": "What organization created Ghidra?",
     "answer": "NSA",
-    "option1": "Google",
-    "option2": "NSA",
-    "option3": "Microsoft",
-    "option4": "IBM"
+    "option": [
+      "Google",
+      "NSA",
+      "Apple",
+      "MIT"
+    ]
   },
   {
-    "question": "What is function hooking?",
-    "answer": "Intercepting function calls to alter behavior",
-    "option1": "Compiling code",
-    "option2": "Intercepting function calls to alter behavior",
-    "option3": "Encrypting data",
-    "option4": "Deleting files"
+    "question": "What is a common use of reverse engineering in security?",
+    "answer": "Malware analysis",
+    "option": [
+      "UX design",
+      "Cloud deployment",
+      "Malware analysis",
+      "UI development"
+    ]
   },
   {
-    "question": "What does 'PE' stand for?",
+    "question": "What does the CALL instruction do?",
+    "answer": "Transfers control to a function",
+    "option": [
+      "Jumps to memory",
+      "Transfers control to a function",
+      "Ends a loop",
+      "Assigns a variable"
+    ]
+  },
+  {
+    "question": "Which instruction is used to jump to a specific address in x86?",
+    "answer": "JMP",
+    "option": [
+      "MOV",
+      "PUSH",
+      "CALL",
+      "JMP"
+    ]
+  },
+  {
+    "question": "What is an entry point in a binary?",
+    "answer": "The first instruction executed when the program starts",
+    "option": [
+      "The last instruction",
+      "The UI renderer",
+      "The first instruction executed when the program starts",
+      "The address of memory leak"
+    ]
+  },
+  {
+    "question": "What does the MOV instruction do in Assembly?",
+    "answer": "Transfers data from one location to another",
+    "option": [
+      "Loops over instructions",
+      "Transfers data from one location to another",
+      "Encrypts code",
+      "Compiles source"
+    ]
+  },
+  {
+    "question": "What is shellcode?",
+    "answer": "A small piece of code used in exploits",
+    "option": [
+      "Debug command",
+      "A small piece of code used in exploits",
+      "Encryption tool",
+      "Anti-virus signature"
+    ]
+  },
+  {
+    "question": "What is a breakpoint?",
+    "answer": "A pause point in debugging",
+    "option": [
+      "Crash log",
+      "Exploit technique",
+      "A pause point in debugging",
+      "Code format"
+    ]
+  },
+  {
+    "question": "Which section of an executable contains the code?",
+    "answer": ".text",
+    "option": [
+      ".text",
+      ".data",
+      ".rdata",
+      ".bss"
+    ]
+  },
+  {
+    "question": "Which Windows tool can inspect running processes?",
+    "answer": "Process Explorer",
+    "option": [
+      "Notepad",
+      "Command Prompt",
+      "Process Explorer",
+      "Paint"
+    ]
+  },
+  {
+    "question": "What is PE format in Windows?",
     "answer": "Portable Executable",
-    "option1": "Program Entry",
-    "option2": "Portable Executable",
-    "option3": "Packet Encoder",
-    "option4": "Process Environment"
+    "option": [
+      "Portable Executable",
+      "Power Entry",
+      "Process Engine",
+      "Program Extension"
+    ]
   },
   {
-    "question": "What is the purpose of signature-based detection?",
-    "answer": "Detect known malware by matching patterns",
-    "option1": "Encrypt data",
-    "option2": "Detect known malware by matching patterns",
-    "option3": "Run executables",
-    "option4": "Modify binaries"
+    "question": "What is a hex editor used for?",
+    "answer": "Viewing and editing raw binary data",
+    "option": [
+      "Drawing UIs",
+      "Viewing network logs",
+      "Viewing and editing raw binary data",
+      "Compiling C++"
+    ]
   },
   {
-    "question": "What does a patch do in reverse engineering?",
-    "answer": "Modify binary code to fix or change behavior",
-    "option1": "Delete files",
-    "option2": "Modify binary code to fix or change behavior",
-    "option3": "Compile source code",
-    "option4": "Run tests"
+    "question": "Which section of an executable holds initialized data?",
+    "answer": ".data",
+    "option": [
+      ".bss",
+      ".data",
+      ".text",
+      ".stack"
+    ]
   },
   {
-    "question": "Which CPU architecture is most commonly analyzed in reverse engineering?",
-    "answer": "x86/x86_64",
-    "option1": "ARM only",
-    "option2": "x86/x86_64",
-    "option3": "MIPS",
-    "option4": "RISC-V"
+    "question": "What does malware unpacking mean?",
+    "answer": "Extracting actual code from a packed binary",
+    "option": [
+      "Uploading malware to a server",
+      "Analyzing packed zip files",
+      "Extracting actual code from a packed binary",
+      "Running malware in a sandbox"
+    ]
   },
   {
-    "question": "What is an import table in an executable?",
-    "answer": "List of external functions used",
-    "option1": "Memory map",
-    "option2": "List of external functions used",
-    "option3": "Source code",
-    "option4": "Compiled binaries"
+    "question": "Which instruction pushes a value onto the stack?",
+    "answer": "PUSH",
+    "option": [
+      "JMP",
+      "PUSH",
+      "RET",
+      "CALL"
+    ]
   },
   {
-    "question": "What is 'fuzzing'?",
-    "answer": "Testing with random data to find bugs",
-    "option1": "Compiling code",
-    "option2": "Testing with random data to find bugs",
-    "option3": "Encrypting files",
-    "option4": "Debugging software"
+    "question": "What is the stack used for in Assembly?",
+    "answer": "Storing return addresses and local variables",
+    "option": [
+      "Storing logs",
+      "Storing UI elements",
+      "Storing return addresses and local variables",
+      "Compiling code"
+    ]
   },
   {
-    "question": "What is anti-debugging?",
-    "answer": "Techniques to prevent analysis with debuggers",
-    "option1": "Writing debuggers",
-    "option2": "Techniques to prevent analysis with debuggers",
-    "option3": "Running malware",
-    "option4": "Encrypting data"
+    "question": "What is the opposite of PUSH in assembly?",
+    "answer": "POP",
+    "option": [
+      "JMP",
+      "RET",
+      "CALL",
+      "POP"
+    ]
   },
   {
-    "question": "Which tool is used for static code analysis?",
-    "answer": "Binwalk",
-    "option1": "Binwalk",
-    "option2": "Wireshark",
-    "option3": "Nmap",
-    "option4": "Metasploit"
+    "question": "What is a common characteristic of packed malware?",
+    "answer": "Compressed or encrypted sections",
+    "option": [
+      "Visible strings",
+      "Compressed or encrypted sections",
+      "Readable C code",
+      "Signed certificates"
+    ]
   },
   {
-    "question": "What is a 'sandbox' in malware analysis?",
-    "answer": "Isolated environment to safely run malware",
-    "option1": "Real system",
-    "option2": "Isolated environment to safely run malware",
-    "option3": "Firewall",
-    "option4": "Antivirus"
+    "question": "What is a heuristic method in reverse engineering?",
+    "answer": "Using pattern-based techniques to identify behavior",
+    "option": [
+      "Analyzing hardware",
+      "Using pattern-based techniques to identify behavior",
+      "UI testing",
+      "Database crawling"
+    ]
   },
   {
-    "question": "What is function inlining?",
-    "answer": "Replacing a function call with the function’s code",
-    "option1": "Encrypting functions",
-    "option2": "Replacing a function call with the function’s code",
-    "option3": "Deleting functions",
-    "option4": "Creating new functions"
+    "question": "What is F5 in IDA Pro typically used for?",
+    "answer": "Decompile to pseudo-C",
+    "option": [
+      "Search function",
+      "Hex view",
+      "Decompile to pseudo-C",
+      "Save project"
+    ]
   },
   {
-    "question": "What does 'decompilation' mean?",
-    "answer": "Converting machine code back to high-level code",
-    "option1": "Compiling source code",
-    "option2": "Converting machine code back to high-level code",
-    "option3": "Encrypting binaries",
-    "option4": "Debugging software"
+    "question": "What is a function prologue?",
+    "answer": "The beginning part of a function that sets up the stack",
+    "option": [
+      "The middle of a function",
+      "The code used for loops",
+      "The beginning part of a function that sets up the stack",
+      "The function footer"
+    ]
   },
   {
-    "question": "What is a debugger watchpoint?",
-    "answer": "Pauses execution when a specific memory location changes",
-    "option1": "A breakpoint on a line",
-    "option2": "Pauses execution when a specific memory location changes",
-    "option3": "A syntax error",
-    "option4": "A compiler warning"
+    "question": "Which tool decompiles binaries into readable code?",
+    "answer": "Ghidra",
+    "option": [
+      "Hydra",
+      "Ghidra",
+      "Nmap",
+      "ZAP"
+    ]
   },
   {
-    "question": "What is a binary patch?",
-    "answer": "Modifications applied to a binary executable",
-    "option1": "New source code",
-    "option2": "Modifications applied to a binary executable",
-    "option3": "Network packet",
-    "option4": "Debugging information"
+    "question": "What is a function epilogue?",
+    "answer": "Restores the stack before returning from a function",
+    "option": [
+      "Encrypts memory",
+      "Calls other functions",
+      "Restores the stack before returning from a function",
+      "Defines global variables"
+    ]
   },
   {
-    "question": "What is an ELF file?",
-    "answer": "Executable format used by Unix/Linux systems",
-    "option1": "Windows executable",
-    "option2": "Executable format used by Unix/Linux systems",
-    "option3": "Mobile app",
-    "option4": "Document file"
+    "question": "What is a ROP chain?",
+    "answer": "Chained return-oriented programming gadgets",
+    "option": [
+      "UI design method",
+      "Code refactoring tool",
+      "Chained return-oriented programming gadgets",
+      "Networking protocol"
+    ]
   },
   {
-    "question": "What is the role of control flow obfuscation?",
-    "answer": "Make reverse engineering harder by altering flow",
-    "option1": "Improve performance",
-    "option2": "Make reverse engineering harder by altering flow",
-    "option3": "Encrypt data",
-    "option4": "Fix bugs"
+    "question": "Which type of analysis observes behavior without code modification?",
+    "answer": "Dynamic analysis",
+    "option": [
+      "Source review",
+      "Dynamic analysis",
+      "Code refactoring",
+      "Unit testing"
+    ]
+  },
+  {
+    "question": "What is virtual machine detection used for in malware?",
+    "answer": "To avoid running in analysis environments",
+    "option": [
+      "To run faster",
+      "To detect GPU",
+      "To avoid running in analysis environments",
+      "To encrypt code"
+    ]
+  },
+  {
+    "question": "What is the purpose of symbol resolution in reverse engineering?",
+    "answer": "To map addresses to function or variable names",
+    "option": [
+      "Rename the binary",
+      "Optimize loops",
+      "To map addresses to function or variable names",
+      "Scan file extensions"
+    ]
+  },
+  {
+    "question": "Which instruction ends a program in Assembly?",
+    "answer": "INT 0x80 with syscall number for exit",
+    "option": [
+      "MOV",
+      "INT 0x80 with syscall number for exit",
+      "CALL",
+      "JMP"
+    ]
   }
 ]

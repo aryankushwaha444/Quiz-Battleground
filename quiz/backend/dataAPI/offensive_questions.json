@@ -1,402 +1,442 @@
 [
-    {
-      "question": "What does SQL injection target? [1]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [2]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [3]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [4]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [5]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [6]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [7]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [8]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [9]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [10]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [11]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [12]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [13]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [14]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [15]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [16]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [17]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [18]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [19]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [20]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [21]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [22]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [23]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [24]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [25]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [26]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [27]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [28]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [29]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [30]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [31]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [32]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [33]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [34]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [35]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [36]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [37]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [38]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [39]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [40]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [41]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [42]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [43]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [44]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [45]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    },
-    {
-      "question": "What does SQL injection target? [46]",
-      "answer": "Databases",
-      "option1": "Web browsers",
-      "option2": "Operating systems",
-      "option3": "Firewalls",
-      "option4": "Databases"
-    },
-    {
-      "question": "Which tool is commonly used for network penetration testing? [47]",
-      "answer": "Nmap",
-      "option1": "Photoshop",
-      "option2": "Nmap",
-      "option3": "Blender",
-      "option4": "MySQL"
-    },
-    {
-      "question": "What is the primary goal of a DoS attack? [48]",
-      "answer": "Make a system unavailable",
-      "option1": "Improve performance",
-      "option2": "Update security",
-      "option3": "Make a system unavailable",
-      "option4": "Patch vulnerabilities"
-    },
-    {
-      "question": "What does XSS stand for? [49]",
-      "answer": "Cross Site Scripting",
-      "option1": "Extended Secure System",
-      "option2": "Cross Side Storage",
-      "option3": "Cross Server Scripting",
-      "option4": "Cross Site Scripting"
-    },
-    {
-      "question": "Which of the following is a brute-force attack tool? [50]",
-      "answer": "Hydra",
-      "option1": "Metasploit",
-      "option2": "Hydra",
-      "option3": "Nessus",
-      "option4": "Wireshark"
-    }
-  ]
+  {
+    "question": "What is the main goal of offensive security?",
+    "answer": "Identify and exploit security vulnerabilities",
+    "option": [
+      "Build secure software",
+      "Audit compliance",
+      "Identify and exploit security vulnerabilities",
+      "Monitor network traffic"
+    ]
+  },
+  {
+    "question": "Which tool is commonly used for penetration testing?",
+    "answer": "Metasploit",
+    "option": [
+      "Nmap",
+      "Wireshark",
+      "Metasploit",
+      "Splunk"
+    ]
+  },
+  {
+    "question": "What does a red team do in cybersecurity?",
+    "answer": "Simulates real-world attacks to test defenses",
+    "option": [
+      "Monitors logs",
+      "Builds firewalls",
+      "Simulates real-world attacks to test defenses",
+      "Creates security policies"
+    ]
+  },
+  {
+    "question": "What is the first phase of a penetration test?",
+    "answer": "Reconnaissance",
+    "option": [
+      "Exploitation",
+      "Privilege escalation",
+      "Reconnaissance",
+      "Persistence"
+    ]
+  },
+  {
+    "question": "Which tool is used for network scanning?",
+    "answer": "Nmap",
+    "option": [
+      "Nmap",
+      "Hydra",
+      "Burp Suite",
+      "SQLmap"
+    ]
+  },
+  {
+    "question": "What does OSINT stand for?",
+    "answer": "Open Source Intelligence",
+    "option": [
+      "Operational Security in Network Technologies",
+      "Open Source Intelligence",
+      "Open Security Internet Tool",
+      "Online System Information Node"
+    ]
+  },
+  {
+    "question": "Which tool is best for intercepting HTTP requests?",
+    "answer": "Burp Suite",
+    "option": [
+      "Wireshark",
+      "Hydra",
+      "Burp Suite",
+      "Nessus"
+    ]
+  },
+  {
+    "question": "What does the tool Hydra perform?",
+    "answer": "Brute-force attacks",
+    "option": [
+      "SQL injection",
+      "Brute-force attacks",
+      "Port scanning",
+      "Traffic analysis"
+    ]
+  },
+  {
+    "question": "What is lateral movement in cyber attacks?",
+    "answer": "Moving across systems after initial access",
+    "option": [
+      "Deleting system logs",
+      "Moving across systems after initial access",
+      "Exfiltrating data",
+      "Creating fake accounts"
+    ]
+  },
+  {
+    "question": "Which command in Linux lists all open network ports?",
+    "answer": "netstat -tuln",
+    "option": [
+      "ls -l",
+      "netstat -tuln",
+      "ps aux",
+      "top"
+    ]
+  },
+  {
+    "question": "What is a payload in penetration testing?",
+    "answer": "Malicious code executed on the target",
+    "option": [
+      "Password list",
+      "Network scanner",
+      "Malicious code executed on the target",
+      "Backup file"
+    ]
+  },
+  {
+    "question": "What does privilege escalation aim to achieve?",
+    "answer": "Gain higher-level access",
+    "option": [
+      "List all files",
+      "Create a report",
+      "Gain higher-level access",
+      "Close ports"
+    ]
+  },
+  {
+    "question": "Which language is most used for exploit development?",
+    "answer": "Python",
+    "option": [
+      "HTML",
+      "Java",
+      "Python",
+      "CSS"
+    ]
+  },
+  {
+    "question": "What is a reverse shell?",
+    "answer": "A shell that connects back to the attacker",
+    "option": [
+      "A browser plugin",
+      "A data encryption shell",
+      "A shell that connects back to the attacker",
+      "A VPN connection"
+    ]
+  },
+  {
+    "question": "Which tool is used for web application vulnerability scanning?",
+    "answer": "OWASP ZAP",
+    "option": [
+      "John the Ripper",
+      "Nikto",
+      "OWASP ZAP",
+      "Hashcat"
+    ]
+  },
+  {
+    "question": "Which command changes file permissions in Linux?",
+    "answer": "chmod",
+    "option": [
+      "ls",
+      "chmod",
+      "ping",
+      "sudo"
+    ]
+  },
+  {
+    "question": "What is a keylogger?",
+    "answer": "A tool to record keystrokes",
+    "option": [
+      "A backup tool",
+      "A tool to scan ports",
+      "A tool to record keystrokes",
+      "A firewall"
+    ]
+  },
+  {
+    "question": "What is SQL injection?",
+    "answer": "Injecting malicious SQL queries",
+    "option": [
+      "Encrypting a database",
+      "Scanning a SQL server",
+      "Injecting malicious SQL queries",
+      "Blocking SQL ports"
+    ]
+  },
+  {
+    "question": "Which tool is used to crack password hashes?",
+    "answer": "John the Ripper",
+    "option": [
+      "Burp Suite",
+      "Nmap",
+      "John the Ripper",
+      "Netcat"
+    ]
+  },
+  {
+    "question": "What is social engineering?",
+    "answer": "Manipulating people to gain access",
+    "option": [
+      "Coding malware",
+      "Scanning ports",
+      "Manipulating people to gain access",
+      "Cracking passwords"
+    ]
+  },
+  {
+    "question": "Which port is commonly used for SSH?",
+    "answer": "22",
+    "option": [
+      "80",
+      "21",
+      "22",
+      "443"
+    ]
+  },
+  {
+    "question": "Which operating system is popular for offensive security?",
+    "answer": "Kali Linux",
+    "option": [
+      "Windows XP",
+      "macOS",
+      "Ubuntu",
+      "Kali Linux"
+    ]
+  },
+  {
+    "question": "What is the purpose of a C2 server?",
+    "answer": "Command and control for compromised systems",
+    "option": [
+      "Scan logs",
+      "Store passwords",
+      "Command and control for compromised systems",
+      "List files"
+    ]
+  },
+  {
+    "question": "What is an exploit?",
+    "answer": "Code that takes advantage of a vulnerability",
+    "option": [
+      "A firewall rule",
+      "A system log",
+      "Code that takes advantage of a vulnerability",
+      "A backup schedule"
+    ]
+  },
+  {
+    "question": "What is enumeration in penetration testing?",
+    "answer": "Gathering detailed system information",
+    "option": [
+      "Creating a virus",
+      "Deleting files",
+      "Gathering detailed system information",
+      "Installing patches"
+    ]
+  },
+  {
+    "question": "Which protocol is often targeted in MITM attacks?",
+    "answer": "HTTP",
+    "option": [
+      "FTP",
+      "SSH",
+      "HTTP",
+      "DNS"
+    ]
+  },
+  {
+    "question": "What is the primary use of Netcat?",
+    "answer": "Network communication and debugging",
+    "option": [
+      "Image editing",
+      "Network communication and debugging",
+      "Code compiling",
+      "Report writing"
+    ]
+  },
+  {
+    "question": "What does CVE stand for?",
+    "answer": "Common Vulnerabilities and Exposures",
+    "option": [
+      "Critical Virus Environment",
+      "Common Version Executor",
+      "Cyber Vulnerability Example",
+      "Common Vulnerabilities and Exposures"
+    ]
+  },
+  {
+    "question": "What is a zero-day vulnerability?",
+    "answer": "A vulnerability unknown to vendors",
+    "option": [
+      "A patched exploit",
+      "A slow attack",
+      "A vulnerability unknown to vendors",
+      "An open port"
+    ]
+  },
+  {
+    "question": "Which phase comes after exploitation in pentesting?",
+    "answer": "Post-exploitation",
+    "option": [
+      "Scanning",
+      "Enumeration",
+      "Post-exploitation",
+      "Cleanup"
+    ]
+  },
+  {
+    "question": "What is the main goal of red teaming?",
+    "answer": "Simulate real-world cyber attacks",
+    "option": [
+      "Build software",
+      "Simulate real-world cyber attacks",
+      "Design networks",
+      "Audit licenses"
+    ]
+  },
+  {
+    "question": "Which tool is used to test wireless network security?",
+    "answer": "Aircrack-ng",
+    "option": [
+      "SQLmap",
+      "Aircrack-ng",
+      "Hydra",
+      "Nmap"
+    ]
+  },
+  {
+    "question": "What is a buffer overflow?",
+    "answer": "Overwriting memory beyond buffer boundaries",
+    "option": [
+      "Fixing memory leaks",
+      "Overwriting memory beyond buffer boundaries",
+      "Encrypting memory",
+      "Compressing files"
+    ]
+  },
+  {
+    "question": "What is the function of a shellcode?",
+    "answer": "Payload that provides shell access",
+    "option": [
+      "Compresses data",
+      "Scans directories",
+      "Payload that provides shell access",
+      "Creates logs"
+    ]
+  },
+  {
+    "question": "What is the purpose of privilege escalation?",
+    "answer": "Gain administrative access",
+    "option": [
+      "Hide malware",
+      "Gain administrative access",
+      "Log user data",
+      "Shut down system"
+    ]
+  },
+  {
+    "question": "Which framework helps create custom exploits?",
+    "answer": "Metasploit",
+    "option": [
+      "Wireshark",
+      "Metasploit",
+      "Snort",
+      "Nikto"
+    ]
+  },
+  {
+    "question": "What is a honeypot?",
+    "answer": "A system set up to attract attackers",
+    "option": [
+      "A strong password",
+      "A VPN connection",
+      "A system set up to attract attackers",
+      "A user manual"
+    ]
+  },
+  {
+    "question": "What is a bind shell?",
+    "answer": "Shell that listens for incoming connections",
+    "option": [
+      "Encrypted browser",
+      "Shell that listens for incoming connections",
+      "Firewall rule",
+      "DNS resolver"
+    ]
+  },
+  {
+    "question": "What is an attack surface?",
+    "answer": "All possible entry points for an attacker",
+    "option": [
+      "A scan tool",
+      "All possible entry points for an attacker",
+      "A root directory",
+      "A system log"
+    ]
+  },
+  {
+    "question": "What is XSS?",
+    "answer": "Cross-site scripting",
+    "option": [
+      "Cross-site scripting",
+      "Cross-site scanning",
+      "Xtreme SQL Scan",
+      "Cross-section scan"
+    ]
+  },
+  {
+    "question": "What does a vulnerability scanner do?",
+    "answer": "Detects security weaknesses",
+    "option": [
+      "Encrypts files",
+      "Detects security weaknesses",
+      "Deletes viruses",
+      "Creates backups"
+    ]
+  },
+  {
+    "question": "Which is an example of phishing?",
+    "answer": "Fake login page to steal passwords",
+    "option": [
+      "Scan ports",
+      "Update software",
+      "Fake login page to steal passwords",
+      "Disable antivirus"
+    ]
+  },
+  {
+    "question": "What is password spraying?",
+    "answer": "Trying a few passwords across many accounts",
+    "option": [
+      "Trying all passwords on one account",
+      "Using a wordlist on one user",
+      "Trying a few passwords across many accounts",
+      "Encrypting a password file"
+    ]
+  },
+  {
+    "question": "What is persistence in offensive security?",
+    "answer": "Maintaining access over time",
+    "option": [
+      "Encrypting data",
+      "Maintaining access over time",
+      "Changing logs",
+      "Resetting passwords"
+    ]
+  }
+]
