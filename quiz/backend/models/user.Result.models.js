@@ -23,7 +23,7 @@ const userResultSchema = new mongoose.Schema({
     },
     correct: {
       type: Number,
-      default: false
+      default: 0
     },
     score: {
       type: Number,
@@ -37,6 +37,6 @@ const userResultSchema = new mongoose.Schema({
 // ✅ Compound unique index to prevent duplicate (nameUser + nameCategory)
 userResultSchema.index({ email:1, nameCategory:1 }, { unique: true });
 
-const Categories = mongoose.model('Categories', userResultSchema);
+const ResultCategories = mongoose.model('ResultCategories', userResultSchema);
 
-export default Categories;
+export default ResultCategories;

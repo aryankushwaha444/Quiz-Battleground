@@ -1,46 +1,47 @@
 import mongoose from "mongoose";
 
-const userEvent = mongoose.Schema({
-    nameName:{
-        type:String,
-        required:true
+const userEvent = mongoose.Schema(
+  {
+    nameUser: {
+      type: String,
+      required: true,
     },
-    nameUser:{
-        type:String,
-        required:true
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    eventName: {
+      type: String,
+      require: true,
     },
-    question:{
-        type:String,
-        required:true
+    question: {
+      type: String,
+      required: true,
     },
-    answer:{
-        type:String,
+    answer: {
+      type: String,
     },
-    correct:{
-        type:Number,
+    correct: {
+      type: Number,
     },
-    score:{
-        type:Number,
-        required:true
+    score: {
+      type: Number,
+      required: true,
     },
-    wins:{
-        type:Number,
+    wins: {
+      type: Boolean,
     },
-    prize:{
-        type:Number,
+    prize: {
+      type: Number,
     },
-    prizeName:String,
-    prizeImage:String,
-
-},
-{
-    timestamps:true
-});
+    prizeName: String,
+    prizeImage: String,
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const UserEvent = mongoose.model("UserEvent", userEvent);
 

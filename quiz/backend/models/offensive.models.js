@@ -1,40 +1,23 @@
 import mongoose from "mongoose";
 
-const offensiveSchema = new mongoose.Schema({
-    question:
+const offensiveSchema = new mongoose.Schema(
     {
-        type: String,
-        required: true,
-       unique:true
-    },
-   answer:
-   {
-    type: String,
-    required: true,
-   },
-        option1:
-        {
-            type: String,
-            required: true
+        question: {
+          type: String,
+          required: true,
+          unique: true,
         },
-        option2:
-        {
-            type: String,
-            required: true
+        answer: {
+          type: String,
+          required: true,
         },
-        option3:
-        {
+        option: [
+          {
             type: String,
-            required: true
-        },
-        option4:
-        {
-            type: String,
-            required: true
-        },
-
-
-},
+            required: true,
+          },
+        ],
+      },
 {
     timeseries:true
 })

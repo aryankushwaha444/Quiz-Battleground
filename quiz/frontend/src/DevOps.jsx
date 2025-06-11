@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import QuestionCard from "./QuestionCard";
 
-function Malware() {
+function DevOps() {
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
@@ -91,4 +91,4 @@ function Malware() {
   );
 }
 
-export default Malware;
+export default DevOps;

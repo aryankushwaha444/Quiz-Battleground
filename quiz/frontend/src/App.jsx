@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute.jsx";
 import UserLeaderboard from "./UserLeaderboard.jsx";
 import QuizPage from "./QuizPage.jsx";
 import Malware from "./Malware.jsx";
+import DevOps from "./DevOps.jsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/malware" element={<Malware />} />
+          <Route path="/devops" element={<DevOps/>}/>
 
           <Route
             path="/leaderboard"
@@ -62,3 +64,5 @@ function App() {
 }
 
 export default App;
+
+

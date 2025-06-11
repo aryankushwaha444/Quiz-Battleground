@@ -1,6 +1,12 @@
 import User from "../models/user.models.js";
 import argon2 from "argon2";
 import Categories from "../models/user.Result.models.js";
+import Malwares from "../models/malware.models.js";
+import { json } from "express";
+import defensive from "../models/defensive.models.js";
+import Offensive from "../models/offensive.models.js";
+import devOps from "../models/devOps.models.js";
+import reverseEngineering from "../models/reverseEngineering.models.js"
 
 // Register User
 export const registerUser = async (req, res) => {
@@ -66,6 +72,9 @@ export const storeUserResult = async (req, res) => {
   }
 };
 
+
+
+
 // fetch Store data user Result
 
 export const getLeaderboardStats = async (req, res) => {
@@ -104,7 +113,7 @@ export const getLeaderboardStats = async (req, res) => {
       groupedResults[email].correct += correct;
       groupedResults[email].score += score;
       groupedResults[email].wins += wins;
-      groupedResults[email].points += correct * 2 + score + wins * 5;
+      groupedResults[email].points += correct * 2 + score + wins * 1;   /// should be modified as required from frontend
       groupedResults[email].totalQuestions += questions.length;
     });
 
@@ -124,3 +133,73 @@ export const getLeaderboardStats = async (req, res) => {
       .json({ message: "Error fetching leaderboard", error: error.message });
   }
 };
+
+
+
+// Fetching Malwares Data
+export const malwareFetch = async (req, res) =>{
+  try {
+    const fetchMalware = await Malwares.find();
+    res.json(fetchMalware);
+  }catch(error)
+  {
+    res.status(500).json({error: "Failedto fetch Malwares' Question!"})
+
+  }
+}
+
+
+// Fetching Defensive Data
+export const defensiveFetch = async (req, res) =>{
+  try {
+    const fetchDefensive= await defensive.find();
+    res.json(fetchDefensive);
+  }catch(error)
+  {
+    res.status(500).json({error: "Failedto fetch Defensive' Question!"})
+
+  }
+}
+
+
+
+// Fetching Ofensive Data
+export const offensiveFetch = async (req, res) =>{
+  try {
+    const fetchOffensive = await Offensive.find();
+    res.json(fetchOffensive);
+  }catch(error)
+  {
+    res.status(500).json({error: "Failedto fetch Offensive' Question!"})
+
+  }
+}
+
+
+
+// Fetching DevOps Data
+export const devOpsFetch = async (req, res) =>{
+  try {
+    const fetchDevOPs = await devOps.find();
+    res.json(fetchDevOPs);
+  }catch(error)
+  {
+    res.status(500).json({error: "Failedto fetch DevOPs' Question!"})
+
+  }
+}
+
+
+// Fetching Reverse Engineering Data
+export const reverseEngineerFetch = async (req, res) =>{
+  try {
+    const fetchReverseEngineer = await reverseEngineering.find();
+    res.json(fetchReverseEngineer);
+  }catch(error)
+  {
+    res.status(500).json({error: "Failedto fetch ReverseEngineering' Question!"})
+
+  }
+}
+
+
