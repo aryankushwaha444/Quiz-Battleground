@@ -34,7 +34,7 @@ const Leaderboard = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-600">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600" />
       </div>
     );
@@ -42,14 +42,14 @@ const Leaderboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-600">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-brfrom-[#74ebd5] via-[#acb6e5] to-[#ffffff]">
         <p className="text-red-600">Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen p-6 space-y-10 bg-gradient-to-br from-purple-100 to-purple-600">
+    <div className="min-h-screen p-6 space-y-10 bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff]">
       {/* Current User Card */}
       <div className="bg-white rounded-2xl shadow-xl p-6 max-w-4xl mt-18 mx-auto flex items-center gap-6 sticky top-4 z-20">
         {user?.profilePicture ? (

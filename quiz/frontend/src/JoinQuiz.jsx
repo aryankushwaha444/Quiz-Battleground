@@ -1,6 +1,6 @@
 function JoinQuiz() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
       <div className="bg-purple-100 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-blue-500 mb-6">
           Join a Quiz

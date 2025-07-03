@@ -6,7 +6,7 @@ function QuizPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex flex-col items-center pt-24 pb-10">
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex flex-col items-center pt-24 pb-10">
       <div className="bg-purple-100 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform p-10  mb-18 mt-18 max-w-3xl w-full">
         <h1 className="text-4xl font-bold text-center text-blue-500 mb-6">
           Event

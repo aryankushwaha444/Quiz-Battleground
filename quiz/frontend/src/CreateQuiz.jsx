@@ -1,6 +1,6 @@
 function CreateQuiz() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-600 px-4 py-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] px-4 py-8">
       <form className="bg-purple-100 rounded-3xl shadow-2xl p-4 w-full max-w-xl m-15 space-y-6 transform hover:scale-105 transition-transform">
         <h1 className="text-3xl font-bold text-center text-blue-500">
           Create Quiz

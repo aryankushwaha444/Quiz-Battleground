@@ -2,7 +2,7 @@ import { FaFacebookF, FaLinkedinIn, FaGlobe, FaGithub } from "react-icons/fa";
 
 function Contact() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
       <div className="bg-purple-100 rounded-3xl shadow-2xl flex flex-col justify-center px-4 py-5 mt-18 mb-18">
         <h1 className="text-4xl font-bold text-center text-blue-500 m-4">
           Our Team
