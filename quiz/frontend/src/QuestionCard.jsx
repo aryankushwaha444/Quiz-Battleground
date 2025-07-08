@@ -2,7 +2,7 @@ import React from "react";
 
 function QuestionCard({ question, option = [], selectedOption, onSelectOption, disabled }) {
   return (
-    <div className="bg-purple-100 p-6 rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300 w-full max-w-sm flex flex-col">
+    <div className="bg-purple-100 p-6 rounded-xl shadow-2xl w-full max-w-sm flex flex-col">
       <h2 className="text-xl font-bold mb-4 text-black">{question}</h2>
       <div className="space-y-4">
         {option.length > 0 ? (
