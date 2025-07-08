@@ -7,6 +7,10 @@ const offensiveSchema = new mongoose.Schema(
           required: true,
           unique: true,
         },
+        difficulty: {
+          type: String,
+          require: true,
+        },
         answer: {
           type: String,
           required: true,

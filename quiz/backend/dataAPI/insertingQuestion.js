@@ -40,10 +40,10 @@ async function insertDataFromFile() {
     await devOps.insertMany(jsonDataDevOps);
     await reverseEngineering.insertMany(jsonDataRevEng);
 
-    console.log("✅ Questions inserted successfully!");
+    console.log(" Questions inserted successfully!");
     mongoose.disconnect();
   } catch (error) {
-    console.error("❌ Error inserting result:", error.message);
+    console.error(" Error inserting result:", error.message);
   }
 }
 
