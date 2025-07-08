@@ -1,4 +1,3 @@
-import User from "../models/user.models.js";
 import argon2 from "argon2";
 import Categories from "../models/user.Result.models.js";
 import Malwares from "../models/malware.models.js";
@@ -8,6 +7,7 @@ import Offensive from "../models/offensive.models.js";
 import devOps from "../models/devOps.models.js";
 import reverseEngineering from "../models/reverseEngineering.models.js";
 import ResultCategories from "../models/user.Result.models.js";
+import User from "../models/user.models.js";
 
 // Register User
 export const registerUser = async (req, res) => {
@@ -25,7 +25,7 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Could not register user", error: error.message });
+      .json({ message: "User already exists with this email or username.", error: error.message });
   }
 };
 
@@ -167,6 +167,28 @@ export const getLeaderboardStats = async (req, res) => {
   }
 };
 
+
+
+// Checking Quiz Played or Not
+export const checkPlayed = async (req, res) =>
+  {
+    const { email, category } = req.body;
+  
+    try {
+      const existing = await QuizResult.findOne({
+        email,
+        nameCategory: category,
+      });
+  
+      res.json({ played: !!existing });
+    } catch (error) {
+      console.error("Check quiz error:", error);
+      res.status(500).json({ played: false });
+    }
+  };
+
+
+
 // Fetching Malwares Data
 export const malwareFetch = async (req, res) => {
   try {
@@ -176,6 +198,8 @@ export const malwareFetch = async (req, res) => {
     res.status(500).json({ error: "Failedto fetch Malwares' Question!" });
   }
 };
+
+
 
 // Fetching Defensive Data
 export const defensiveFetch = async (req, res) => {

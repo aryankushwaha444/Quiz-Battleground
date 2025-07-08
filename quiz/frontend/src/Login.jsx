@@ -26,11 +26,11 @@ function Login() {
 
       login(user); // Update auth context
       console.log("Login successful:", res.data);
-      setMessage("✅ Login successful");
+      setMessage(" Login successful");
       navigate("/");
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Login failed";
-      setMessage(`❌ ${errorMsg}`);
+      setMessage(` ${errorMsg}`);
       console.error("Login error:", errorMsg);
     }
   };

@@ -55,7 +55,7 @@ function DevOps() {
   const currentQuestion = questions[currentIndex];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-600 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-purple-100 p-8 rounded-2xl shadow-2xl relative">
         {/* Timer inside the container */}
         <div className="absolute top-4 right-4 flex items-center space-x-2 animate-pulse">

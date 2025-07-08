@@ -18,9 +18,9 @@ function App() {
   return (
     <AuthProvider>
       {" "}
-      {/* ✅ Provide authentication context */}
+      {/*  Provide authentication context */}
       <Router>
-        <Navbar /> {/* ✅ Navbar will now respond to login status */}
+        <Navbar /> {/*  Navbar will now respond to login status */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
