@@ -3,7 +3,6 @@ import Footer from "./Footer.jsx";
 import HomePage from "./HomePage.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
-import About from "./About.jsx";
 import Contact from "./Contact.jsx";
 import JoinQuiz from "./JoinQuiz.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -18,17 +17,16 @@ function App() {
   return (
     <AuthProvider>
       {" "}
-      {/* ✅ Provide authentication context */}
+      {/* Provide authentication context */}
       <Router>
-        <Navbar /> {/* ✅ Navbar will now respond to login status */}
+        <Navbar /> {/*Navbar will now respond to login status */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/malware" element={<Malware />} />
-          <Route path="/devops" element={<DevOps/>}/>
+          <Route path="/devops" element={<DevOps />} />
 
           <Route
             path="/leaderboard"
@@ -52,7 +50,7 @@ function App() {
             path="/join-quiz"
             element={
               <PrivateRoute>
-                <JoinQuiz/>
+                <JoinQuiz />
               </PrivateRoute>
             }
           />
@@ -64,5 +62,3 @@ function App() {
 }
 
 export default App;
-
-

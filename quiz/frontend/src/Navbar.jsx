@@ -33,7 +33,6 @@ function Navbar() {
 
   const menuItems = [
     { label: "Home", path: "/", icon: <HomeIcon fontSize="small" /> },
-    { label: "About Us", path: "/about", icon: <InfoIcon fontSize="small" /> },
     {
       label: "Play Quiz",
       path: isAuthenticated ? "/quiz" : "/login",
@@ -66,11 +65,14 @@ function Navbar() {
   ];
 
   return (
-    <nav className="bg-gray-900 text-white fixed top-0 left-0 w-full z-50 shadow">
+    <nav className="bg-white text-red-600 fixed top-0 left-0 w-full z-50 shadow">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-xl font-bold hover:text-red-500">
-          Quizzy
+        <Link
+          to="/"
+          className="text-xl font-bold text-primary hover:text-primary-dark"
+        >
+          Quizz
         </Link>
 
         {/* Desktop Nav */}

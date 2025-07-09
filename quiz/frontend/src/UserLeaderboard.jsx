@@ -49,7 +49,7 @@ const Leaderboard = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 space-y-10 bg-gradient-to-br from-purple-100 to-purple-600">
+    <div className="min-h-screen p-6 space-y-10 bg-white">
       {/* Current User Card */}
       <div className="bg-white rounded-2xl shadow-xl p-6 max-w-4xl mt-18 mx-auto flex items-center gap-6 sticky top-4 z-20">
         {user?.profilePicture ? (
@@ -102,7 +102,7 @@ const Leaderboard = () => {
         </div>
 
         {/* Leaderboard Entries */}
-        <div className="bg-purple-100 rounded-2xl shadow-2xl mb-10 p-6 flex-1 h-96 overflow-y-auto">
+        <div className="bg-white rounded-2xl shadow-2xl mb-10 p-6 flex-1 h-96 overflow-y-auto">
           <h1 className="text-3xl font-bold text-center mb-6 text-indigo-700">
             Participants
           </h1>
