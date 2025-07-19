@@ -79,28 +79,7 @@ const Leaderboard = () => {
 
       {/* Achievements & Leaderboard List */}
       <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
-        {/* Achievements Sidebar (static) */}
-        <div className="bg-white rounded-xl shadow-md p-6 flex-1 h-fit sticky top-36 z-10">
-          <h2 className="text-2xl font-semibold text-purple-700 mb-4">
-            🏅 Achievements
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {/* Placeholder achievements */}
-            <div className="flex flex-col items-center">
-              <img
-                src="/avatars/comeback.png"
-                alt="Comeback"
-                className="w-16 h-16"
-              />
-              <span className="text-sm mt-2">Comeback</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <img src="/avatars/lucky.png" alt="Lucky" className="w-16 h-16" />
-              <span className="text-sm mt-2">Lucky</span>
-            </div>
-          </div>
-        </div>
-
+        
         {/* Leaderboard Entries */}
         <div className="bg-purple-100 rounded-2xl shadow-2xl mb-10 p-6 flex-1 h-96 overflow-y-auto">
           <h1 className="text-3xl font-bold text-center mb-6 text-indigo-700">
