@@ -13,6 +13,7 @@ import UserLeaderboard from "./UserLeaderboard.jsx";
 import QuizPage from "./QuizPage.jsx";
 import Malware from "./Malware.jsx";
 import DevOps from "./DevOps.jsx";
+import EventLobby from "./EventLobby.jsx";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/malware" element={<Malware />} />
           <Route path="/devops" element={<DevOps/>}/>
+          <Route path="/event-lobby" element={<EventLobby />} />
 
           <Route
             path="/leaderboard"

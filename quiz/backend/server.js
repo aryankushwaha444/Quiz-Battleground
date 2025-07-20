@@ -23,7 +23,6 @@ connectDB();
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/test', test); // optional, if test.routes.js exists
 
 // Create HTTP server instance
 const server = http.createServer(app);
@@ -89,7 +88,7 @@ io.on('connection', (socket) => {
 
                 // Broadcast updated users
                 io.to(joinID).emit('room-update', rooms[joinID]);
-                console.log(`👋 ${user.name} left room ${joinID}`);
+               
             }
 
         }
