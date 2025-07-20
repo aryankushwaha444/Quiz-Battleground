@@ -20,7 +20,7 @@ function JoinQuiz() {
       }
     });
 
-    navigate(`/event-lobby/${joinID}`);
+    navigate(`/event-lobby/`);
   };
 
   return (
