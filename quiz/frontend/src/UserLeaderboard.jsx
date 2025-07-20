@@ -29,8 +29,18 @@ const Leaderboard = () => {
       }
     };
 
-    fetchLeaderboard();
+    if (user) {
+      fetchLeaderboard();
+    }
   }, [user]);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff]">
+        <p className="text-gray-600 text-lg">Loading user data...</p>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -42,7 +52,7 @@ const Leaderboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-brfrom-[#74ebd5] via-[#acb6e5] to-[#ffffff]">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff]">
         <p className="text-red-600">Error: {error}</p>
       </div>
     );
@@ -77,62 +87,64 @@ const Leaderboard = () => {
         )}
       </div>
 
-      {/* Achievements & Leaderboard List */}
+      {/* Leaderboard List */}
       <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
-        
-        {/* Leaderboard Entries */}
         <div className="bg-purple-100 rounded-2xl shadow-2xl mb-10 p-6 flex-1 h-96 overflow-y-auto">
           <h1 className="text-3xl font-bold text-center mb-6 text-indigo-700">
             Participants
           </h1>
-          <div className="grid gap-4">
-            {users.map((u, index) => {
-              const isCurrent = u.email === user?.email;
-              return (
-                <div
-                  key={u.email}
-                  className={`flex items-center justify-between p-4 rounded-2xl shadow-md border ${
-                    isCurrent
-                      ? "bg-yellow-100 border-yellow-400 ring-2 ring-yellow-500"
-                      : "bg-white"
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-xl">
-                      {index === 0
-                        ? "🥇"
-                        : index === 1
-                        ? "🥈"
-                        : index === 2
-                        ? "🥉"
-                        : `#${index + 1}`}
-                    </span>
-                    {u.profilePicture ? (
-                      <img
-                        src={u.profilePicture}
-                        alt={u.name}
-                        className="w-12 h-12 rounded-full"
-                      />
-                    ) : (
-                      <AccountCircleIcon
-                        style={{ fontSize: 48 }}
-                        className="text-gray-400"
-                      />
-                    )}
-                    <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-sm text-gray-500">{user.email}</p>
+          {users.length === 0 ? (
+            <p className="text-center text-gray-500">No participants yet.</p>
+          ) : (
+            <div className="grid gap-4">
+              {users.map((u, index) => {
+                const isCurrent = u.email === user?.email;
+                return (
+                  <div
+                    key={u.email}
+                    className={`flex items-center justify-between p-4 rounded-2xl shadow-md border ${
+                      isCurrent
+                        ? "bg-yellow-100 border-yellow-400 ring-2 ring-yellow-500"
+                        : "bg-white"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-xl">
+                        {index === 0
+                          ? "🥇"
+                          : index === 1
+                          ? "🥈"
+                          : index === 2
+                          ? "🥉"
+                          : `#${index + 1}`}
+                      </span>
+                      {u.profilePicture ? (
+                        <img
+                          src={u.profilePicture}
+                          alt={u.name || "Participant"}
+                          className="w-12 h-12 rounded-full"
+                        />
+                      ) : (
+                        <AccountCircleIcon
+                          style={{ fontSize: 48 }}
+                          className="text-gray-400"
+                        />
+                      )}
+                      <div>
+                        <p className="font-semibold">{u.name}</p>
+                        <p className="text-sm text-gray-500">{u.email}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-indigo-700">{u.points} pts</p>
+                      <p className="text-sm">Score: {u.score}</p>
+                      <p className="text-sm">Correct: {u.correct}</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-indigo-700">{u.points} pts</p>
-                    <p className="text-sm">Score: {u.score}</p>
-                    <p className="text-sm">Correct: {u.correct}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

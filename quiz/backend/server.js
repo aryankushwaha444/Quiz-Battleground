@@ -21,12 +21,10 @@ connectDB();
 
 app.use('/api/user', userRoutes);
 app.use('/api/admin',adminRoutes);
-app.use('/api/test',test);
 
 
-app.get('/',(req,res)=>{
-  res.send('Hello World');
-});
+
+
 
 
 app.listen(PORT, () => {

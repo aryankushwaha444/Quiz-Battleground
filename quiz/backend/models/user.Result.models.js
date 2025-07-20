@@ -34,7 +34,7 @@ const userResultSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// ✅ Compound unique index to prevent duplicate (nameUser + nameCategory)
+//  Compound unique index to prevent duplicate (nameUser + nameCategory)
 userResultSchema.index({ email:1, nameCategory:1 }, { unique: true });
 
 // Update correct field based on user's answer
