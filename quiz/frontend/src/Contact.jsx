@@ -8,7 +8,7 @@ const teamMembers = [
       facebook: "https://www.facebook.com/rupnarayan444",
       linkedin: "https://www.linkedin.com/in/aryan-kushwaha-47479033b/",
       website: "https://www.aaryankushawaha.com.np",
-      github: "https://github.com/aryankushwaha444",
+      github: "https://github.com/aryankushwaha444"
     },
   },
   {
@@ -17,17 +17,15 @@ const teamMembers = [
     links: {
       facebook: "https://www.facebook.com/arbin.stha.77",
       linkedin: "https://www.linkedin.com/in/arabin-shrestha-00056a23a/",
-      github: "https://github.com/Arbinnn",
+      github: "https://github.com/Arbinnn"
     },
   },
   {
     name: "Saurav Gautam",
     image: "../images/ourTeam/two.jpg",
     links: {
-      facebook: " ",
-      linkedin: " ",
-      website: " ",
-      github: " ",
+      facebook: "https://www.facebook.com/saurav1101/",
+      github: "https://github.com/saurav624"
     },
   },
 ];
