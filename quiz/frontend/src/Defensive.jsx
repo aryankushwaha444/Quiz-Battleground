@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
-import { useNavigate } from "react-router-dom";
 import fisherYatesShuffle from "./fisherYatesShuffle";
 
 function Defensive() {
@@ -237,12 +236,10 @@ function Defensive() {
   
   
 
-  // Loading screen
+  // // Loading screen
   if (currentIndex >= questions.length && !quizEnded)
     return <div>Preparing next round...</div>;
 
-  if (currentIndex >= questions.length)
-    return <div>Preparing next round...</div>;
 
   const current = questions[currentIndex];
 

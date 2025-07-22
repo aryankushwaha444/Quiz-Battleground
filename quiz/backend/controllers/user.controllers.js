@@ -51,7 +51,7 @@ export const loginUser = async(req, res) => {
 // Store data for user result
 export const storeUserResult = async(req, res) => {
     try {
-        const { email, nameCategory, questions, roundClear } = req.body;
+        const { email, nameCategory, questions, round } = req.body;
         let score = { easy: 0, medium: 0, hard: 0 };
 
         const processedQuestions = await Promise.all(
@@ -84,7 +84,7 @@ export const storeUserResult = async(req, res) => {
         const result = await ResultCategory.findOneAndUpdate({ email, nameCategory }, {
             email,
             nameCategory,
-            roundClear,
+            round:round,
             score,
             questions: processedQuestions,
             finishedAt: new Date(),
@@ -96,6 +96,8 @@ export const storeUserResult = async(req, res) => {
         res.status(500).json({ message: "Failed to save user result" });
     }
 };
+
+
 
 // Leaderboard Calculation
 export const getLeaderboardStats = async(req, res) => {
