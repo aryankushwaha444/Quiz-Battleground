@@ -5,7 +5,7 @@ import { useAuth } from "./Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import fisherYatesShuffle from "./fisherYatesShuffle";
 
-function DevOps() {
+function Defensive() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -15,9 +15,9 @@ function DevOps() {
   const [answers, setAnswers] = useState([]);
   const [round, setRound] = useState(1);
   const [score, setScore] = useState({ easy: 0, medium: 0, hard: 0 });
-
+  const [quizEnded, setQuizEnded] = useState(false);
   const { user } = useAuth();
-  const navigate = useNavigate();
+
 
   // Prevent copying, right-click and shortcut keys
   useEffect(() => {
@@ -38,6 +38,9 @@ function DevOps() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+
+
 
   // Prevent refresh & back navigation
   useEffect(() => {
@@ -69,27 +72,13 @@ function DevOps() {
     };
   }, []);
 
-  // Check if quiz already played
-  useEffect(() => {
-    const checkIfPlayed = async () => {
-      try {
-        const res = await axios.post("/api/user/checkedPlayed", {
-          email: user.email,
-          nameCategory: "Malware",
-        });
-        // if (res.data.played) navigate("/malware-result");
-      } catch (err) {
-        console.error("Quiz check error:", err);
-      }
-    };
-    if (user?.email) checkIfPlayed();
-  }, [user, navigate]);
+
 
   // Fetch questions
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await axios.get("/api/user/devOps");
+        const res = await axios.get("/api/user/defensive");
         const shuffled = fisherYatesShuffle(
           res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
         );
@@ -102,6 +91,8 @@ function DevOps() {
     };
     fetchQuestions();
   }, []);
+
+
 
   // Timer
   useEffect(() => {
@@ -116,6 +107,8 @@ function DevOps() {
     const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearTimeout(timer);
   }, [timeLeft, submitted, questions, currentIndex]);
+
+
 
   // Submit
   const handleSubmit = () => {
@@ -153,12 +146,12 @@ function DevOps() {
     if (currentIndex === questions.length) {
       if (round === 1 && score.easy >= 3) {
         const mediumQs = allQuestions.filter((q) => q.difficulty === "medium");
-        setQuestions(mediumQs.slice(0, 4));
+        setQuestions(mediumQs.slice(0, 4)); // Select 4 medium questions
         setCurrentIndex(0);
         setRound(2);
       } else if (round === 2 && score.medium >= 2) {
         const hardQs = allQuestions.filter((q) => q.difficulty === "hard");
-        setQuestions(hardQs.slice(0, 3));
+        setQuestions(hardQs.slice(0, 3)); // Select 3 hard questions
         setCurrentIndex(0);
         setRound(3);
       } else {
@@ -172,28 +165,91 @@ function DevOps() {
     const userResult = {
       nameUser: user.nameUser,
       email: user.email,
-      nameCategory: "Malware",
+      nameCategory: "Defensive",
       roundCleared: round,
       score,
       questions: answers,
       finishedAt: new Date(),
     };
-
+  
     axios
       .post("/api/user/playing-quiz", userResult)
       .then(() => {
         console.log("Results saved to MongoDB");
-        // navigate("/malware-result");
+        setQuizEnded(true);
       })
       .catch((err) => console.error("Saving result failed:", err));
   };
+  
+
+  // if you play again for improve your knowledge
+  const resetQuiz = () => {
+    const easyQuestions = allQuestions.filter((q) => q.difficulty === "easy");
+    setQuestions(easyQuestions.slice(0, 5));
+    setCurrentIndex(0);
+    setSelectedOption("");
+    setTimeLeft(10);
+    setSubmitted(false);
+    setAnswers([]);
+    setRound(1);
+    setScore({ easy: 0, medium: 0, hard: 0 });
+    setQuizEnded(false);
+  };
+  
+
+
+  // for result at end of quiz
+  if (quizEnded) {
+    const totalCorrect = answers.filter((a) => a.correct).length;
+  
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
+        <div className="bg-purple-100 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform p-8 w-full max-w-sm text-center">
+          <h1 className="text-3xl font-bold text-green-800 mb-6">
+            🎉 Quiz Completed!
+          </h1>
+  
+          <p className="text-xl font-semibold text-gray-800 mb-2">
+            ✅ Correct Answers: {totalCorrect}
+          </p>
+  
+          <p className="text-lg text-purple-800 font-medium mb-4">
+            🏆 Round : {round}
+          </p>
+  
+          <div className="text-lg text-gray-700 mb-4">
+            <p>Easy: {score.easy}</p>
+            <p>Medium: {score.medium}</p>
+            <p>Hard: {score.hard}</p>
+          </div>
+  
+          <button
+            onClick={resetQuiz}
+            className="bg-purple-500 hover:bg-red-600 text-white font-semibold py-2 px-6 mt-4 rounded-full shadow-lg transition-transform transform hover:scale-105"
+          >
+            🔄 Play Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  
+  
 
   // Loading screen
-  if (!questions.length) return <div>Loading Questions...</div>;
+  if (currentIndex >= questions.length && !quizEnded)
+    return <div>Preparing next round...</div>;
+
   if (currentIndex >= questions.length)
     return <div>Preparing next round...</div>;
 
   const current = questions[currentIndex];
+
+
+
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
@@ -222,7 +278,6 @@ function DevOps() {
 
         {/* Timer */}
         <div className="absolute top-4 right-4 flex items-center space-x-2 animate-pulse">
-          
           <span className="bg-purple-200 text-purple-800 text-sm font-bold px-4 py-1 rounded-full shadow-md animate-pulse">
             Round {round}
           </span>
@@ -261,5 +316,4 @@ function DevOps() {
   );
 }
 
-
-export default DevOps;
+export default Defensive;

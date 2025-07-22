@@ -1,54 +1,57 @@
 import mongoose from "mongoose";
 
-const userResultSchema = new mongoose.Schema({
-  nameUser: {
+const questionSchema = new mongoose.Schema({
+  question: {
     type: String,
     required: true
   },
+  answer: {
+    type: String
+  },
+
+  correct: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const resultCategorySchema = new mongoose.Schema({
   email: {
     type: String,
     required: true
   },
   nameCategory: {
     type: String,
-    required: true,
+    required: true
   },
-  questions: [{
-    question: {
-      type: String,
-      required: true
-    },
-    answer: {
-      type: String
-    },
-    correct: {
-      type: Boolean,
-      default: false
-    },
-    score: {
-      type: Number,
-      default: 0
-    }
-  }]
+  roundClear: {
+    type: Number,
+    default: 0
+  },
+  score: {
+    easy: { type: Number, default: 0 },
+    medium: { type: Number, default: 0 },
+    hard: { type: Number, default: 0 }
+  },
+  questions: [questionSchema],
+  finishedAt: {
+    type: Date,
+    default: Date.now
+  }
 }, {
   timestamps: true
 });
 
-//  Compound unique index to prevent duplicate (nameUser + nameCategory)
-userResultSchema.index({ email:1, nameCategory:1 }, { unique: true });
+// Prevent duplicate result submissions
+resultCategorySchema.index({ email: 1, nameCategory: 1 }, { unique: true });
 
-// Update correct field based on user's answer
-userResultSchema.pre('save', function(next) {
-  this.questions.forEach(question => {
-    if (question.answer === question.correctAnswer) {
-      question.correct = true;
-    } else {
-      question.correct = false;
-    }
+// Mark correct answers automatically
+resultCategorySchema.pre('save', function (next) {
+  this.questions.forEach(q => {
+    q.correct = q.answer === q.correctAnswer;
   });
   next();
 });
 
-const ResultCategories = mongoose.model('ResultCategories', userResultSchema);
-
-export default ResultCategories;
+const ResultCategory = mongoose.model("ResultCategory", resultCategorySchema);
+export default ResultCategory;

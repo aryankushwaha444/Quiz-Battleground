@@ -6,10 +6,10 @@ const router = express.Router();
 router.post('/register', registerAdmin);
 router.post('/login' ,loginAdmin);
 
-router.post('/ofensive',offensiveStore);
+router.post('/offensive',offensiveStore);
 router.post('/devops',devOpsStore);
 router.post('/malware',malwaresStore);
 router.post('/defensive',defensiveStore);
-router.post('/reverse-engineer',reverseEngineerStore);
+router.post('/reverse-engineering',reverseEngineerStore);
 
 export default router;  

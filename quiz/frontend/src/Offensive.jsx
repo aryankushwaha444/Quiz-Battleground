@@ -5,7 +5,7 @@ import { useAuth } from "./Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import fisherYatesShuffle from "./fisherYatesShuffle";
 
-function DevOps() {
+function Offensive() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -75,7 +75,7 @@ function DevOps() {
       try {
         const res = await axios.post("/api/user/checkedPlayed", {
           email: user.email,
-          nameCategory: "Malware",
+          nameCategory: "Offensive",
         });
         // if (res.data.played) navigate("/malware-result");
       } catch (err) {
@@ -89,7 +89,7 @@ function DevOps() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await axios.get("/api/user/devOps");
+        const res = await axios.get("/api/user/offensive");
         const shuffled = fisherYatesShuffle(
           res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
         );
@@ -172,7 +172,7 @@ function DevOps() {
     const userResult = {
       nameUser: user.nameUser,
       email: user.email,
-      nameCategory: "Malware",
+      nameCategory: "Offensive",
       roundCleared: round,
       score,
       questions: answers,
@@ -262,4 +262,4 @@ function DevOps() {
 }
 
 
-export default DevOps;
+export default Offensive;

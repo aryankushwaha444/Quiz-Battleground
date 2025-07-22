@@ -10,38 +10,41 @@ function EventLobby() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    if (!user || !user.name || !user.email) {
+    if (!user?.name || !user?.email) {
       alert("You must be logged in to join the lobby.");
       navigate("/login");
       return;
     }
 
-    socket.emit("join-room", {
+    // Join room
+    socket?.emit("join-room", {
       joinID,
       user: { name: user.name, email: user.email },
     });
 
+    // Room update handler
     const handleRoomUpdate = (room) => {
-      if (room && room.users) {
+      if (room?.users) {
         setUsers(room.users);
       }
     };
 
-    socket.on("room-update", handleRoomUpdate);
-
-    socket.on("all-users-ready", () => {
+    // Register listeners
+    socket?.on("room-update", handleRoomUpdate);
+    socket?.on("all-users-ready", () => {
       navigate(`/eventquiz`);
     });
 
+    // Cleanup
     return () => {
-      socket.off("room-update", handleRoomUpdate);
-      socket.off("all-users-ready");
+      socket?.off("room-update", handleRoomUpdate);
+      socket?.off("all-users-ready");
     };
   }, [joinID, user, navigate]);
 
   const handleStart = () => {
     if (users.length >= 2) {
-      socket.emit("start-quiz", {
+      socket?.emit("start-quiz", {
         joinID,
         user: { name: user.name, email: user.email },
       });
@@ -56,13 +59,13 @@ function EventLobby() {
         <h2 className="text-3xl font-bold text-center text-purple-600 mb-4">
           Event Lobby
         </h2>
+
         <p className="text-center text-gray-700 mb-6">
-          Join ID: <span className="font-mono">{joinID}</span>
+          Join ID: <span className="font-mono">{joinID || "N/A"}</span>
         </p>
 
         <div className="bg-gray-100 rounded-lg p-4 max-h-60 overflow-y-auto shadow-inner mb-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Players:</h3>
-
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {users.map((u, idx) => (
               <div key={idx} className="flex flex-col items-center">
@@ -71,11 +74,10 @@ function EventLobby() {
                     src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
                       u.name
                     )}&background=random&color=fff&size=64`}
-                    alt="User Icon"
+                    alt={`${u.name}'s avatar`}
                     className="w-full h-full object-cover"
                   />
                 </div>
-
                 <p className="mt-2 text-sm font-medium text-gray-800">
                   {u.name}
                 </p>

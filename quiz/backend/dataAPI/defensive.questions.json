@@ -1,452 +1,167 @@
 [
   {
     "question": "What is the primary goal of defensive security?",
-    "answer": "Protect systems and data from threats",
+    "difficulty": "easy",
+    "answer": "To prevent and detect cyber threats",
     "option": [
-      "Simulate cyber attacks",
-      "Develop exploits",
-      "Protect systems and data from threats",
-      "Penetrate firewalls"
+      "To find bugs in software",
+      "To prevent and detect cyber threats",
+      "To perform social engineering",
+      "To automate scanning"
     ]
   },
   {
-    "question": "Which tool is commonly used for network monitoring?",
-    "answer": "Wireshark",
+    "question": "Which of the following is considered a basic defense mechanism?",
+    "difficulty": "easy",
+    "answer": "Firewall",
     "option": [
-      "Metasploit",
-      "Hydra",
       "Wireshark",
-      "Netcat"
+      "Firewall",
+      "Metasploit",
+      "Burp Suite"
     ]
   },
   {
-    "question": "What does IDS stand for?",
-    "answer": "Intrusion Detection System",
+    "question": "What does an antivirus program do?",
+    "difficulty": "easy",
+    "answer": "Detects and removes malicious software",
     "option": [
-      "Internal Data Service",
-      "Intrusion Detection System",
-      "Internet Domain Server",
-      "Information Detection Setup"
+      "Builds websites",
+      "Monitors hardware performance",
+      "Detects and removes malicious software",
+      "Manages network switches"
     ]
   },
   {
-    "question": "Which protocol secures web communication?",
-    "answer": "HTTPS",
+    "question": "Which type of security focuses on securing end-user devices?",
+    "difficulty": "easy",
+    "answer": "Endpoint security",
     "option": [
-      "HTTP",
+      "Network security",
+      "Endpoint security",
+      "Cloud security",
+      "Database security"
+    ]
+  },
+  {
+    "question": "Which of the following helps prevent unauthorized access?",
+    "difficulty": "easy",
+    "answer": "Strong password policies",
+    "option": [
+      "Open network ports",
+      "Weak passwords",
+      "Strong password policies",
+      "Disabling firewalls"
+    ]
+  },
+  {
+    "question": "What does an Intrusion Detection System (IDS) do?",
+    "difficulty": "medium",
+    "answer": "Monitors and alerts on suspicious activity",
+    "option": [
+      "Builds user interfaces",
+      "Deletes old files",
+      "Monitors and alerts on suspicious activity",
+      "Creates backup files"
+    ]
+  },
+  {
+    "question": "Which protocol is used to securely transfer files?",
+    "difficulty": "medium",
+    "answer": "SFTP",
+    "option": [
       "FTP",
-      "HTTPS",
-      "SMTP"
+      "SFTP",
+      "SMTP",
+      "Telnet"
     ]
   },
   {
-    "question": "What is a firewall used for?",
-    "answer": "Filter incoming and outgoing network traffic",
+    "question": "Which tool is commonly used for log monitoring?",
+    "difficulty": "medium",
+    "answer": "Splunk",
     "option": [
-      "Store passwords",
-      "Develop code",
-      "Filter incoming and outgoing network traffic",
-      "Scan systems"
-    ]
-  },
-  {
-    "question": "What does a SIEM system do?",
-    "answer": "Aggregates and analyzes security logs",
-    "option": [
-      "Monitors user health",
-      "Creates backups",
-      "Aggregates and analyzes security logs",
-      "Patches software"
-    ]
-  },
-  {
-    "question": "What is the principle of least privilege?",
-    "answer": "Users should have minimum access rights",
-    "option": [
-      "Users should be admins",
-      "Users should have no restrictions",
-      "Users should have minimum access rights",
-      "Users should be able to install software"
-    ]
-  },
-  {
-    "question": "Which tool is used for vulnerability scanning?",
-    "answer": "Nessus",
-    "option": [
-      "Aircrack-ng",
       "Burp Suite",
-      "Nessus",
-      "Netstat"
+      "Metasploit",
+      "Splunk",
+      "Postman"
     ]
   },
   {
-    "question": "What does MFA stand for?",
+    "question": "What does MFA stand for in cybersecurity?",
+    "difficulty": "medium",
     "answer": "Multi-Factor Authentication",
     "option": [
-      "Main Firewall Access",
+      "Multiple File Access",
       "Multi-Factor Authentication",
-      "Manual File Allocation",
-      "Minimum Framework Analysis"
+      "Main Frame Access",
+      "Managed Firewall Application"
     ]
   },
   {
-    "question": "What is patch management?",
-    "answer": "Applying updates to fix vulnerabilities",
+    "question": "Which of the following is a defensive strategy against phishing?",
+    "difficulty": "medium",
+    "answer": "User awareness training",
     "option": [
-      "Deleting old files",
-      "Installing new OS",
-      "Applying updates to fix vulnerabilities",
-      "Resetting firewalls"
+      "Using weak passwords",
+      "Clicking unknown links",
+      "User awareness training",
+      "Ignoring system updates"
     ]
   },
   {
-    "question": "Which port is typically used for HTTPS?",
-    "answer": "443",
+    "question": "What is a SIEM system used for?",
+    "difficulty": "hard",
+    "answer": "Aggregating and analyzing security logs",
     "option": [
-      "21",
-      "80",
-      "443",
-      "25"
+      "Encrypting messages",
+      "Automating system tasks",
+      "Aggregating and analyzing security logs",
+      "Monitoring social media"
     ]
   },
   {
-    "question": "What is a DDoS attack?",
-    "answer": "Overloading a system with traffic",
+    "question": "What does a firewall primarily filter?",
+    "difficulty": "hard",
+    "answer": "Network traffic",
     "option": [
-      "Decrypting files",
-      "Overloading a system with traffic",
-      "Bypassing firewalls",
-      "Brute-forcing passwords"
+      "Usernames",
+      "Network traffic",
+      "Keyboard inputs",
+      "File sizes"
     ]
   },
   {
-    "question": "What is the function of antivirus software?",
-    "answer": "Detect and remove malicious software",
+    "question": "What is threat hunting?",
+    "difficulty": "hard",
+    "answer": "Proactively searching for cyber threats",
     "option": [
-      "Analyze network traffic",
-      "Update drivers",
-      "Detect and remove malicious software",
-      "Write system logs"
+      "Installing antivirus",
+      "Fixing bugs in code",
+      "Proactively searching for cyber threats",
+      "Cleaning disk space"
     ]
   },
   {
-    "question": "What is log monitoring used for?",
-    "answer": "Detect suspicious activity",
+    "question": "What is the purpose of data encryption?",
+    "difficulty": "hard",
+    "answer": "To protect data from unauthorized access",
     "option": [
-      "Store passwords",
-      "Detect suspicious activity",
-      "Backup files",
-      "Encrypt systems"
-    ]
-  },
-  {
-    "question": "What is the purpose of encryption?",
-    "answer": "Protect data confidentiality",
-    "option": [
-      "Detect malware",
-      "Monitor systems",
-      "Protect data confidentiality",
-      "Delete data"
-    ]
-  },
-  {
-    "question": "What is social engineering defense?",
-    "answer": "Training users to recognize threats",
-    "option": [
-      "Resetting passwords",
-      "Scanning emails",
-      "Training users to recognize threats",
-      "Changing ports"
-    ]
-  },
-  {
-    "question": "What is a whitelist?",
-    "answer": "List of approved applications or IPs",
-    "option": [
-      "List of banned users",
-      "List of spam emails",
-      "List of approved applications or IPs",
-      "List of user roles"
-    ]
-  },
-  {
-    "question": "What is a honeypot used for?",
-    "answer": "Trap attackers and study their behavior",
-    "option": [
-      "Store confidential data",
-      "Trap attackers and study their behavior",
-      "Run scheduled scans",
-      "Update antivirus"
-    ]
-  },
-  {
-    "question": "Which of the following is a host-based defense?",
-    "answer": "Antivirus software",
-    "option": [
-      "Firewall",
-      "NIDS",
-      "SIEM",
-      "Antivirus software"
-    ]
-  },
-  {
-    "question": "What is a VPN used for?",
-    "answer": "Secure remote communication",
-    "option": [
-      "Analyze traffic",
-      "Secure remote communication",
-      "Test websites",
-      "Block emails"
-    ]
-  },
-  {
-    "question": "Which type of malware hides inside legitimate software?",
-    "answer": "Trojan",
-    "option": [
-      "Worm",
-      "Trojan",
-      "Spyware",
-      "Keylogger"
-    ]
-  },
-  {
-    "question": "What is a security policy?",
-    "answer": "A set of rules to protect systems",
-    "option": [
-      "An OS update",
-      "A script to scan ports",
-      "A set of rules to protect systems",
-      "A file storage location"
+      "To delete unnecessary files",
+      "To improve speed",
+      "To protect data from unauthorized access",
+      "To scan networks"
     ]
   },
   {
     "question": "What is network segmentation?",
-    "answer": "Dividing network into smaller parts for security",
+    "difficulty": "hard",
+    "answer": "Dividing a network into smaller parts to limit access",
     "option": [
+      "Merging all systems together",
       "Increasing bandwidth",
-      "Blocking ports",
-      "Dividing network into smaller parts for security",
-      "Turning off routers"
-    ]
-  },
-  {
-    "question": "What is phishing?",
-    "answer": "Tricking users to reveal sensitive info",
-    "option": [
-      "Encrypting data",
-      "Changing passwords",
-      "Tricking users to reveal sensitive info",
-      "Clearing logs"
-    ]
-  },
-  {
-    "question": "What does DLP stand for?",
-    "answer": "Data Loss Prevention",
-    "option": [
-      "Download Log Policy",
-      "Data Loss Prevention",
-      "Domain Link Protection",
-      "Device Log Parsing"
-    ]
-  },
-  {
-    "question": "What is asset inventory in security?",
-    "answer": "Keeping track of hardware and software",
-    "option": [
-      "Blocking websites",
-      "Running backups",
-      "Keeping track of hardware and software",
-      "Encrypting data"
-    ]
-  },
-  {
-    "question": "Which port is used for DNS?",
-    "answer": "53",
-    "option": [
-      "53",
-      "80",
-      "22",
-      "110"
-    ]
-  },
-  {
-    "question": "What is incident response?",
-    "answer": "Managing and mitigating security incidents",
-    "option": [
-      "Writing policies",
-      "Managing and mitigating security incidents",
-      "Scheduling tasks",
-      "Installing drivers"
-    ]
-  },
-  {
-    "question": "What does SOC stand for in security?",
-    "answer": "Security Operations Center",
-    "option": [
-      "Secure Online Certificate",
-      "Security Operations Center",
-      "System Over Control",
-      "Security Observation Cell"
-    ]
-  },
-  {
-    "question": "What is a threat model?",
-    "answer": "Analysis of potential threats and how to prevent them",
-    "option": [
-      "Report of attack logs",
-      "Analysis of potential threats and how to prevent them",
-      "Update tracker",
-      "Scan report"
-    ]
-  },
-  {
-    "question": "What is a security baseline?",
-    "answer": "Minimum security settings for systems",
-    "option": [
-      "Log settings",
-      "Minimum security settings for systems",
-      "File path",
-      "Password length"
-    ]
-  },
-  {
-    "question": "Which type of attack does IDS detect?",
-    "answer": "Intrusions and suspicious activity",
-    "option": [
-      "Software updates",
-      "Hardware failures",
-      "Intrusions and suspicious activity",
-      "Email errors"
-    ]
-  },
-  {
-    "question": "What is a security audit?",
-    "answer": "Review of security controls and procedures",
-    "option": [
-      "Install antivirus",
-      "Review of security controls and procedures",
-      "Add users",
-      "Change logs"
-    ]
-  },
-  {
-    "question": "What does antivirus use to detect malware?",
-    "answer": "Signatures and heuristics",
-    "option": [
-      "Logs",
-      "Firewalls",
-      "Signatures and heuristics",
-      "User settings"
-    ]
-  },
-  {
-    "question": "What is a rootkit?",
-    "answer": "Malware that hides system compromise",
-    "option": [
-      "Firewall rule",
-      "Log file",
-      "Malware that hides system compromise",
-      "Security group"
-    ]
-  },
-  {
-    "question": "What is the function of a proxy server?",
-    "answer": "Acts as an intermediary for requests",
-    "option": [
-      "Scans vulnerabilities",
-      "Acts as an intermediary for requests",
-      "Detects viruses",
-      "Encrypts emails"
-    ]
-  },
-  {
-    "question": "What is endpoint protection?",
-    "answer": "Security measures on end-user devices",
-    "option": [
-      "Cloud firewall",
-      "Security measures on end-user devices",
-      "Network switch",
-      "OS patching"
-    ]
-  },
-  {
-    "question": "Which layer does a firewall operate on?",
-    "answer": "Network layer",
-    "option": [
-      "Application layer",
-      "Data layer",
-      "Network layer",
-      "Presentation layer"
-    ]
-  },
-  {
-    "question": "What is a digital certificate?",
-    "answer": "Proof of identity in secure communication",
-    "option": [
-      "A scanned document",
-      "Software installer",
-      "Proof of identity in secure communication",
-      "Firewall backup"
-    ]
-  },
-  {
-    "question": "What does DNSSEC protect?",
-    "answer": "Integrity of DNS responses",
-    "option": [
-      "Firewall logs",
-      "IP addresses",
-      "Integrity of DNS responses",
-      "Port scans"
-    ]
-  },
-  {
-    "question": "What is a security incident?",
-    "answer": "Event that may harm systems or data",
-    "option": [
-      "Software upgrade",
-      "Event that may harm systems or data",
-      "New login",
-      "Ping test"
-    ]
-  },
-  {
-    "question": "What is data classification?",
-    "answer": "Categorizing data based on sensitivity",
-    "option": [
-      "Encrypting files",
-      "Categorizing data based on sensitivity",
-      "Renaming files",
-      "Removing files"
-    ]
-  },
-  {
-    "question": "Which is a cloud security best practice?",
-    "answer": "Enable encryption for data in transit and at rest",
-    "option": [
-      "Use default credentials",
-      "Ignore logs",
-      "Enable encryption for data in transit and at rest",
-      "Turn off backups"
-    ]
-  },
-  {
-    "question": "What is log retention policy?",
-    "answer": "Defines how long logs are kept",
-    "option": [
-      "Hides log files",
-      "Defines how long logs are kept",
-      "Deletes old systems",
-      "Creates backup"
-    ]
-  },
-  {
-    "question": "What is sandboxing in security?",
-    "answer": "Isolating programs to prevent system access",
-    "option": [
-      "Running programs as admin",
-      "Isolating programs to prevent system access",
-      "Logging all actions",
-      "Restarting OS"
+      "Dividing a network into smaller parts to limit access",
+      "Disabling Wi-Fi connections"
     ]
   }
 ]

@@ -14,6 +14,11 @@ import QuizPage from "./QuizPage.jsx";
 import Malware from "./Malware.jsx";
 import DevOps from "./DevOps.jsx";
 import EventLobby from "./EventLobby.jsx";
+import Offensive from "./Offensive.jsx";
+import Defesive from "./Defensive.jsx";
+import ReverseEngineer from "./ReverseEngineer.jsx"
+
+
 
 function App() {
   return (
@@ -30,6 +35,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/malware" element={<Malware />} />
           <Route path="/devops" element={<DevOps/>}/>
+          <Route path="/offensive" element={<Offensive/>}/>
+          <Route path="/defensive" element={<Defesive/>}/>
+          <Route path="/reverse-engineering" element={<ReverseEngineer/>}/>
           <Route path="/event-lobby" element={<EventLobby />} />
 
           <Route
