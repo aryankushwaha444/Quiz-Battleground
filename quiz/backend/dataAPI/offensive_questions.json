@@ -1,442 +1,167 @@
 [
   {
-    "question": "What is the main goal of offensive security?",
-    "answer": "Identify and exploit security vulnerabilities",
+    "question": "What is the goal of offensive security?",
+    "difficulty": "easy",
+    "answer": "To find and exploit vulnerabilities before attackers do",
     "option": [
-      "Build secure software",
-      "Audit compliance",
-      "Identify and exploit security vulnerabilities",
-      "Monitor network traffic"
+      "To build secure applications",
+      "To write firewall rules",
+      "To find and exploit vulnerabilities before attackers do",
+      "To audit user passwords"
     ]
   },
   {
-    "question": "Which tool is commonly used for penetration testing?",
-    "answer": "Metasploit",
-    "option": [
-      "Nmap",
-      "Wireshark",
-      "Metasploit",
-      "Splunk"
-    ]
-  },
-  {
-    "question": "What does a red team do in cybersecurity?",
-    "answer": "Simulates real-world attacks to test defenses",
-    "option": [
-      "Monitors logs",
-      "Builds firewalls",
-      "Simulates real-world attacks to test defenses",
-      "Creates security policies"
-    ]
-  },
-  {
-    "question": "What is the first phase of a penetration test?",
-    "answer": "Reconnaissance",
-    "option": [
-      "Exploitation",
-      "Privilege escalation",
-      "Reconnaissance",
-      "Persistence"
-    ]
-  },
-  {
-    "question": "Which tool is used for network scanning?",
+    "question": "Which tool is commonly used for network scanning?",
+    "difficulty": "easy",
     "answer": "Nmap",
     "option": [
-      "Nmap",
-      "Hydra",
-      "Burp Suite",
-      "SQLmap"
-    ]
-  },
-  {
-    "question": "What does OSINT stand for?",
-    "answer": "Open Source Intelligence",
-    "option": [
-      "Operational Security in Network Technologies",
-      "Open Source Intelligence",
-      "Open Security Internet Tool",
-      "Online System Information Node"
-    ]
-  },
-  {
-    "question": "Which tool is best for intercepting HTTP requests?",
-    "answer": "Burp Suite",
-    "option": [
       "Wireshark",
-      "Hydra",
-      "Burp Suite",
-      "Nessus"
-    ]
-  },
-  {
-    "question": "What does the tool Hydra perform?",
-    "answer": "Brute-force attacks",
-    "option": [
-      "SQL injection",
-      "Brute-force attacks",
-      "Port scanning",
-      "Traffic analysis"
-    ]
-  },
-  {
-    "question": "What is lateral movement in cyber attacks?",
-    "answer": "Moving across systems after initial access",
-    "option": [
-      "Deleting system logs",
-      "Moving across systems after initial access",
-      "Exfiltrating data",
-      "Creating fake accounts"
-    ]
-  },
-  {
-    "question": "Which command in Linux lists all open network ports?",
-    "answer": "netstat -tuln",
-    "option": [
-      "ls -l",
-      "netstat -tuln",
-      "ps aux",
-      "top"
-    ]
-  },
-  {
-    "question": "What is a payload in penetration testing?",
-    "answer": "Malicious code executed on the target",
-    "option": [
-      "Password list",
-      "Network scanner",
-      "Malicious code executed on the target",
-      "Backup file"
-    ]
-  },
-  {
-    "question": "What does privilege escalation aim to achieve?",
-    "answer": "Gain higher-level access",
-    "option": [
-      "List all files",
-      "Create a report",
-      "Gain higher-level access",
-      "Close ports"
-    ]
-  },
-  {
-    "question": "Which language is most used for exploit development?",
-    "answer": "Python",
-    "option": [
-      "HTML",
-      "Java",
-      "Python",
-      "CSS"
-    ]
-  },
-  {
-    "question": "What is a reverse shell?",
-    "answer": "A shell that connects back to the attacker",
-    "option": [
-      "A browser plugin",
-      "A data encryption shell",
-      "A shell that connects back to the attacker",
-      "A VPN connection"
-    ]
-  },
-  {
-    "question": "Which tool is used for web application vulnerability scanning?",
-    "answer": "OWASP ZAP",
-    "option": [
-      "John the Ripper",
-      "Nikto",
-      "OWASP ZAP",
-      "Hashcat"
-    ]
-  },
-  {
-    "question": "Which command changes file permissions in Linux?",
-    "answer": "chmod",
-    "option": [
-      "ls",
-      "chmod",
-      "ping",
-      "sudo"
-    ]
-  },
-  {
-    "question": "What is a keylogger?",
-    "answer": "A tool to record keystrokes",
-    "option": [
-      "A backup tool",
-      "A tool to scan ports",
-      "A tool to record keystrokes",
-      "A firewall"
-    ]
-  },
-  {
-    "question": "What is SQL injection?",
-    "answer": "Injecting malicious SQL queries",
-    "option": [
-      "Encrypting a database",
-      "Scanning a SQL server",
-      "Injecting malicious SQL queries",
-      "Blocking SQL ports"
-    ]
-  },
-  {
-    "question": "Which tool is used to crack password hashes?",
-    "answer": "John the Ripper",
-    "option": [
-      "Burp Suite",
       "Nmap",
-      "John the Ripper",
-      "Netcat"
+      "Nessus",
+      "Metasploit"
+    ]
+  },
+  {
+    "question": "Which Linux distribution is widely used in offensive security?",
+    "difficulty": "easy",
+    "answer": "Kali Linux",
+    "option": [
+      "Ubuntu",
+      "Debian",
+      "Kali Linux",
+      "CentOS"
     ]
   },
   {
     "question": "What is social engineering?",
-    "answer": "Manipulating people to gain access",
+    "difficulty": "easy",
+    "answer": "Manipulating people to reveal confidential information",
     "option": [
-      "Coding malware",
-      "Scanning ports",
-      "Manipulating people to gain access",
-      "Cracking passwords"
+      "Designing social media apps",
+      "Developing AI bots",
+      "Manipulating people to reveal confidential information",
+      "Scanning networks for vulnerabilities"
     ]
   },
   {
-    "question": "Which port is commonly used for SSH?",
-    "answer": "22",
+    "question": "Which tool is typically used for password cracking?",
+    "difficulty": "easy",
+    "answer": "John the Ripper",
     "option": [
-      "80",
-      "21",
-      "22",
-      "443"
-    ]
-  },
-  {
-    "question": "Which operating system is popular for offensive security?",
-    "answer": "Kali Linux",
-    "option": [
-      "Windows XP",
-      "macOS",
-      "Ubuntu",
-      "Kali Linux"
-    ]
-  },
-  {
-    "question": "What is the purpose of a C2 server?",
-    "answer": "Command and control for compromised systems",
-    "option": [
-      "Scan logs",
-      "Store passwords",
-      "Command and control for compromised systems",
-      "List files"
-    ]
-  },
-  {
-    "question": "What is an exploit?",
-    "answer": "Code that takes advantage of a vulnerability",
-    "option": [
-      "A firewall rule",
-      "A system log",
-      "Code that takes advantage of a vulnerability",
-      "A backup schedule"
-    ]
-  },
-  {
-    "question": "What is enumeration in penetration testing?",
-    "answer": "Gathering detailed system information",
-    "option": [
-      "Creating a virus",
-      "Deleting files",
-      "Gathering detailed system information",
-      "Installing patches"
-    ]
-  },
-  {
-    "question": "Which protocol is often targeted in MITM attacks?",
-    "answer": "HTTP",
-    "option": [
-      "FTP",
-      "SSH",
-      "HTTP",
-      "DNS"
-    ]
-  },
-  {
-    "question": "What is the primary use of Netcat?",
-    "answer": "Network communication and debugging",
-    "option": [
-      "Image editing",
-      "Network communication and debugging",
-      "Code compiling",
-      "Report writing"
-    ]
-  },
-  {
-    "question": "What does CVE stand for?",
-    "answer": "Common Vulnerabilities and Exposures",
-    "option": [
-      "Critical Virus Environment",
-      "Common Version Executor",
-      "Cyber Vulnerability Example",
-      "Common Vulnerabilities and Exposures"
-    ]
-  },
-  {
-    "question": "What is a zero-day vulnerability?",
-    "answer": "A vulnerability unknown to vendors",
-    "option": [
-      "A patched exploit",
-      "A slow attack",
-      "A vulnerability unknown to vendors",
-      "An open port"
-    ]
-  },
-  {
-    "question": "Which phase comes after exploitation in pentesting?",
-    "answer": "Post-exploitation",
-    "option": [
-      "Scanning",
-      "Enumeration",
-      "Post-exploitation",
-      "Cleanup"
-    ]
-  },
-  {
-    "question": "What is the main goal of red teaming?",
-    "answer": "Simulate real-world cyber attacks",
-    "option": [
-      "Build software",
-      "Simulate real-world cyber attacks",
-      "Design networks",
-      "Audit licenses"
-    ]
-  },
-  {
-    "question": "Which tool is used to test wireless network security?",
-    "answer": "Aircrack-ng",
-    "option": [
-      "SQLmap",
-      "Aircrack-ng",
-      "Hydra",
-      "Nmap"
-    ]
-  },
-  {
-    "question": "What is a buffer overflow?",
-    "answer": "Overwriting memory beyond buffer boundaries",
-    "option": [
-      "Fixing memory leaks",
-      "Overwriting memory beyond buffer boundaries",
-      "Encrypting memory",
-      "Compressing files"
-    ]
-  },
-  {
-    "question": "What is the function of a shellcode?",
-    "answer": "Payload that provides shell access",
-    "option": [
-      "Compresses data",
-      "Scans directories",
-      "Payload that provides shell access",
-      "Creates logs"
-    ]
-  },
-  {
-    "question": "What is the purpose of privilege escalation?",
-    "answer": "Gain administrative access",
-    "option": [
-      "Hide malware",
-      "Gain administrative access",
-      "Log user data",
-      "Shut down system"
-    ]
-  },
-  {
-    "question": "Which framework helps create custom exploits?",
-    "answer": "Metasploit",
-    "option": [
+      "Netcat",
+      "John the Ripper",
       "Wireshark",
-      "Metasploit",
-      "Snort",
+      "Burp Suite"
+    ]
+  },
+  {
+    "question": "Which command-line tool is often used for reverse shells?",
+    "difficulty": "medium",
+    "answer": "Netcat",
+    "option": [
+      "Hydra",
+      "Nmap",
+      "Netcat",
       "Nikto"
     ]
   },
   {
-    "question": "What is a honeypot?",
-    "answer": "A system set up to attract attackers",
+    "question": "What is privilege escalation?",
+    "difficulty": "medium",
+    "answer": "Gaining higher-level permissions on a system",
     "option": [
-      "A strong password",
-      "A VPN connection",
-      "A system set up to attract attackers",
-      "A user manual"
+      "Removing all privileges",
+      "Creating new user accounts",
+      "Gaining higher-level permissions on a system",
+      "Disabling security settings"
     ]
   },
   {
-    "question": "What is a bind shell?",
-    "answer": "Shell that listens for incoming connections",
+    "question": "Which phase comes after scanning in a penetration test?",
+    "difficulty": "medium",
+    "answer": "Gaining access",
     "option": [
-      "Encrypted browser",
-      "Shell that listens for incoming connections",
+      "Reconnaissance",
+      "Covering tracks",
+      "Gaining access",
+      "Reporting"
+    ]
+  },
+  {
+    "question": "What is the main use of the tool 'sqlmap'?",
+    "difficulty": "medium",
+    "answer": "To automate SQL injection attacks",
+    "option": [
+      "Network sniffing",
+      "Brute force attacks",
+      "To automate SQL injection attacks",
+      "Port scanning"
+    ]
+  },
+  {
+    "question": "What is a payload in penetration testing?",
+    "difficulty": "medium",
+    "answer": "Code sent to exploit a vulnerability",
+    "option": [
       "Firewall rule",
-      "DNS resolver"
+      "Encrypted message",
+      "Code sent to exploit a vulnerability",
+      "User credentials"
     ]
   },
   {
-    "question": "What is an attack surface?",
-    "answer": "All possible entry points for an attacker",
+    "question": "Which Metasploit component is used to exploit vulnerabilities?",
+    "difficulty": "hard",
+    "answer": "Exploit module",
     "option": [
-      "A scan tool",
-      "All possible entry points for an attacker",
-      "A root directory",
-      "A system log"
+      "Payload module",
+      "Scanner module",
+      "Exploit module",
+      "Encoder module"
     ]
   },
   {
-    "question": "What is XSS?",
-    "answer": "Cross-site scripting",
+    "question": "What is a buffer overflow?",
+    "difficulty": "hard",
+    "answer": "Exceeding buffer memory to overwrite adjacent memory",
     "option": [
-      "Cross-site scripting",
-      "Cross-site scanning",
-      "Xtreme SQL Scan",
-      "Cross-section scan"
+      "A memory leak in the kernel",
+      "A firewall bypass attack",
+      "Exceeding buffer memory to overwrite adjacent memory",
+      "Encryption bypass"
     ]
   },
   {
-    "question": "What does a vulnerability scanner do?",
-    "answer": "Detects security weaknesses",
+    "question": "Which technique allows attackers to hide malicious code in legitimate traffic?",
+    "difficulty": "hard",
+    "answer": "Tunneling",
     "option": [
-      "Encrypts files",
-      "Detects security weaknesses",
-      "Deletes viruses",
-      "Creates backups"
+      "Scanning",
+      "Tunneling",
+      "Fuzzing",
+      "Phishing"
     ]
   },
   {
-    "question": "Which is an example of phishing?",
-    "answer": "Fake login page to steal passwords",
+    "question": "What is the purpose of command injection?",
+    "difficulty": "hard",
+    "answer": "To execute arbitrary system commands",
     "option": [
-      "Scan ports",
-      "Update software",
-      "Fake login page to steal passwords",
-      "Disable antivirus"
+      "To update the operating system",
+      "To log user activity",
+      "To execute arbitrary system commands",
+      "To break hashes"
     ]
   },
   {
-    "question": "What is password spraying?",
-    "answer": "Trying a few passwords across many accounts",
+    "question": "What is the term for simulating real-world attacks to assess security?",
+    "difficulty": "hard",
+    "answer": "Red teaming",
     "option": [
-      "Trying all passwords on one account",
-      "Using a wordlist on one user",
-      "Trying a few passwords across many accounts",
-      "Encrypting a password file"
-    ]
-  },
-  {
-    "question": "What is persistence in offensive security?",
-    "answer": "Maintaining access over time",
-    "option": [
-      "Encrypting data",
-      "Maintaining access over time",
-      "Changing logs",
-      "Resetting passwords"
+      "Bug bounty",
+      "Penetration testing",
+      "Red teaming",
+      "Risk assessment"
     ]
   }
 ]

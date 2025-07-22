@@ -55,151 +55,135 @@ export const loginAdmin = async (req, res) => {
   }
 };
 
-// Store data user Result
+
+
+
+
+
+// Offensive MCQs Data Storing through api
 export const offensiveStore = async (req, res) => {
   try {
     const questions = req.body;
 
-    if (!Array.isArray(questions) || !questions.length) {
-      return res
-        .status(400)
-        .json({ message: "Send a non-empty array of questions." });
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({
+        message: "Send a non-empty array of questions.",
+      });
     }
 
-    // Filter only complete questions
+    // Validate each question object
     const validQuestions = questions.filter(
       (q) =>
+        q &&
         q.question &&
+        q.difficulty &&
         q.answer &&
-        q.option1 &&
-        q.option2 &&
-        q.option3 &&
-        q.option4
+        Array.isArray(q.option) &&
+        q.option.length === 4 &&
+        q.option.includes(q.answer)
     );
 
-    // Fetch existing questions to prevent duplicates
-    //
-    const existing = await Offensive.find({
-      question: { $in: validQuestions.map((q) => q.question) },
-    }).distinct("question");
-
-    const newQuestions = validQuestions.filter(
-      (q) => !existing.includes(q.question)
-    );
-
-    if (!newQuestions.length) {
-      return res.status(200).json({ message: "No new questions to insert." });
+    if (validQuestions.length === 0) {
+      return res.status(400).json({
+        message:
+          "No valid questions. Each must include 'question', 'difficulty', 'answer', 4 options, and answer must match one of the options.",
+      });
     }
 
-    // Insert new questions
-    //
+    // Find existing questions to avoid duplicates
+    const existingQuestions = await Offensive
+      .find({ question: { $in: validQuestions.map((q) => q.question) } })
+      .distinct("question");
+
+    // Remove duplicates
+    const newQuestions = validQuestions.filter(
+      (q) => !existingQuestions.includes(q.question)
+    );
+
+    if (newQuestions.length === 0) {
+      return res.status(200).json({
+        message: "No new questions to insert. All are duplicates.",
+      });
+    }
+
+    // Insert new questions (with difficulty included)
     await Offensive.insertMany(newQuestions, { ordered: false });
 
-    res
-      .status(201)
-      .json({ message: `${newQuestions.length} new questions inserted.` });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error inserting questions.", error: err.message });
+    return res.status(201).json({
+      message: `${newQuestions.length} new questions inserted successfully.`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error inserting questions.",
+      error: error.message,
+    });
   }
+  
 };
 
+
+
+
+// Defensive MCQs Data Storing through api
 export const defensiveStore = async (req, res) => {
   try {
     const questions = req.body;
 
-    if (!Array.isArray(questions) || !questions.length) {
-      return res
-        .status(400)
-        .json({ message: "Send a non-empty array of questions." });
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({
+        message: "Send a non-empty array of questions.",
+      });
     }
 
-    // Filter only complete questions
+    // Validate each question object
     const validQuestions = questions.filter(
       (q) =>
+        q &&
         q.question &&
+        q.difficulty &&
         q.answer &&
-        q.option1 &&
-        q.option2 &&
-        q.option3 &&
-        q.option4
+        Array.isArray(q.option) &&
+        q.option.length === 4 &&
+        q.option.includes(q.answer)
     );
 
-    // Fetch existing questions to prevent duplicates
-    const existing = await defensive
-      .find({
-        question: { $in: validQuestions.map((q) => q.question) },
-      })
-      .distinct("question");
-
-    const newQuestions = validQuestions.filter(
-      (q) => !existing.includes(q.question)
-    );
-
-    if (!newQuestions.length) {
-      return res.status(200).json({ message: "No new questions to insert." });
+    if (validQuestions.length === 0) {
+      return res.status(400).json({
+        message:
+          "No valid questions. Each must include 'question', 'difficulty', 'answer', 4 options, and answer must match one of the options.",
+      });
     }
 
+    // Find existing questions to avoid duplicates
+    const existingQuestions = await defensive
+      .find({ question: { $in: validQuestions.map((q) => q.question) } })
+      .distinct("question");
+
+    // Remove duplicates
+    const newQuestions = validQuestions.filter(
+      (q) => !existingQuestions.includes(q.question)
+    );
+
+    if (newQuestions.length === 0) {
+      return res.status(200).json({
+        message: "No new questions to insert. All are duplicates.",
+      });
+    }
+
+    // Insert new questions (with difficulty included)
     await defensive.insertMany(newQuestions, { ordered: false });
 
-    res
-      .status(201)
-      .json({ message: `${newQuestions.length} new questions inserted.` });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error inserting questions.", error: err.message });
+    return res.status(201).json({
+      message: `${newQuestions.length} new questions inserted successfully.`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error inserting questions.",
+      error: error.message,
+    });
   }
+
 };
-
-// export const malwaresStore = async (req, res) => {
-//   try {
-//     const questions = req.body;
-
-//     if (!Array.isArray(questions) || !questions.length) {
-//       return res
-//         .status(400)
-//         .json({ message: "Send a non-empty array of questions." });
-//     }
-
-//     // Filter only complete questions
-//     const validQuestions = questions.filter(
-//       (q) =>
-//         q.question &&
-//         q.answer &&
-//         q.option1 &&
-//         q.option2 &&
-//         q.option3 &&
-//         q.option4
-//     );
-
-//     // Fetch existing questions to prevent duplicates
-//     const existing = await malwares
-//       .find({
-//         question: { $in: validQuestions.map((q) => q.question) },
-//       })
-//       .distinct("question");
-
-//     const newQuestions = validQuestions.filter(
-//       (q) => !existing.includes(q.question)
-//     );
-
-//     if (!newQuestions.length) {
-//       return res.status(200).json({ message: "No new questions to insert." });
-//     }
-
-//     await malwares.insertMany(newQuestions, { ordered: false });
-
-//     res
-//       .status(201)
-//       .json({ message: `${newQuestions.length} new questions inserted.` });
-//   } catch (err) {
-//     res
-//       .status(500)
-//       .json({ message: "Error inserting questions.", error: err.message });
-//   }
-// };
 
 
 // Malware MCQs Data Storing through api
@@ -264,99 +248,128 @@ export const malwaresStore = async (req, res) => {
 
 
 
-
+// DevOps MCQs Data Storing through api
 export const devOpsStore = async (req, res) => {
   try {
     const questions = req.body;
 
-    if (!Array.isArray(questions) || !questions.length) {
-      return res
-        .status(400)
-        .json({ message: "Send a non-empty array of questions." });
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({
+        message: "Send a non-empty array of questions.",
+      });
     }
 
-    // Filter only complete questions
+    // Validate each question object
     const validQuestions = questions.filter(
       (q) =>
+        q &&
         q.question &&
+        q.difficulty &&
         q.answer &&
-        q.option1 &&
-        q.option2 &&
-        q.option3 &&
-        q.option4
+        Array.isArray(q.option) &&
+        q.option.length === 4 &&
+        q.option.includes(q.answer)
     );
 
-    // Fetch existing questions to prevent duplicates
-    const existing = await devOps
-      .find({
-        question: { $in: validQuestions.map((q) => q.question) },
-      })
-      .distinct("question");
-
-    const newQuestions = validQuestions.filter(
-      (q) => !existing.includes(q.question)
-    );
-
-    if (!newQuestions.length) {
-      return res.status(200).json({ message: "No new questions to insert." });
+    if (validQuestions.length === 0) {
+      return res.status(400).json({
+        message:
+          "No valid questions. Each must include 'question', 'difficulty', 'answer', 4 options, and answer must match one of the options.",
+      });
     }
 
+    // Find existing questions to avoid duplicates
+    const existingQuestions = await devOps
+      .find({ question: { $in: validQuestions.map((q) => q.question) } })
+      .distinct("question");
+
+    // Remove duplicates
+    const newQuestions = validQuestions.filter(
+      (q) => !existingQuestions.includes(q.question)
+    );
+
+    if (newQuestions.length === 0) {
+      return res.status(200).json({
+        message: "No new questions to insert. All are duplicates.",
+      });
+    }
+
+    // Insert new questions (with difficulty included)
     await devOps.insertMany(newQuestions, { ordered: false });
 
-    res
-      .status(201)
-      .json({ message: `${newQuestions.length} new questions inserted.` });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error inserting questions.", error: err.message });
+    return res.status(201).json({
+      message: `${newQuestions.length} new questions inserted successfully.`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error inserting questions.",
+      error: error.message,
+    });
   }
+ 
 };
 
+
+
+
+
+// Reverse Engineering MCQs Data Storing through api
 export const reverseEngineerStore = async (req, res) => {
   try {
     const questions = req.body;
 
-    if (!Array.isArray(questions) || !questions.length) {
-      return res
-        .status(400)
-        .json({ message: "Send a non-empty array of questions." });
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({
+        message: "Send a non-empty array of questions.",
+      });
     }
 
-    // Filter only complete questions
+    // Validate each question object
     const validQuestions = questions.filter(
       (q) =>
+        q &&
         q.question &&
+        q.difficulty &&
         q.answer &&
-        q.option1 &&
-        q.option2 &&
-        q.option3 &&
-        q.option4
+        Array.isArray(q.option) &&
+        q.option.length === 4 &&
+        q.option.includes(q.answer)
     );
 
-    // Fetch existing questions to prevent duplicates
-    const existing = await reverseEngineering
-      .find({
-        question: { $in: validQuestions.map((q) => q.question) },
-      })
-      .distinct("question");
-
-    const newQuestions = validQuestions.filter(
-      (q) => !existing.includes(q.question)
-    );
-
-    if (!newQuestions.length) {
-      return res.status(200).json({ message: "No new questions to insert." });
+    if (validQuestions.length === 0) {
+      return res.status(400).json({
+        message:
+          "No valid questions. Each must include 'question', 'difficulty', 'answer', 4 options, and answer must match one of the options.",
+      });
     }
 
+    // Find existing questions to avoid duplicates
+    const existingQuestions = await reverseEngineering
+      .find({ question: { $in: validQuestions.map((q) => q.question) } })
+      .distinct("question");
+
+    // Remove duplicates
+    const newQuestions = validQuestions.filter(
+      (q) => !existingQuestions.includes(q.question)
+    );
+
+    if (newQuestions.length === 0) {
+      return res.status(200).json({
+        message: "No new questions to insert. All are duplicates.",
+      });
+    }
+
+    // Insert new questions (with difficulty included)
     await reverseEngineering.insertMany(newQuestions, { ordered: false });
 
-    res
-      .status(201)
-      .json({ message: `${newQuestions.length} new questions inserted.` });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error inserting questions.", error: err.message });
+    return res.status(201).json({
+      message: `${newQuestions.length} new questions inserted successfully.`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error inserting questions.",
+      error: error.message,
+    });
   }
+  
 };

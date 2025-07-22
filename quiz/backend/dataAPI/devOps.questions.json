@@ -1,452 +1,167 @@
 [
   {
-    "question": "What does DevOps stand for?",
-    "answer": "Development and Operations",
+    "question": "What does CI stand for in DevOps?",
+    "difficulty": "easy",
+    "answer": "Continuous Integration",
     "option": [
-      "Development and Outsourcing",
-      "Development and Online Process",
-      "Development and Operations",
-      "Device and Optimization System"
+      "Continuous Improvement",
+      "Continuous Integration",
+      "Code Inspection",
+      "Cloud Infrastructure"
     ]
   },
   {
-    "question": "Which tool is commonly used for CI/CD in DevOps?",
-    "answer": "Jenkins",
+    "question": "Which tool is commonly used for version control in DevOps?",
+    "difficulty": "easy",
+    "answer": "Git",
     "option": [
       "Jenkins",
       "Docker",
       "Git",
-      "Nagios"
-    ]
-  },
-  {
-    "question": "What is the main goal of DevOps?",
-    "answer": "Faster software delivery with higher quality",
-    "option": [
-      "Testing software",
-      "Hiring developers",
-      "Faster software delivery with higher quality",
-      "Monitoring logs"
-    ]
-  },
-  {
-    "question": "Which tool is used for containerization?",
-    "answer": "Docker",
-    "option": [
-      "Git",
-      "Docker",
-      "Nagios",
       "Puppet"
     ]
   },
   {
-    "question": "Which scripting language is commonly used in DevOps?",
-    "answer": "Shell",
+    "question": "What is the main purpose of Jenkins?",
+    "difficulty": "easy",
+    "answer": "Continuous Integration",
     "option": [
-      "HTML",
-      "CSS",
-      "Shell",
-      "Swift"
-    ]
-  },
-  {
-    "question": "Which DevOps tool helps in infrastructure automation?",
-    "answer": "Terraform",
-    "option": [
-      "GitHub",
-      "Terraform",
-      "Prometheus",
-      "Selenium"
+      "Container Orchestration",
+      "Code Formatting",
+      "Continuous Integration",
+      "Version Control"
     ]
   },
   {
     "question": "What is Infrastructure as Code (IaC)?",
-    "answer": "Managing infrastructure through code",
+    "difficulty": "easy",
+    "answer": "Managing infrastructure using code",
     "option": [
-      "Manual configuration",
-      "Managing infrastructure through code",
-      "Writing deployment reports",
-      "Monitoring systems"
+      "Installing software manually",
+      "Creating documentation for code",
+      "Managing infrastructure using code",
+      "Monitoring application logs"
     ]
   },
   {
-    "question": "Which tool is used for configuration management?",
+    "question": "Which DevOps tool is used for containerization?",
+    "difficulty": "easy",
+    "answer": "Docker",
+    "option": [
+      "Git",
+      "Jenkins",
+      "Docker",
+      "Nagios"
+    ]
+  },
+  {
+    "question": "Which file is used to define steps in a GitHub Actions workflow?",
+    "difficulty": "medium",
+    "answer": ".yml",
+    "option": [
+      "Dockerfile",
+      ".env",
+      ".yml",
+      "package.json"
+    ]
+  },
+  {
+    "question": "Which tool is used for infrastructure provisioning in DevOps?",
+    "difficulty": "medium",
+    "answer": "Terraform",
+    "option": [
+      "Ansible",
+      "Jenkins",
+      "Terraform",
+      "Kubernetes"
+    ]
+  },
+  {
+    "question": "Which tool helps with configuration management?",
+    "difficulty": "medium",
     "answer": "Ansible",
     "option": [
-      "Jira",
-      "Ansible",
       "Docker",
+      "Git",
+      "Ansible",
       "Slack"
     ]
   },
   {
-    "question": "Which tool is used for container orchestration?",
-    "answer": "Kubernetes",
+    "question": "What is the role of Kubernetes in DevOps?",
+    "difficulty": "medium",
+    "answer": "Container orchestration",
     "option": [
-      "Nginx",
-      "Kubernetes",
-      "CircleCI",
-      "Jenkins"
-    ]
-  },
-  {
-    "question": "Which DevOps phase includes code merging?",
-    "answer": "Integration",
-    "option": [
-      "Planning",
-      "Testing",
-      "Integration",
-      "Monitoring"
-    ]
-  },
-  {
-    "question": "What does CI stand for in DevOps?",
-    "answer": "Continuous Integration",
-    "option": [
-      "Code Integration",
-      "Continuous Installation",
-      "Continuous Integration",
-      "Command Integration"
-    ]
-  },
-  {
-    "question": "What does CD stand for in DevOps?",
-    "answer": "Continuous Deployment",
-    "option": [
-      "Continuous Data",
-      "Continuous Distribution",
-      "Continuous Deployment",
-      "Code Deployment"
-    ]
-  },
-  {
-    "question": "What is the function of Git in DevOps?",
-    "answer": "Version control",
-    "option": [
-      "Testing",
       "Version control",
-      "Monitoring",
-      "Containerization"
+      "Testing framework",
+      "Container orchestration",
+      "CI/CD"
     ]
   },
   {
-    "question": "Which tool is used for monitoring in DevOps?",
-    "answer": "Prometheus",
-    "option": [
-      "Git",
-      "Terraform",
-      "Prometheus",
-      "Jira"
-    ]
-  },
-  {
-    "question": "What is a pipeline in DevOps?",
-    "answer": "Automated software workflow",
-    "option": [
-      "Manual code deployment",
-      "Automated software workflow",
-      "Security report",
-      "Static analysis"
-    ]
-  },
-  {
-    "question": "Which DevOps tool works with YAML files for configuration?",
-    "answer": "Ansible",
-    "option": [
-      "Jira",
-      "Docker",
-      "Ansible",
-      "GitHub"
-    ]
-  },
-  {
-    "question": "What does blue-green deployment mean?",
-    "answer": "Deploying to two environments to minimize downtime",
-    "option": [
-      "Manual testing",
-      "Deploying to two environments to minimize downtime",
-      "Running backups",
-      "Automated rollback"
-    ]
-  },
-  {
-    "question": "Which cloud platform supports DevOps tools integration?",
-    "answer": "All of the above",
-    "option": [
-      "AWS",
-      "Azure",
-      "Google Cloud",
-      "All of the above"
-    ]
-  },
-  {
-    "question": "What is a rollback in DevOps?",
-    "answer": "Reverting to previous stable version",
-    "option": [
-      "Updating code",
-      "Restarting server",
-      "Reverting to previous stable version",
-      "Deploying tests"
-    ]
-  },
-  {
-    "question": "What is a release in DevOps?",
-    "answer": "Deployment of new features",
-    "option": [
-      "Creating branches",
-      "Deployment of new features",
-      "Pushing code",
-      "Sending emails"
-    ]
-  },
-  {
-    "question": "What is a microservice?",
-    "answer": "Small independent service",
-    "option": [
-      "Virtual machine",
-      "Database table",
-      "Small independent service",
-      "Build script"
-    ]
-  },
-  {
-    "question": "Which is a popular cloud-based DevOps tool?",
-    "answer": "Azure DevOps",
-    "option": [
-      "Nessus",
-      "Azure DevOps",
-      "Nmap",
-      "Visual Studio Code"
-    ]
-  },
-  {
-    "question": "What is the use of Dockerfile?",
-    "answer": "Define instructions to build a container image",
-    "option": [
-      "Monitor server logs",
-      "Define instructions to build a container image",
-      "Manage permissions",
-      "Create branches"
-    ]
-  },
-  {
-    "question": "Which command builds a Docker image?",
-    "answer": "docker build",
+    "question": "Which command is used to create a Docker container?",
+    "difficulty": "medium",
+    "answer": "docker run",
     "option": [
       "docker init",
-      "docker build",
-      "docker push",
-      "docker copy"
+      "docker run",
+      "docker install",
+      "docker build"
     ]
   },
   {
-    "question": "What is the purpose of Helm in Kubernetes?",
-    "answer": "Package manager for Kubernetes",
+    "question": "Which of the following best describes blue-green deployment?",
+    "difficulty": "hard",
+    "answer": "Deploying new code alongside the old version and switching traffic",
     "option": [
-      "Firewall configuration",
-      "Log collection",
-      "Package manager for Kubernetes",
-      "Monitoring server"
+      "Deploying to a backup server only",
+      "Updating code without any testing",
+      "Deploying new code alongside the old version and switching traffic",
+      "Manual rollback strategy"
     ]
   },
   {
-    "question": "Which file format does Kubernetes configuration use?",
-    "answer": "YAML",
+    "question": "Which protocol is most commonly used for automated configuration management?",
+    "difficulty": "hard",
+    "answer": "SSH",
     "option": [
-      "XML",
-      "JSON",
-      "YAML",
-      "CSV"
+      "HTTP",
+      "FTP",
+      "SSH",
+      "SMTP"
     ]
   },
   {
-    "question": "What is the purpose of Jenkinsfile?",
-    "answer": "Defines pipeline configuration in Jenkins",
+    "question": "In DevOps, what is a 'canary release'?",
+    "difficulty": "hard",
+    "answer": "Releasing to a small subset of users before full deployment",
     "option": [
-      "Runs Docker containers",
-      "Defines pipeline configuration in Jenkins",
-      "Builds Kubernetes pods",
-      "Manages user roles"
+      "A full release to all users",
+      "Rolling back a deployment",
+      "Releasing to a small subset of users before full deployment",
+      "Monitoring failed builds"
     ]
   },
   {
-    "question": "Which tool provides a dashboard for Kubernetes?",
-    "answer": "Lens",
+    "question": "What does the '12-factor app' methodology aim to achieve?",
+    "difficulty": "hard",
+    "answer": "Building scalable and maintainable cloud-native apps",
     "option": [
-      "Ansible",
-      "Lens",
-      "Git",
-      "Terraform"
+      "Making apps faster on desktop",
+      "Building scalable and maintainable cloud-native apps",
+      "Developing only mobile applications",
+      "Minimizing user interaction"
     ]
   },
   {
-    "question": "What is continuous testing?",
-    "answer": "Running automated tests during CI/CD",
+    "question": "Which Kubernetes component maintains the desired state of the cluster?",
+    "difficulty": "hard",
+    "answer": "Controller Manager",
     "option": [
-      "Running tests once a week",
-      "Manual testing",
-      "Running automated tests during CI/CD",
-      "Code formatting"
-    ]
-  },
-  {
-    "question": "What is a pod in Kubernetes?",
-    "answer": "Smallest deployable unit",
-    "option": [
-      "A monitoring tool",
-      "A server",
-      "Smallest deployable unit",
-      "A script"
-    ]
-  },
-  {
-    "question": "Which tool automates provisioning and setup of servers?",
-    "answer": "Chef",
-    "option": [
-      "Jira",
-      "Chef",
-      "Postman",
-      "Slack"
-    ]
-  },
-  {
-    "question": "What is GitHub Actions used for?",
-    "answer": "Automate workflows in GitHub",
-    "option": [
-      "Create Docker containers",
-      "Monitor servers",
-      "Automate workflows in GitHub",
-      "Debug JavaScript"
-    ]
-  },
-  {
-    "question": "What does YAML stand for?",
-    "answer": "YAML Ain’t Markup Language",
-    "option": [
-      "Yet Another Markup Language",
-      "Yes And Markup Language",
-      "YAML Ain’t Markup Language",
-      "Your Automated Machine Language"
-    ]
-  },
-  {
-    "question": "What is artifact in DevOps?",
-    "answer": "Built output of source code",
-    "option": [
-      "Backup file",
-      "Built output of source code",
-      "Documentation",
-      "Monitoring log"
-    ]
-  },
-  {
-    "question": "What is SonarQube used for?",
-    "answer": "Code quality analysis",
-    "option": [
-      "Container monitoring",
-      "Deployment automation",
-      "Code quality analysis",
-      "Database management"
-    ]
-  },
-  {
-    "question": "What is the use of ELK Stack?",
-    "answer": "Log analysis and visualization",
-    "option": [
-      "CI/CD pipeline",
-      "Infrastructure provisioning",
-      "Log analysis and visualization",
-      "Testing microservices"
-    ]
-  },
-  {
-    "question": "Which tool helps manage secrets in DevOps?",
-    "answer": "Vault",
-    "option": [
-      "Docker",
-      "Vault",
-      "Git",
-      "Selenium"
-    ]
-  },
-  {
-    "question": "What is the purpose of 'docker push'?",
-    "answer": "Upload image to a registry",
-    "option": [
-      "Pull image from registry",
-      "Upload image to a registry",
-      "Remove container",
-      "Start container"
-    ]
-  },
-  {
-    "question": "What is the purpose of 'kubectl'?",
-    "answer": "Manage Kubernetes clusters",
-    "option": [
-      "Run Python scripts",
-      "Monitor Jenkins jobs",
-      "Manage Kubernetes clusters",
-      "Test APIs"
-    ]
-  },
-  {
-    "question": "What is 'Infrastructure Drift'?",
-    "answer": "Mismatch between declared and actual infrastructure",
-    "option": [
-      "Cloud migration",
-      "Mismatch between declared and actual infrastructure",
-      "Server crash",
-      "Image optimization"
-    ]
-  },
-  {
-    "question": "What is canary deployment?",
-    "answer": "Releasing features to a small subset of users",
-    "option": [
-      "Rolling back changes",
-      "Automating builds",
-      "Releasing features to a small subset of users",
-      "Cloning repositories"
-    ]
-  },
-  {
-    "question": "Which tool is best for performance monitoring?",
-    "answer": "Grafana",
-    "option": [
-      "Grafana",
-      "Jenkins",
-      "Chef",
-      "Git"
-    ]
-  },
-  {
-    "question": "Which DevOps culture practice focuses on collaboration?",
-    "answer": "Communication and shared responsibility",
-    "option": [
-      "Documentation only",
-      "Strict hierarchy",
-      "Communication and shared responsibility",
-      "Isolated teams"
-    ]
-  },
-  {
-    "question": "What does 'Immutable Infrastructure' mean?",
-    "answer": "Infrastructure is not modified after deployment",
-    "option": [
-      "Infrastructure is updated weekly",
-      "Infrastructure is not modified after deployment",
-      "Backups are disabled",
-      "Always restart servers"
-    ]
-  },
-  {
-    "question": "What does shift-left mean in DevOps?",
-    "answer": "Testing earlier in the development lifecycle",
-    "option": [
-      "Shift code to production",
-      "Deploy left-side modules",
-      "Testing earlier in the development lifecycle",
-      "Prioritize UI design"
+      "kube-scheduler",
+      "kube-proxy",
+      "kubelet",
+      "Controller Manager"
     ]
   }
 ]

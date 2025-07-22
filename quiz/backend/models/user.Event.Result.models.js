@@ -1,48 +1,58 @@
 import mongoose from "mongoose";
 
-const userEvent = mongoose.Schema(
-  {
-    nameUser: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    eventName: {
-      type: String,
-      require: true,
-    },
+const userEvent = mongoose.Schema({
     question: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     answer: {
-      type: String,
+        type: String,
     },
     correct: {
-      type: Boolean,
+        type: Boolean,
+        default: false,
+    }
+});
+
+const resultEventSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
     },
-    score: {
-      type: Number,
-      required: true,
+    nameCategory: {
+        type: String,
+        required: true,
+    },
+    roundClear: {
+        type: Number,
+        default: 0,
     },
     wins: {
-      type: Boolean,
+        type: String,
+        default: 0,
     },
-    prize: {
-      type: Number,
+    score: {
+        easy: { type: Number, default: 0 },
+        medium: { type: Number, default: 0 },
+        hard: { type: Number, default: 0 },
     },
-    prizeName: String,
-    prizeImage: String,
-  },
-  {
-    timestamps: true,
-  }
-);
+    questions: [userEvent], // ✅ FIXED HERE
+    finishedAt: {
+        type: Date,
+        default: Date.now,
+    }
+}, {
+    timestamps: true
+});
 
-const UserEvent = mongoose.model("UserEvent", userEvent);
+resultEventSchema.index({ email: 1, nameCategory: 1 }, { unique: true });
 
-export default UserEvent;
+resultEventSchema.pre('save', function(next) {
+    this.questions.forEach(q => {
+        q.correct = q.answer === q.correctAnswer;
+    });
+    next();
+});
+
+const EventResult = mongoose.model("EventResult", resultEventSchema);
+export default EventResult;

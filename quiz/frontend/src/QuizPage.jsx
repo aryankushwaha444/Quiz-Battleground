@@ -47,11 +47,11 @@ function QuizPage() {
           </button>
         />
         <Card
-          title="Ofensive"
+          title="Offensive"
           imgSrc="../images/questionsIcon/ofensive.jpg"
           desc="Climb the leaderboard and celebrate your victory as a top trivia champion."
           button=<button
-            onClick={()=> navigate('/ofensive')}
+            onClick={()=> navigate('/offensive')}
             className="bg-purple-500 hover:bg-red-600 text-white font-semibold py-2 px-6 mt-4 rounded-full shadow-lg transition-transform transform hover:scale-105"
           >
             Join Quiz
