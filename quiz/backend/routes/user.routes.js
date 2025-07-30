@@ -14,7 +14,6 @@ router.get('/devops',devOpsFetch);
 router.get('/offensive',offensiveFetch);
 router.get('/defensive',defensiveFetch);
 router.get('/reverse-engineering',reverseEngineerFetch);
-router.post('/checkedPlayed',checkPlayed);
 
 
 

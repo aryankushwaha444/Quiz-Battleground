@@ -16,9 +16,7 @@ import DevOps from "./DevOps.jsx";
 import EventLobby from "./EventLobby.jsx";
 import Offensive from "./Offensive.jsx";
 import Defesive from "./Defensive.jsx";
-import ReverseEngineer from "./ReverseEngineer.jsx"
-
-
+import ReverseEngineer from "./ReverseEngineer.jsx";
 
 function App() {
   return (
@@ -34,11 +32,11 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/malware" element={<Malware />} />
-          <Route path="/devops" element={<DevOps/>}/>
-          <Route path="/offensive" element={<Offensive/>}/>
-          <Route path="/defensive" element={<Defesive/>}/>
-          <Route path="/reverse-engineering" element={<ReverseEngineer/>}/>
-          <Route path="/event-lobby" element={<EventLobby />} />
+          <Route path="/devops" element={<DevOps />} />
+          <Route path="/offensive" element={<Offensive />} />
+          <Route path="/defensive" element={<Defesive />} />
+          <Route path="/reverse-engineering" element={<ReverseEngineer />} />
+          <Route path="/event-lobby/:joinID" element={<EventLobby />} />
 
           <Route
             path="/leaderboard"
@@ -62,7 +60,7 @@ function App() {
             path="/join-quiz"
             element={
               <PrivateRoute>
-                <JoinQuiz/>
+                <JoinQuiz />
               </PrivateRoute>
             }
           />
@@ -74,5 +72,3 @@ function App() {
 }
 
 export default App;
-
-

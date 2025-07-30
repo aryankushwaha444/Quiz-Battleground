@@ -29,7 +29,7 @@ function HomePage() {
       </button>
 
       <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 mb-8 w-full max-w-6xl ">
-        <Card
+        {/* <Card
           title="Quiz Questioning"
           imgSrc="../images/homePage/quiz-question.gif"
           desc="Create thought-provoking questions and craft your own quiz challenges for others to solve."
@@ -43,7 +43,7 @@ function HomePage() {
           title="Quiz Winner"
           imgSrc="../images/homePage/quiz-winner.jpg"
           desc="Climb the leaderboard and celebrate your victory as a top trivia champion."
-        />
+        /> */}
       </div>
     </div>
   );
