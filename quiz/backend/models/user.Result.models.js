@@ -24,7 +24,7 @@ const resultCategorySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  roundClear: {
+  round: {
     type: Number,
     default: 0
   },
@@ -45,13 +45,7 @@ const resultCategorySchema = new mongoose.Schema({
 // Prevent duplicate result submissions
 resultCategorySchema.index({ email: 1, nameCategory: 1 }, { unique: true });
 
-// Mark correct answers automatically
-resultCategorySchema.pre('save', function (next) {
-  this.questions.forEach(q => {
-    q.correct = q.answer === q.correctAnswer;
-  });
-  next();
-});
+
 
 const ResultCategory = mongoose.model("ResultCategory", resultCategorySchema);
 export default ResultCategory;
