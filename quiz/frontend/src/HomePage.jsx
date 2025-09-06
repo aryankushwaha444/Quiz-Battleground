@@ -28,8 +28,8 @@ function HomePage() {
         Play Quiz
       </button>
 
-<<<<<<< HEAD
-      <div className="bg-purple-100 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform p-10  mb-18 mt-18 max-w-3xl w-full">
+      {/* About QuizApp Section */}
+      <div className="bg-purple-100 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform p-10 mb-12 max-w-3xl w-full">
         <h1 className="text-4xl font-bold text-center text-blue-500 mb-6">
           About QuizApp
         </h1>
@@ -60,24 +60,6 @@ function HomePage() {
           Thank you for being part of the QuizApp community. Let's make learning
           fun together!
         </p>
-=======
-      <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 mb-8 w-full max-w-6xl ">
-        {/* <Card
-          title="Quiz Questioning"
-          imgSrc="../images/homePage/quiz-question.gif"
-          desc="Create thought-provoking questions and craft your own quiz challenges for others to solve."
-        />
-        <Card
-          title="Quiz Time"
-          imgSrc="../images/homePage/quiz-time.png"
-          desc="Jump into the action—join a live quiz session and test your speed and knowledge."
-        />
-        <Card
-          title="Quiz Winner"
-          imgSrc="../images/homePage/quiz-winner.jpg"
-          desc="Climb the leaderboard and celebrate your victory as a top trivia champion."
-        /> */}
->>>>>>> e5d4eaa7fae51ec2881b60285d11a4c2ed1ad525
       </div>
     </div>
   );
