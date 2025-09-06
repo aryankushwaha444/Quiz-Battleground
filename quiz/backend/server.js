@@ -32,22 +32,17 @@ const server = http.createServer(app);
 // Socket.IO Setup
 const io = new Server(server, {
   cors: {
-<<<<<<< HEAD
     origin: "*",
     methods: ["GET", "POST"],
   },
-=======
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
->>>>>>> e5d4eaa7fae51ec2881b60285d11a4c2ed1ad525
 });
 
 // Store rooms with users and readiness state
 const rooms = {}; // Format: { joinID: { users: [], readyUsers: [], sockets: {} } }
 
-<<<<<<< HEAD
 io.on("connection", (socket) => {
+  console.log(" New user connected:", socket.id);
+
   socket.on("join-room", ({ joinID, user }) => {
     socket.join(joinID);
 
@@ -65,6 +60,7 @@ io.on("connection", (socket) => {
     }
 
     io.to(joinID).emit("room-update", rooms[joinID]);
+    console.log(` ${user.name} joined room ${joinID}`);
   });
 
   socket.on("start-quiz", ({ joinID, user }) => {
@@ -82,7 +78,7 @@ io.on("connection", (socket) => {
 
       if (allReady) {
         io.to(joinID).emit("all-users-ready");
-        console.log(`All users ready in room ${joinID}. Starting quiz.`);
+        console.log(` All users ready in room ${joinID}. Starting quiz.`);
       }
     }
   });
@@ -104,59 +100,6 @@ io.on("connection", (socket) => {
 
         // Broadcast updated users
         io.to(joinID).emit("room-update", rooms[joinID]);
-=======
-io.on('connection', (socket) => {
-  console.log(' New user connected:', socket.id);
-
-  socket.on('join-room', ({ joinID, user }) => {
-    socket.join(joinID);
-
-    if (!rooms[joinID]) {
-      rooms[joinID] = { users: [], readyUsers: [], sockets: {} };
-    }
-
-    // Prevent duplicates
-    const alreadyJoined = rooms[joinID].users.some(u => u.email === user.email);
-    if (!alreadyJoined) {
-      rooms[joinID].users.push(user);
-      rooms[joinID].sockets[socket.id] = user; // map socket to user
-    }
-
-    io.to(joinID).emit('room-update', rooms[joinID]);
-    console.log(` ${user.name} joined room ${joinID}`);
-  });
-
-  socket.on('start-quiz', ({ joinID, user }) => {
-    if (rooms[joinID]) {
-      const alreadyReady = rooms[joinID].readyUsers.some(u => u.email === user.email);
-      if (!alreadyReady) {
-        rooms[joinID].readyUsers.push(user);
-      }
-
-      const allReady =
-        rooms[joinID].users.length >= 2 &&
-        rooms[joinID].users.length === rooms[joinID].readyUsers.length;
-
-      if (allReady) {
-        io.to(joinID).emit('all-users-ready');
-        console.log(` All users ready in room ${joinID}. Starting quiz.`);
-      }
-    }
-  });
-
-  socket.on('disconnect', () => {
-    console.log(' User disconnected:', socket.id);
-
-    // Find and remove from all rooms
-    for (const joinID in rooms) {
-      const user = rooms[joinID].sockets[socket.id];
-      if (user) {
-        rooms[joinID].users = rooms[joinID].users.filter(u => u.email !== user.email);
-        rooms[joinID].readyUsers = rooms[joinID].readyUsers.filter(u => u.email !== user.email);
-        delete rooms[joinID].sockets[socket.id];
-
-        // Broadcast updated users
-        io.to(joinID).emit('room-update', rooms[joinID]);
         console.log(` ${user.name} left room ${joinID}`);
       }
 
@@ -167,7 +110,6 @@ io.on('connection', (socket) => {
       ) {
         delete rooms[joinID];
         console.log(` Room ${joinID} deleted (empty).`);
->>>>>>> e5d4eaa7fae51ec2881b60285d11a4c2ed1ad525
       }
     }
   });
