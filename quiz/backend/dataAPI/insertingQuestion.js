@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import connectDB from "../db/mongoDB.connection.js";
 import malwares from "../models/malware.models.js";
 import Offensive from "../models/offensive.models.js";
@@ -8,15 +9,22 @@ import defensive from "../models/defensive.models.js";
 import devOps from "../models/devOps.models.js";
 import reverseEngineering from "../models/reverseEngineering.models.js";
 
+// Resolve directory of this file to make relative paths reliable
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 connectDB();
 
 async function insertDataFromFile() {
   try {
-    const filePathDef = path.resolve("../dataAPI/defensive.questions.json");
-    const filePathOff = path.resolve("../dataAPI/offensive.questions.json");
-    const filePathMal = path.resolve("../dataAPI/malware.questions.json");
-    const filePathDevOps = path.resolve("../dataAPI/devOps.questions.json");
-    const filePathRevEng = path.resolve("../dataAPI/reverseEngineering.questions.json");
+    const filePathDef = path.join(__dirname, "defensive.questions.json");
+    const filePathOff = path.join(__dirname, "offensive_questions.json");
+    const filePathMal = path.join(__dirname, "malware.questions.json");
+    const filePathDevOps = path.join(__dirname, "devOps.questions.json");
+    const filePathRevEng = path.join(
+      __dirname,
+      "reverseEngineering.questions.json"
+    );
 
     const fileDataDef = fs.readFileSync(filePathDef, "utf-8");
     const fileDataOff = fs.readFileSync(filePathOff, "utf-8");
@@ -34,7 +42,6 @@ async function insertDataFromFile() {
     await malwares.insertMany(jsonDataMal);
     console.timeEnd("Insert Malware");
 
-    
     await Offensive.insertMany(jsonDataOff);
     await defensive.insertMany(jsonDataDef);
     await devOps.insertMany(jsonDataDevOps);
