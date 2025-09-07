@@ -29,7 +29,6 @@ function Defensive() {
 
   const handleTimeExpired = () => {
     console.log("Quiz ended due to tab switch! Auto-submitting...");
-    // End the quiz immediately
     setQuizEnded(true);
     submitFinalResult();
   };
@@ -101,12 +100,11 @@ function Defensive() {
       try {
         const res = await axios.get("/api/user/defensive");
 
-        // Create a seeded RNG
-        const rng = createLCG(Date.now()); // or any fixed number for reproducible order
+        const rng = createLCG(Date.now()); 
 
         const shuffled = fisherYatesShuffle(
           res.data.map((q) => ({ ...q, correctAnswer: q.answer })),
-          rng //Pass custom RNG instead of using Math.random
+          rng
         );
 
         setAllQuestions(shuffled);
@@ -165,7 +163,6 @@ function Defensive() {
   };
 
   // Round
-
   useEffect(() => {
     if (currentIndex === questions.length) {
       if (round === 1 && score.easy >= 4) {
@@ -259,7 +256,7 @@ function Defensive() {
         <TabSwitchWarning
           timeLeft={tabTimeLeft}
           onReturn={() => {
-            // This will be handled by the hook automatically when focus returns
+            // Handled by the hook automatically when focus returns
           }}
         />
       </div>

@@ -29,7 +29,6 @@ function Devops() {
 
   const handleTimeExpired = () => {
     console.log("Quiz ended due to tab switch! Auto-submitting...");
-    // End the quiz immediately
     setQuizEnded(true);
     submitFinalResult();
   };
@@ -39,11 +38,7 @@ function Devops() {
     isTabActive,
     timeLeft: tabTimeLeft,
     showWarning,
-  } = useTabSwitchDetection(
-    handleTabSwitch,
-    handleTimeExpired,
-    5 // 5 seconds
-  );
+  } = useTabSwitchDetection(handleTabSwitch, handleTimeExpired, 5);
 
   // Prevent copying, right-click and shortcut keys
   useEffect(() => {
@@ -102,11 +97,11 @@ function Devops() {
         const res = await axios.get("/api/user/devops");
 
         // Create a seeded RNG
-        const rng = createLCG(Date.now()); // or any fixed number for reproducible order
+        const rng = createLCG(Date.now());
 
         const shuffled = fisherYatesShuffle(
           res.data.map((q) => ({ ...q, correctAnswer: q.answer })),
-          rng //Pass custom RNG instead of using Math.random
+          rng
         );
 
         setAllQuestions(shuffled);
@@ -165,7 +160,6 @@ function Devops() {
   };
 
   // Round
-
   useEffect(() => {
     if (currentIndex === questions.length) {
       if (round === 1 && score.easy >= 4) {
@@ -258,9 +252,7 @@ function Devops() {
       <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
         <TabSwitchWarning
           timeLeft={tabTimeLeft}
-          onReturn={() => {
-            // This will be handled by the hook automatically when focus returns
-          }}
+          onReturn={() => {}}
         />
       </div>
     );
@@ -294,17 +286,15 @@ function Devops() {
           <span className="text-lg font-bold text-red-600">{timeLeft}s</span>
         </div>
 
-        <div className="select-none">
-          <QuestionCard
-            question={current.question}
-            option={current.option}
-            selectedOption={selectedOption}
-            onSelectOption={setSelectedOption}
-            disabled={submitted}
-            submitted={submitted} // <-- add this
-            correctAnswer={current.correctAnswer} // <-- add this
-          />
-        </div>
+        <QuestionCard
+          question={current.question}
+          option={current.option}
+          selectedOption={selectedOption}
+          onSelectOption={setSelectedOption}
+          disabled={submitted}
+          submitted={submitted}
+          correctAnswer={current.correctAnswer}
+        />
 
         {selectedOption && !submitted && (
           <button
