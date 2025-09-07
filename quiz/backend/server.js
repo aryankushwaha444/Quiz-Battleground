@@ -59,23 +59,36 @@ io.on('connection', (socket) => {
     console.log(` ${user.name} joined room ${joinID}`);
   });
 
-  socket.on('start-quiz', ({ joinID, user }) => {
+
+  socket.on('player-ready', ({ joinID, user }) => {
     if (rooms[joinID]) {
       const alreadyReady = rooms[joinID].readyUsers.some(u => u.email === user.email);
       if (!alreadyReady) {
         rooms[joinID].readyUsers.push(user);
       }
-
-      const allReady =
-        rooms[joinID].users.length >= 2 &&
-        rooms[joinID].users.length === rooms[joinID].readyUsers.length;
-
+  
+      // Broadcast room update including ready users
+      io.to(joinID).emit('room-update', rooms[joinID]);
+      console.log(`${user.name} is ready in room ${joinID}`);
+    }
+  });
+  
+  socket.on('start-quiz', ({ joinID }) => {
+    if (rooms[joinID] && rooms[joinID].users.length >= 2) {
+      const allReady = rooms[joinID].users.length === rooms[joinID].readyUsers.length;
       if (allReady) {
-        io.to(joinID).emit('all-users-ready');
-        console.log(` All users ready in room ${joinID}. Starting quiz.`);
+        io.to(joinID).emit('all-users-ready'); // redirect all users
+        console.log(`Quiz started in room ${joinID}`);
+      } else {
+        socket.emit('not-all-ready', { message: 'Waiting for other players to get ready...' });
       }
     }
   });
+  
+
+
+
+
 
   socket.on('disconnect', () => {
     console.log(' User disconnected:', socket.id);
