@@ -1,15 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import express from "express";
-import connectDB from "./db/mongoDB.connection.js";
-import userRoutes from "./routes/user.routes.js";
-import adminRoutes from "./routes/admin.routes.js";
-import test from "./routes/test.routes.js";
-import cors from "cors";
-import http from "http";
-import { Server } from "socket.io";
-import contactRoutes from "./routes/contact.routes.js";
+import express from 'express';
+import connectDB from './db/mongoDB.connection.js';
+import userRoutes from './routes/user.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+// import test from './routes/test.routes.js';
+import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -24,7 +23,6 @@ connectDB();
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/contact", contactRoutes);
 
 // Create HTTP server instance
 const server = http.createServer(app);
@@ -77,8 +75,10 @@ io.on("connection", (socket) => {
         rooms[joinID].users.length === rooms[joinID].readyUsers.length;
 
       if (allReady) {
-        io.to(joinID).emit("all-users-ready");
-        console.log(` All users ready in room ${joinID}. Starting quiz.`);
+        io.to(joinID).emit('all-users-ready'); // redirect all users
+        console.log(`Quiz started in room ${joinID}`);
+      } else {
+        socket.emit('not-all-ready', { message: 'Waiting for other players / ( Only you are! ) to Ready...' });
       }
     }
   });

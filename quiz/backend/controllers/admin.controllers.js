@@ -5,6 +5,7 @@ import malwares from "../models/malware.models.js";
 import defensive from "../models/defensive.models.js";
 import devOps from "../models/devOps.models.js";
 import reverseEngineering from "../models/reverseEngineering.models.js";
+import eventQuiz from "../models/eventQuiz.model.js";
 
 // Register Admin
 export const registerAdmin = async (req, res) => {
@@ -361,6 +362,71 @@ export const reverseEngineerStore = async (req, res) => {
 
     // Insert new questions (with difficulty included)
     await reverseEngineering.insertMany(newQuestions, { ordered: false });
+
+    return res.status(201).json({
+      message: `${newQuestions.length} new questions inserted successfully.`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error inserting questions.",
+      error: error.message,
+    });
+  }
+  
+};
+
+
+
+
+
+// Event Quiz MCQs Data Storing through api
+export const eventQuizStore = async (req, res) => {
+  try {
+    const questions = req.body;
+
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({
+        message: "Send a non-empty array of questions.",
+      });
+    }
+
+    // Validate each question object
+    const validQuestions = questions.filter(
+      (q) =>
+        q &&
+        q.question &&
+        q.difficulty &&
+        q.answer &&
+        Array.isArray(q.option) &&
+        q.option.length === 4 &&
+        q.option.includes(q.answer)
+    );
+
+    if (validQuestions.length === 0) {
+      return res.status(400).json({
+        message:
+          "No valid questions. Each must include 'question', 'difficulty', 'answer', 4 options, and answer must match one of the options.",
+      });
+    }
+
+    // Find existing questions to avoid duplicates
+    const existingQuestions = await eventQuiz
+      .find({ question: { $in: validQuestions.map((q) => q.question) } })
+      .distinct("question");
+
+    // Remove duplicates
+    const newQuestions = validQuestions.filter(
+      (q) => !existingQuestions.includes(q.question)
+    );
+
+    if (newQuestions.length === 0) {
+      return res.status(200).json({
+        message: "No new questions to insert. All are duplicates.",
+      });
+    }
+
+    // Insert new questions (with difficulty included)
+    await eventQuiz.insertMany(newQuestions, { ordered: false });
 
     return res.status(201).json({
       message: `${newQuestions.length} new questions inserted successfully.`,

@@ -14,12 +14,7 @@
     "question": "Which of the following is considered a basic defense mechanism?",
     "difficulty": "easy",
     "answer": "Firewall",
-    "option": [
-      "Wireshark",
-      "Firewall",
-      "Metasploit",
-      "Burp Suite"
-    ]
+    "option": ["Wireshark", "Firewall", "Metasploit", "Burp Suite"]
   },
   {
     "question": "What does an antivirus program do?",
@@ -69,23 +64,13 @@
     "question": "Which protocol is used to securely transfer files?",
     "difficulty": "medium",
     "answer": "SFTP",
-    "option": [
-      "FTP",
-      "SFTP",
-      "SMTP",
-      "Telnet"
-    ]
+    "option": ["FTP", "SFTP", "SMTP", "Telnet"]
   },
   {
     "question": "Which tool is commonly used for log monitoring?",
     "difficulty": "medium",
     "answer": "Splunk",
-    "option": [
-      "Burp Suite",
-      "Metasploit",
-      "Splunk",
-      "Postman"
-    ]
+    "option": ["Burp Suite", "Metasploit", "Splunk", "Postman"]
   },
   {
     "question": "What does MFA stand for in cybersecurity?",
@@ -124,12 +109,7 @@
     "question": "What does a firewall primarily filter?",
     "difficulty": "hard",
     "answer": "Network traffic",
-    "option": [
-      "Usernames",
-      "Network traffic",
-      "Keyboard inputs",
-      "File sizes"
-    ]
+    "option": ["Usernames", "Network traffic", "Keyboard inputs", "File sizes"]
   },
   {
     "question": "What is threat hunting?",
