@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { registerUser , loginUser , storeUserResult, getLeaderboardStats, malwareFetch, devOpsFetch, offensiveFetch, defensiveFetch, reverseEngineerFetch, checkPlayed } from '../controllers/user.controllers.js';
+import { registerUser , loginUser , storeUserResult, getLeaderboardStats, malwareFetch, devOpsFetch, offensiveFetch, defensiveFetch, reverseEngineerFetch, checkPlayed, eventQuizFetch } from '../controllers/user.controllers.js';
 
 
 const router = express.Router();
@@ -14,6 +14,7 @@ router.get('/devops',devOpsFetch);
 router.get('/offensive',offensiveFetch);
 router.get('/defensive',defensiveFetch);
 router.get('/reverse-engineering',reverseEngineerFetch);
+router.get('/eventquiz',eventQuizFetch);
 
 
 

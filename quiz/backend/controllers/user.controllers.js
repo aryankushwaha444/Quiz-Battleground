@@ -6,7 +6,9 @@ import Defensive from "../models/defensive.models.js";
 import Offensive from "../models/offensive.models.js";
 import DevOps from "../models/devOps.models.js";
 import ReverseEngineering from "../models/reverseEngineering.models.js";
+import EventQuiz from "../models/eventQuiz.model.js";
 import User from "../models/user.models.js";
+
 
 // Register User
 export const registerUser = async (req, res) => {
@@ -131,6 +133,9 @@ export const storeUserResult = async (req, res) => {
       case "reverse engineering":
         QuestionModel = ReverseEngineering;
         break;
+        case "event quiz":
+          QuestionModel = EventQuiz;
+          break;
       default:
         return res.status(400).json({ message: "Invalid category name" });
     }
@@ -205,63 +210,67 @@ export const getLeaderboardStats = async (req, res) => {
 
     const groupedResults = {};
 
-    // Category-based results
-    results.forEach(({ email, score, questions }) => {
-      if (!groupedResults[email]) {
-        groupedResults[email] = {
-          email,
-          correct: 0,
-          totalQuestions: 0,
-          score: 0,
-          wins: 0,
-          points: 0,
-        };
-      }
+   // Category-based results
+results.forEach(({ email, score, questions }) => {
+  if (!groupedResults[email]) {
+    groupedResults[email] = {
+      email,
+      correct: 0,
+      totalQuestions: 0,
+      score: 0,
+      wins: 0,
+      points: 0,
+    };
+  }
 
-      const correct = questions.reduce(
-        (sum, q) => sum + (q.correct ? 1 : 0),
-        0
-      );
-      const totalQuestions = questions.length;
-      const categoryScore =
-        (score.easy || 0) * 1 + (score.medium || 0) * 2 + (score.hard || 0) * 3;
+  const correct = questions.reduce(
+    (sum, q) => sum + (q.correct ? 1 : 0),
+    0
+  );
+  const totalQuestions = questions.length;
+  const categoryScore =
+    (score.easy || 0) * 1 +
+    (score.medium || 0) * 2 +
+    (score.hard || 0) * 3;
 
-      groupedResults[email].correct += correct;
-      groupedResults[email].totalQuestions += totalQuestions;
-      groupedResults[email].score += categoryScore;
-    });
+  groupedResults[email].correct += correct;
+  groupedResults[email].totalQuestions += totalQuestions;
+  groupedResults[email].score += categoryScore;
+});
 
-    // Event-based results
-    eventResults.forEach(({ email, score, questions, wins }) => {
-      if (!groupedResults[email]) {
-        groupedResults[email] = {
-          email,
-          correct: 0,
-          totalQuestions: 0,
-          score: 0,
-          wins: 0,
-          points: 0,
-        };
-      }
+// Event-based results
+eventResults.forEach(({ email, score, questions }) => {
+  if (!groupedResults[email]) {
+    groupedResults[email] = {
+      email,
+      correct: 0,
+      totalQuestions: 0,
+      score: 0,
+      wins: 0,
+      points: 0,
+    };
+  }
 
-      const correct = questions.reduce(
-        (sum, q) => sum + (q.correct ? 1 : 0),
-        0
-      );
-      const totalQuestions = questions.length;
-      const eventScore =
-        (score.easy || 0) * 1 + (score.medium || 0) * 2 + (score.hard || 0) * 3;
+  const correct = questions.reduce(
+    (sum, q) => sum + (q.correct ? 1 : 0),
+    0
+  );
+  const totalQuestions = questions.length;
+  const eventScore =
+    (score.easy || 0) * 1 +
+    (score.medium || 0) * 2 +
+    (score.hard || 0) * 3;
 
-      groupedResults[email].correct += correct;
-      groupedResults[email].totalQuestions += totalQuestions;
-      groupedResults[email].score += eventScore;
-      groupedResults[email].wins += parseInt(wins) || 0;
-    });
+  groupedResults[email].correct += correct;
+  groupedResults[email].totalQuestions += totalQuestions;
+  groupedResults[email].score += eventScore;
+});
 
-    // Final Points
-    Object.values(groupedResults).forEach((user) => {
-      user.points = user.correct * 2 + user.score + user.wins * 1;
-    });
+// Final Points (only difficulty weights)
+Object.values(groupedResults).forEach((user) => {
+  user.points = user.score;
+});
+
 
     const leaderboard = Object.values(groupedResults)
       .sort((a, b) => b.points - a.points)
@@ -294,6 +303,7 @@ export const checkPlayed = async (req, res) => {
     res.status(500).json({ played: false });
   }
 };
+
 
 // Fetching All Questions by Category
 export const malwareFetch = async (req, res) => {
@@ -342,3 +352,14 @@ export const reverseEngineerFetch = async (req, res) => {
       .json({ error: "Failed to fetch Reverse Engineering questions" });
   }
 };
+
+
+export const eventQuizFetch = async (req, res) => {
+  try {
+    const data = await EventQuiz.find();
+    res.json(data);
+  } catch {
+    res.status(500).json({ error: "Failed to fetch DevOps questions" });
+  }
+};
+

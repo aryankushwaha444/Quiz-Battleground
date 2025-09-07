@@ -5,7 +5,7 @@ import express from 'express';
 import connectDB from './db/mongoDB.connection.js';
 import userRoutes from './routes/user.routes.js';
 import adminRoutes from './routes/admin.routes.js';
-import test from './routes/test.routes.js';
+// import test from './routes/test.routes.js';
 import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
@@ -80,7 +80,7 @@ io.on('connection', (socket) => {
         io.to(joinID).emit('all-users-ready'); // redirect all users
         console.log(`Quiz started in room ${joinID}`);
       } else {
-        socket.emit('not-all-ready', { message: 'Waiting for other players to get ready...' });
+        socket.emit('not-all-ready', { message: 'Waiting for other players / ( Only you are! ) to Ready...' });
       }
     }
   });

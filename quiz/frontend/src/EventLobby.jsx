@@ -9,62 +9,43 @@ function EventLobby() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [isReady, setIsReady] = useState(false);
-  const [allReady, setAllReady] = useState(false);
-  const [waitingMessage, setWaitingMessage] = useState("");
 
   useEffect(() => {
-    // Check if user is logged in
     if (!user?.name || !user?.email) {
       alert("You must be logged in to join the lobby.");
       navigate("/login");
       return;
     }
 
-    // Join the lobby
+    // Join the lobby room
     socket.emit("join-room", { joinID, user: { name: user.name, email: user.email } });
 
-    // Listen for room updates
+    // Handle room updates
     const handleRoomUpdate = (room) => {
       if (room?.users) {
         setUsers(room.users);
-        // Check if all users are ready
+
+        // Check if current user is already ready
+        const amIReady = room.readyUsers.some(u => u.email === user.email);
+        setIsReady(amIReady);
+
+        // Auto redirect if all users ready
         if (room.users.length >= 2 && room.users.length === room.readyUsers.length) {
-          setAllReady(true);
-          setWaitingMessage("");
-        } else {
-          setAllReady(false);
-          if (!isReady) {
-            setWaitingMessage("Click Ready when you are ready");
-          } else {
-            setWaitingMessage("Waiting for other players to Ready...");
-          }
+          window.location.href = "http://localhost:5173/eventquiz";
         }
       }
     };
 
-    // Listen for quiz start
-    const handleAllUsersReady = () => {
-      window.location.href = "http://localhost:5173/malware"; // redirect all users
-    };
-
     socket.on("room-update", handleRoomUpdate);
-    socket.on("all-users-ready", handleAllUsersReady);
 
-    // Cleanup on unmount
     return () => {
       socket.off("room-update", handleRoomUpdate);
-      socket.off("all-users-ready", handleAllUsersReady);
     };
-  }, [joinID, user, navigate, isReady]);
+  }, [joinID, user, navigate]);
 
   const handleReady = () => {
     socket.emit("player-ready", { joinID, user: { name: user.name, email: user.email } });
     setIsReady(true);
-  };
-
-  const handleStart = () => {
-    socket.emit("start-quiz", { joinID, user: { name: user.name, email: user.email } });
-    // Server will emit "all-users-ready" to redirect all players
   };
 
   return (
@@ -85,9 +66,7 @@ function EventLobby() {
               <div key={idx} className="flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full overflow-hidden shadow-md">
                   <img
-                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      u.name
-                    )}&background=random&color=fff&size=64`}
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=random&color=fff&size=64`}
                     alt={`${u.name}'s avatar`}
                     className="w-full h-full object-cover"
                   />
@@ -98,29 +77,17 @@ function EventLobby() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          {!isReady && (
-            <button
-              onClick={handleReady}
-              className="w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-            >
-              Ready
-            </button>
-          )}
-
-          {isReady && !allReady && (
-            <p className="text-center text-gray-600">{waitingMessage}</p>
-          )}
-
-          {allReady && (
-            <button
-              onClick={handleStart}
-              className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-            >
-              Start Quiz
-            </button>
-          )}
-        </div>
+        {/* Ready Button */}
+        {!isReady ? (
+          <button
+            onClick={handleReady}
+            className="w-full py-3 bg-green-500 text-white rounded-lg hover:bg-green-600"
+          >
+            Ready
+          </button>
+        ) : (
+          <p className="text-center text-gray-600 mt-2">Waiting for other players / ( Only you are! ) to Ready...</p>
+        )}
       </div>
     </div>
   );
