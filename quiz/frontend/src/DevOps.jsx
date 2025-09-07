@@ -3,7 +3,9 @@ import axios from "axios";
 import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
-import fisherYatesShuffle from "./fisherYatesShuffle";
+import fisherYatesShuffle, { createLCG } from "./fisherYatesShuffle.jsx";
+import useTabSwitchDetection from "./useTabSwitchDetection";
+import TabSwitchWarning from "./TabSwitchWarning";
 
 function Devops() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -19,6 +21,29 @@ function Devops() {
 
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Tab switch detection handlers
+  const handleTabSwitch = () => {
+    console.log("Tab switch detected! Quiz ending immediately...");
+  };
+
+  const handleTimeExpired = () => {
+    console.log("Quiz ended due to tab switch! Auto-submitting...");
+    // End the quiz immediately
+    setQuizEnded(true);
+    submitFinalResult();
+  };
+
+  // Use tab switch detection hook
+  const {
+    isTabActive,
+    timeLeft: tabTimeLeft,
+    showWarning,
+  } = useTabSwitchDetection(
+    handleTabSwitch,
+    handleTimeExpired,
+    5 // 5 seconds
+  );
 
   // Prevent copying, right-click and shortcut keys
   useEffect(() => {
@@ -70,16 +95,20 @@ function Devops() {
     };
   }, []);
 
-
-
   // Fetch questions
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const res = await axios.get("/api/user/devops");
+
+        // Create a seeded RNG
+        const rng = createLCG(Date.now()); // or any fixed number for reproducible order
+
         const shuffled = fisherYatesShuffle(
-          res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
+          res.data.map((q) => ({ ...q, correctAnswer: q.answer })),
+          rng //Pass custom RNG instead of using Math.random
         );
+
         setAllQuestions(shuffled);
         const easyQuestions = shuffled.filter((q) => q.difficulty === "easy");
         setQuestions(easyQuestions.slice(0, 5));
@@ -104,7 +133,6 @@ function Devops() {
     return () => clearTimeout(timer);
   }, [timeLeft, submitted, questions, currentIndex]);
 
-  
   // Submit
   const handleSubmit = () => {
     const current = questions[currentIndex];
@@ -136,8 +164,8 @@ function Devops() {
     }, 1000);
   };
 
-  // Round 
-  
+  // Round
+
   useEffect(() => {
     if (currentIndex === questions.length) {
       if (round === 1 && score.easy >= 4) {
@@ -224,6 +252,20 @@ function Devops() {
   if (currentIndex >= questions.length && !quizEnded)
     return <div>Preparing next round...</div>;
 
+  // Don't show quiz content if tab switch warning is active
+  if (showWarning) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
+        <TabSwitchWarning
+          timeLeft={tabTimeLeft}
+          onReturn={() => {
+            // This will be handled by the hook automatically when focus returns
+          }}
+        />
+      </div>
+    );
+  }
+
   const current = questions[currentIndex];
 
   return (
@@ -239,7 +281,8 @@ function Devops() {
                 : "bg-red-200 text-red-800"
             }`}
           >
-            {current.difficulty.charAt(0).toUpperCase() + current.difficulty.slice(1)}
+            {current.difficulty.charAt(0).toUpperCase() +
+              current.difficulty.slice(1)}
           </span>
         </div>
 
@@ -258,6 +301,8 @@ function Devops() {
             selectedOption={selectedOption}
             onSelectOption={setSelectedOption}
             disabled={submitted}
+            submitted={submitted} // <-- add this
+            correctAnswer={current.correctAnswer} // <-- add this
           />
         </div>
 
