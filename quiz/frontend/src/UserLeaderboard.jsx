@@ -136,7 +136,9 @@ const Leaderboard = () => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-indigo-700">{u.points} pts</p>
+                      <p className="font-bold text-indigo-700">
+                        {u.points} pts
+                      </p>
                       <p className="text-sm">Score: {u.score}</p>
                       <p className="text-sm">Correct: {u.correct}</p>
                     </div>

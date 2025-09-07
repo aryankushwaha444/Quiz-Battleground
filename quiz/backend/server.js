@@ -1,14 +1,15 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-import express from 'express';
-import connectDB from './db/mongoDB.connection.js';
-import userRoutes from './routes/user.routes.js';
-import adminRoutes from './routes/admin.routes.js';
-import test from './routes/test.routes.js';
-import cors from 'cors';
-import http from 'http';
-import { Server } from 'socket.io';
+import express from "express";
+import connectDB from "./db/mongoDB.connection.js";
+import userRoutes from "./routes/user.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
+import test from "./routes/test.routes.js";
+import cors from "cors";
+import http from "http";
+import { Server } from "socket.io";
+import contactRoutes from "./routes/contact.routes.js";
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -21,8 +22,9 @@ app.use(cors());
 connectDB();
 
 // Routes
-app.use('/api/user', userRoutes);
-app.use('/api/admin', adminRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Create HTTP server instance
 const server = http.createServer(app);
@@ -30,18 +32,18 @@ const server = http.createServer(app);
 // Socket.IO Setup
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
 });
 
 // Store rooms with users and readiness state
 const rooms = {}; // Format: { joinID: { users: [], readyUsers: [], sockets: {} } }
 
-io.on('connection', (socket) => {
-  console.log(' New user connected:', socket.id);
+io.on("connection", (socket) => {
+  console.log(" New user connected:", socket.id);
 
-  socket.on('join-room', ({ joinID, user }) => {
+  socket.on("join-room", ({ joinID, user }) => {
     socket.join(joinID);
 
     if (!rooms[joinID]) {
@@ -49,60 +51,55 @@ io.on('connection', (socket) => {
     }
 
     // Prevent duplicates
-    const alreadyJoined = rooms[joinID].users.some(u => u.email === user.email);
+    const alreadyJoined = rooms[joinID].users.some(
+      (u) => u.email === user.email
+    );
     if (!alreadyJoined) {
       rooms[joinID].users.push(user);
       rooms[joinID].sockets[socket.id] = user; // map socket to user
     }
 
-    io.to(joinID).emit('room-update', rooms[joinID]);
+    io.to(joinID).emit("room-update", rooms[joinID]);
     console.log(` ${user.name} joined room ${joinID}`);
   });
 
-
-  socket.on('player-ready', ({ joinID, user }) => {
+  socket.on("start-quiz", ({ joinID, user }) => {
     if (rooms[joinID]) {
-      const alreadyReady = rooms[joinID].readyUsers.some(u => u.email === user.email);
+      const alreadyReady = rooms[joinID].readyUsers.some(
+        (u) => u.email === user.email
+      );
       if (!alreadyReady) {
         rooms[joinID].readyUsers.push(user);
       }
-  
-      // Broadcast room update including ready users
-      io.to(joinID).emit('room-update', rooms[joinID]);
-      console.log(`${user.name} is ready in room ${joinID}`);
-    }
-  });
-  
-  socket.on('start-quiz', ({ joinID }) => {
-    if (rooms[joinID] && rooms[joinID].users.length >= 2) {
-      const allReady = rooms[joinID].users.length === rooms[joinID].readyUsers.length;
+
+      const allReady =
+        rooms[joinID].users.length >= 2 &&
+        rooms[joinID].users.length === rooms[joinID].readyUsers.length;
+
       if (allReady) {
-        io.to(joinID).emit('all-users-ready'); // redirect all users
-        console.log(`Quiz started in room ${joinID}`);
-      } else {
-        socket.emit('not-all-ready', { message: 'Waiting for other players to get ready...' });
+        io.to(joinID).emit("all-users-ready");
+        console.log(` All users ready in room ${joinID}. Starting quiz.`);
       }
     }
   });
-  
 
-
-
-
-
-  socket.on('disconnect', () => {
-    console.log(' User disconnected:', socket.id);
+  socket.on("disconnect", () => {
+    console.log(" User disconnected:", socket.id);
 
     // Find and remove from all rooms
     for (const joinID in rooms) {
       const user = rooms[joinID].sockets[socket.id];
       if (user) {
-        rooms[joinID].users = rooms[joinID].users.filter(u => u.email !== user.email);
-        rooms[joinID].readyUsers = rooms[joinID].readyUsers.filter(u => u.email !== user.email);
+        rooms[joinID].users = rooms[joinID].users.filter(
+          (u) => u.email !== user.email
+        );
+        rooms[joinID].readyUsers = rooms[joinID].readyUsers.filter(
+          (u) => u.email !== user.email
+        );
         delete rooms[joinID].sockets[socket.id];
 
         // Broadcast updated users
-        io.to(joinID).emit('room-update', rooms[joinID]);
+        io.to(joinID).emit("room-update", rooms[joinID]);
         console.log(` ${user.name} left room ${joinID}`);
       }
 
@@ -120,5 +117,5 @@ io.on('connection', (socket) => {
 
 // Start server
 server.listen(PORT, () => {
-    console.log(`Server running with Socket.IO on http://localhost:${PORT}`);
+  console.log(`Server running with Socket.IO on http://localhost:${PORT}`);
 });

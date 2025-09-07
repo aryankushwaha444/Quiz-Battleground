@@ -20,11 +20,21 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
+  // const { isQuizActive } = useQuiz();
   const dropdownRef = useRef();
 
   const logouthandler = () => {
     logout();
     navigate("/");
+  };
+
+  const handleNavigation = (e, path) => {
+    if (isQuizActive) {
+      e.preventDefault();
+      alert("Navigation is disabled during quiz sessions!");
+      return false;
+    }
+    return true;
   };
 
   useEffect(() => {
@@ -70,7 +80,7 @@ function Navbar() {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="text-xl font-bold hover:text-red-500">
-          Quizzy
+          Quiz Battleground
         </Link>
 
         {/* Desktop Nav */}
