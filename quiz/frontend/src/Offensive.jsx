@@ -3,7 +3,9 @@ import axios from "axios";
 import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
-import fisherYatesShuffle from "./fisherYatesShuffle";
+import fisherYatesShuffle, { createLCG } from "./fisherYatesShuffle.jsx";
+import useTabSwitchDetection from "./useTabSwitchDetection";
+import TabSwitchWarning from "./TabSwitchWarning";
 
 function Offensive() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -20,14 +22,25 @@ function Offensive() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Prevent copying, right-click and shortcut keys
+  // Tab switch detection
+  const handleTabSwitch = () => console.log("Tab switch detected! Quiz ending...");
+  const handleTimeExpired = () => {
+    console.log("Quiz ended due to tab switch! Auto-submitting...");
+    setQuizEnded(true);
+    submitFinalResult();
+  };
+
+  const { isTabActive, timeLeft: tabTimeLeft, showWarning } = useTabSwitchDetection(
+    handleTabSwitch,
+    handleTimeExpired,
+    5
+  );
+
+  // Prevent copy, right-click, and shortcuts
   useEffect(() => {
     const handleContextMenu = (e) => e.preventDefault();
     const handleKeyDown = (e) => {
-      if (
-        (e.ctrlKey && ["c", "x", "a"].includes(e.key.toLowerCase())) ||
-        e.key === "F12"
-      ) {
+      if ((e.ctrlKey && ["c", "x", "a"].includes(e.key.toLowerCase())) || e.key === "F12") {
         e.preventDefault();
         alert("Copying and inspecting are disabled during the quiz!");
       }
@@ -40,17 +53,14 @@ function Offensive() {
     };
   }, []);
 
-  // Prevent refresh & back navigation
+  // Prevent refresh & back
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "F5" || (e.ctrlKey && e.key.toLowerCase() === "r")) {
         e.preventDefault();
         alert("Refreshing is disabled during the quiz!");
       }
-      if (
-        e.key === "Backspace" &&
-        !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)
-      ) {
+      if (e.key === "Backspace" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
         e.preventDefault();
         alert("Going back is disabled during the quiz!");
       }
@@ -70,19 +80,19 @@ function Offensive() {
     };
   }, []);
 
-
-
   // Fetch questions
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const res = await axios.get("/api/user/offensive");
+        const rng = createLCG(Date.now());
         const shuffled = fisherYatesShuffle(
-          res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
+          res.data.map((q) => ({ ...q, correctAnswer: q.answer })),
+          rng
         );
         setAllQuestions(shuffled);
-        const easyQuestions = shuffled.filter((q) => q.difficulty === "easy");
-        setQuestions(easyQuestions.slice(0, 5));
+        const easyQs = shuffled.filter((q) => q.difficulty === "easy");
+        setQuestions(easyQs.slice(0, 5));
       } catch (err) {
         console.error("Error fetching questions:", err);
       }
@@ -92,19 +102,15 @@ function Offensive() {
 
   // Timer
   useEffect(() => {
-    if (submitted || !questions.length || currentIndex >= questions.length)
-      return;
-
+    if (submitted || !questions.length || currentIndex >= questions.length) return;
     if (timeLeft === 0) {
       handleSubmit();
       return;
     }
-
     const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearTimeout(timer);
   }, [timeLeft, submitted, questions, currentIndex]);
 
-  
   // Submit
   const handleSubmit = () => {
     const current = questions[currentIndex];
@@ -112,10 +118,7 @@ function Offensive() {
 
     setSubmitted(true);
     if (isCorrect) {
-      setScore((prev) => ({
-        ...prev,
-        [current.difficulty]: prev[current.difficulty] + 1,
-      }));
+      setScore((prev) => ({ ...prev, [current.difficulty]: prev[current.difficulty] + 1 }));
     }
 
     setAnswers((prev) => [
@@ -136,26 +139,24 @@ function Offensive() {
     }, 1000);
   };
 
-  // Round 
-  
+  // Round logic
   useEffect(() => {
-    if (currentIndex === questions.length) {
+    if (currentIndex === questions.length && questions.length > 0) {
       if (round === 1 && score.easy >= 4) {
-        const mediumQs = allQuestions.filter((q) => q.difficulty === "medium");
+        const mediumQs = allQuestions.filter((q) => q.difficulty === "medium").slice(0, 5);
         setQuestions(mediumQs);
         setCurrentIndex(0);
         setRound(2);
       } else if (round === 2 && score.medium >= 4) {
-        const hardQs = allQuestions.filter((q) => q.difficulty === "hard");
+        const hardQs = allQuestions.filter((q) => q.difficulty === "hard").slice(0, 5);
         setQuestions(hardQs);
         setCurrentIndex(0);
         setRound(3);
       } else {
-        setRound(round);
         submitFinalResult();
       }
     }
-  }, [currentIndex, round, score, allQuestions]);
+  }, [currentIndex, round, score, allQuestions, questions.length]);
 
   const submitFinalResult = () => {
     const userResult = {
@@ -178,8 +179,8 @@ function Offensive() {
   };
 
   const resetQuiz = () => {
-    const easyQuestions = allQuestions.filter((q) => q.difficulty === "easy");
-    setQuestions(easyQuestions.slice(0, 5));
+    const easyQs = allQuestions.filter((q) => q.difficulty === "easy");
+    setQuestions(easyQs.slice(0, 5));
     setCurrentIndex(0);
     setSelectedOption("");
     setTimeLeft(10);
@@ -192,19 +193,12 @@ function Offensive() {
 
   if (quizEnded) {
     const totalCorrect = answers.filter((a) => a.correct).length;
-
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
         <div className="bg-purple-100 rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center">
-          <h1 className="text-3xl font-bold text-green-800 mb-6">
-            🎉 Quiz Completed!
-          </h1>
-          <p className="text-xl font-semibold text-gray-800 mb-2">
-            ✅ Correct Answers: {totalCorrect}
-          </p>
-          <p className="text-lg text-purple-800 font-medium mb-4">
-            🏆 Round : {round}
-          </p>
+          <h1 className="text-3xl font-bold text-green-800 mb-6">🎉 Quiz Completed!</h1>
+          <p className="text-xl font-semibold text-gray-800 mb-2">✅ Correct Answers: {totalCorrect}</p>
+          <p className="text-lg text-purple-800 font-medium mb-4">🏆 Round : {round}</p>
           <div className="text-lg text-gray-700 mb-4">
             <p>Easy: {score.easy}</p>
             <p>Medium: {score.medium}</p>
@@ -221,8 +215,15 @@ function Offensive() {
     );
   }
 
-  if (currentIndex >= questions.length && !quizEnded)
-    return <div>Preparing next round...</div>;
+  if (currentIndex >= questions.length && !quizEnded) return <div>Preparing next round...</div>;
+
+  if (showWarning) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
+        <TabSwitchWarning timeLeft={tabTimeLeft} />
+      </div>
+    );
+  }
 
   const current = questions[currentIndex];
 
@@ -251,15 +252,15 @@ function Offensive() {
           <span className="text-lg font-bold text-red-600">{timeLeft}s</span>
         </div>
 
-        <div className="select-none">
-          <QuestionCard
-            question={current.question}
-            option={current.option}
-            selectedOption={selectedOption}
-            onSelectOption={setSelectedOption}
-            disabled={submitted}
-          />
-        </div>
+        <QuestionCard
+          question={current.question}
+          option={current.option}
+          selectedOption={selectedOption}
+          onSelectOption={setSelectedOption}
+          disabled={submitted}
+          submitted={submitted}
+          correctAnswer={current.correctAnswer}
+        />
 
         {selectedOption && !submitted && (
           <button
@@ -271,9 +272,7 @@ function Offensive() {
         )}
 
         {submitted && (
-          <p className="mt-4 text-center text-green-700 font-semibold">
-            Answer Submitted!
-          </p>
+          <p className="mt-4 text-center text-green-700 font-semibold">Answer Submitted!</p>
         )}
       </div>
     </div>
