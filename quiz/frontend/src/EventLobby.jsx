@@ -10,6 +10,7 @@ function EventLobby() {
   const [users, setUsers] = useState([]);
   const [isReady, setIsReady] = useState(false);
 
+  // Existing useEffect for joining room and room updates
   useEffect(() => {
     if (!user?.name || !user?.email) {
       alert("You must be logged in to join the lobby.");
@@ -17,22 +18,16 @@ function EventLobby() {
       return;
     }
 
-    // Join the lobby room
-    socket.emit("join-room", { joinID, user: { name: user.name, email: user.email } });
+    socket.emit("join-room", {
+      joinID,
+      user: { name: user.name, email: user.email },
+    });
 
-    // Handle room updates
     const handleRoomUpdate = (room) => {
       if (room?.users) {
         setUsers(room.users);
-
-        // Check if current user is already ready
-        const amIReady = room.readyUsers.some(u => u.email === user.email);
+        const amIReady = room.readyUsers.some((u) => u.email === user.email);
         setIsReady(amIReady);
-
-        // Auto redirect if all users ready
-        if (room.users.length >= 2 && room.users.length === room.readyUsers.length) {
-          window.location.href = "http://localhost:5173/eventquiz";
-        }
       }
     };
 
@@ -43,8 +38,24 @@ function EventLobby() {
     };
   }, [joinID, user, navigate]);
 
+  // New useEffect for all-users-ready event
+  useEffect(() => {
+    const handleAllReady = () => {
+      navigate(`/eventquiz/${joinID}`); // Redirect when quiz starts
+    };
+
+    socket.on("all-users-ready", handleAllReady);
+
+    return () => {
+      socket.off("all-users-ready", handleAllReady);
+    };
+  }, [navigate]);
+
   const handleReady = () => {
-    socket.emit("player-ready", { joinID, user: { name: user.name, email: user.email } });
+    socket.emit("start-quiz", {
+      joinID,
+      user: { name: user.name, email: user.email },
+    });
     setIsReady(true);
   };
 
@@ -66,12 +77,16 @@ function EventLobby() {
               <div key={idx} className="flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full overflow-hidden shadow-md">
                   <img
-                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=random&color=fff&size=64`}
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      u.name
+                    )}&background=random&color=fff&size=64`}
                     alt={`${u.name}'s avatar`}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <p className="mt-2 text-sm font-medium text-gray-800">{u.name}</p>
+                <p className="mt-2 text-sm font-medium text-gray-800">
+                  {u.name}
+                </p>
               </div>
             ))}
           </div>
@@ -86,7 +101,9 @@ function EventLobby() {
             Ready
           </button>
         ) : (
-          <p className="text-center text-gray-600 mt-2">Waiting for other players / ( Only you are! ) to Ready...</p>
+          <p className="text-center text-gray-600 mt-2">
+            Waiting for other players / ( Only you are! ) to Ready...
+          </p>
         )}
       </div>
     </div>

@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import QuestionCard from "./QuestionCard";
 import fisherYatesShuffle from "./fisherYatesShuffle";
+import socket from "./Socket";
 
 function EventQuiz() {
+  const { joinID } = useParams(); // room ID from route
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [allQuestions, setAllQuestions] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,11 +21,9 @@ function EventQuiz() {
   const [round, setRound] = useState(1);
   const [score, setScore] = useState({ easy: 0, medium: 0, hard: 0 });
   const [quizEnded, setQuizEnded] = useState(false);
+  const [leaderboard, setLeaderboard] = useState({});
 
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  // Prevent copying, right-click and shortcut keys
+  // Prevent copy, right-click, and F12
   useEffect(() => {
     const handleContextMenu = (e) => e.preventDefault();
     const handleKeyDown = (e) => {
@@ -29,7 +32,6 @@ function EventQuiz() {
         e.key === "F12"
       ) {
         e.preventDefault();
-        alert("Copying and inspecting are disabled during the quiz!");
       }
     };
     document.addEventListener("contextmenu", handleContextMenu);
@@ -40,26 +42,20 @@ function EventQuiz() {
     };
   }, []);
 
-  // Prevent refresh & back navigation
+  // Prevent refresh and back navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "F5" || (e.ctrlKey && e.key.toLowerCase() === "r")) {
+      if (e.key === "F5" || (e.ctrlKey && e.key.toLowerCase() === "r"))
         e.preventDefault();
-        alert("Refreshing is disabled during the quiz!");
-      }
       if (
         e.key === "Backspace" &&
         !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)
-      ) {
+      )
         e.preventDefault();
-        alert("Going back is disabled during the quiz!");
-      }
     };
     const handlePopState = () => {
       window.history.pushState(null, "", window.location.href);
-      alert("Going back is disabled!");
     };
-
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("popstate", handlePopState);
     window.history.pushState(null, "", window.location.href);
@@ -70,14 +66,11 @@ function EventQuiz() {
     };
   }, []);
 
-
-
   // Ensure user is authenticated
   useEffect(() => {
-    if (!user?.email) {
-      navigate('/login');
-    }
+    if (!user?.email) navigate("/login");
   }, [user, navigate]);
+
   // Fetch questions
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -87,8 +80,8 @@ function EventQuiz() {
           res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
         );
         setAllQuestions(shuffled);
-        const easyQuestions = shuffled.filter((q) => q.difficulty === "easy");
-        setQuestions(easyQuestions.slice(0, 5));
+        const easyQs = shuffled.filter((q) => q.difficulty === "easy");
+        setQuestions(easyQs.slice(0, 5));
       } catch (err) {
         console.error("Error fetching questions:", err);
       }
@@ -100,29 +93,49 @@ function EventQuiz() {
   useEffect(() => {
     if (submitted || !questions.length || currentIndex >= questions.length)
       return;
-
     if (timeLeft === 0) {
       handleSubmit();
       return;
     }
-
     const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearTimeout(timer);
   }, [timeLeft, submitted, questions, currentIndex]);
 
-  
-  // Submit
+  // Listen for leaderboard updates
+  useEffect(() => {
+    const handleScore = (allScores) => {
+      console.log("Received leaderboard:", allScores);
+      setLeaderboard({ ...allScores });
+    };
+
+    socket.on("score-broadcast", handleScore);
+
+    return () => {
+      socket.off("score-broadcast", handleScore);
+    };
+  }, []);
+
+  // Unified answer handler (replaces direct score calculation inside handleSubmit)
+  const handleAnswer = (difficulty, isCorrect) => {
+    const updatedScore = { ...score };
+    if (isCorrect) updatedScore[difficulty] += 1;
+    setScore(updatedScore);
+    // console.log("Emitting score-update", joinID, user, updatedScore);
+
+    // Emit to backend
+    socket.emit("score-update", {
+      joinID,
+      user: { name: user.name, email: user.email },
+      score: updatedScore,
+    });
+  };
+
   const handleSubmit = () => {
     const current = questions[currentIndex];
     const isCorrect = selectedOption === current.correctAnswer;
 
-    setSubmitted(true);
-    if (isCorrect) {
-      setScore((prev) => ({
-        ...prev,
-        [current.difficulty]: prev[current.difficulty] + 1,
-      }));
-    }
+    // use handleAnswer instead of direct score updates
+    handleAnswer(current.difficulty, isCorrect);
 
     setAnswers((prev) => [
       ...prev,
@@ -134,6 +147,7 @@ function EventQuiz() {
       },
     ]);
 
+    setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
       setSelectedOption("");
@@ -142,8 +156,7 @@ function EventQuiz() {
     }, 1000);
   };
 
-  // Round 
-  
+  // Handle rounds and next questions
   useEffect(() => {
     if (currentIndex === questions.length) {
       if (round === 1 && score.easy >= 4) {
@@ -157,50 +170,23 @@ function EventQuiz() {
         setCurrentIndex(0);
         setRound(3);
       } else {
-        setRound(round);
         submitFinalResult();
       }
     }
   }, [currentIndex, round, score, allQuestions]);
 
   const submitFinalResult = () => {
-    if (!user?.email) {
-      navigate('/login');
-      return;
-    }
-
-    if (!answers.length) {
-      console.error("No answers to submit");
-      return;
-    }
-
+    if (!user?.email || !answers.length) return;
     const userResult = {
       email: user.email,
       nameCategory: "Event Quiz",
       round,
       questions: answers,
     };
-
     axios
       .post("/api/user/playing-quiz", userResult)
-      .then(() => {
-        console.log("Results saved to MongoDB");
-        setQuizEnded(true);
-      })
-      .catch((err) => console.error("Saving result failed:", err));
-  };
-
-  const resetQuiz = () => {
-    const easyQuestions = allQuestions.filter((q) => q.difficulty === "easy");
-    setQuestions(easyQuestions.slice(0, 5));
-    setCurrentIndex(0);
-    setSelectedOption("");
-    setTimeLeft(10);
-    setSubmitted(false);
-    setAnswers([]);
-    setRound(1);
-    setScore({ easy: 0, medium: 0, hard: 0 });
-    setQuizEnded(false);
+      .then(() => setQuizEnded(true))
+      .catch((err) => console.error(err));
   };
 
   if (quizEnded) {
@@ -212,16 +198,54 @@ function EventQuiz() {
           <h1 className="text-3xl font-bold text-green-800 mb-6">
             🎉 Quiz Completed!
           </h1>
+
           <p className="text-xl font-semibold text-gray-800 mb-2">
             ✅ Correct Answers: {totalCorrect}
           </p>
           <p className="text-lg text-purple-800 font-medium mb-4">
             🏆 Round : {round}
           </p>
+
           <div className="text-lg text-gray-700 mb-4">
             <p>Easy: {score.easy}</p>
             <p>Medium: {score.medium}</p>
             <p>Hard: {score.hard}</p>
+            <p className="font-bold mt-2">
+              Total Points: {score.easy * 1 + score.medium * 2 + score.hard * 3}
+            </p>
+          </div>
+
+          {/* Leaderboard */}
+          <div className="text-left mt-6">
+            <h3 className="font-bold mb-2">Leaderboard:</h3>
+
+            {Object.entries(leaderboard)
+              .map(([email, s]) => ({
+                email,
+                easy: s.easy,
+                medium: s.medium,
+                hard: s.hard,
+                total: s.easy * 1 + s.medium * 2 + s.hard * 3,
+              }))
+              .sort((a, b) => b.total - a.total)
+              .map((player, index) => (
+                <div
+                  key={player.email}
+                  className={`flex justify-between items-center p-2 rounded-lg mb-1 ${
+                    index === 0
+                      ? "bg-yellow-200 font-bold shadow-md"
+                      : "bg-gray-100"
+                  }`}
+                >
+                  <span className="text-sm">{player.email}</span>
+                  <span className="text-sm font-semibold">
+                    {player.total} pts
+                    <span className="ml-2 text-xs text-gray-500">
+                      (E:{player.easy} M:{player.medium} H:{player.hard})
+                    </span>
+                  </span>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -232,6 +256,7 @@ function EventQuiz() {
     return <div>Preparing next round...</div>;
 
   const current = questions[currentIndex];
+  // console.log("Leaderboard state:", leaderboard);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
@@ -246,27 +271,26 @@ function EventQuiz() {
                 : "bg-red-200 text-red-800"
             }`}
           >
-            {current.difficulty.charAt(0).toUpperCase() + current.difficulty.slice(1)}
+            {current.difficulty.charAt(0).toUpperCase() +
+              current.difficulty.slice(1)}
           </span>
         </div>
 
-        <div className="absolute top-4 right-4 flex items-center space-x-2 animate-pulse">
-          <span className="bg-purple-200 text-purple-800 text-sm font-bold px-4 py-1 rounded-full shadow-md animate-pulse">
+        <div className="absolute top-4 right-4 flex items-center space-x-2">
+          <span className="bg-purple-200 text-purple-800 text-sm font-bold px-4 py-1 rounded-full shadow-md">
             Round {round}
           </span>
           <span className="text-2xl text-red-600">⏳</span>
           <span className="text-lg font-bold text-red-600">{timeLeft}s</span>
         </div>
 
-        <div className="select-none">
-          <QuestionCard
-            question={current.question}
-            option={current.option}
-            selectedOption={selectedOption}
-            onSelectOption={setSelectedOption}
-            disabled={submitted}
-          />
-        </div>
+        <QuestionCard
+          question={current.question}
+          option={current.option}
+          selectedOption={selectedOption}
+          onSelectOption={setSelectedOption}
+          disabled={submitted}
+        />
 
         {selectedOption && !submitted && (
           <button
@@ -282,6 +306,42 @@ function EventQuiz() {
             Answer Submitted!
           </p>
         )}
+
+        {/* Live leaderboard */}
+        <div className="mt-6 text-left">
+          <h3 className="font-bold mb-2">Leaderboard:</h3>
+
+          {Object.entries(leaderboard)
+            // convert object into array with calculated total score
+            .map(([email, s]) => ({
+              email,
+              easy: s.easy,
+              medium: s.medium,
+              hard: s.hard,
+              total: s.easy * 1 + s.medium * 2 + s.hard * 3, // points system
+            }))
+            // sort by total score descending
+            .sort((a, b) => b.total - a.total)
+            // render leaderboard
+            .map((player, index) => (
+              <div
+                key={player.email}
+                className={`flex justify-between items-center p-2 rounded-lg mb-1 ${
+                  index === 0
+                    ? "bg-yellow-200 font-bold shadow-md" // highlight top scorer
+                    : "bg-gray-100"
+                }`}
+              >
+                <span className="text-sm">{player.email}</span>
+                <span className="text-sm font-semibold">
+                  {player.total} pts
+                  <span className="ml-2 text-xs text-gray-500">
+                    (E:{player.easy} M:{player.medium} H:{player.hard})
+                  </span>
+                </span>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

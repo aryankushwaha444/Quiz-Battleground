@@ -45,6 +45,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/eventquiz/:joinID" element={<EventQuiz />} />
           <Route path="/event-lobby/:joinID" element={<EventLobby />} />
 
           <Route
