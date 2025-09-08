@@ -78,6 +78,8 @@ function EventQuiz() {
       navigate('/login');
     }
   }, [user, navigate]);
+
+  
   // Fetch questions
   useEffect(() => {
     const fetchQuestions = async () => {
