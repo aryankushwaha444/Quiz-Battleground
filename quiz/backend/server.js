@@ -5,29 +5,26 @@ import express from "express";
 import connectDB from "./db/mongoDB.connection.js";
 import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
-// import test from './routes/test.routes.js';
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
+import Leaderboard from "./models/Leaderboard.models.js";
 
 const PORT = process.env.PORT || 5000;
 const app = express();
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Database Connection
+// Connect to MongoDB
 connectDB();
 
-// Routes
+// REST API routes
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
 
-// Create HTTP server instance
+// Create HTTP server and attach Socket.IO
 const server = http.createServer(app);
-
-// Socket.IO Setup
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -35,70 +32,75 @@ const io = new Server(server, {
   },
 });
 
-// Store rooms with users and readiness state
-const rooms = {}; // Format: { joinID: { users: [], readyUsers: [], sockets: {} } }
-const leaderboard = {};
+// In-memory structure to store room-related data (users, readyUsers, sockets)
+const rooms = {}; // { joinID: { users: [], readyUsers: [], sockets: {} } }
+
+function createNewRoom(joinID) {
+  rooms[joinID] = {
+    users: [],
+    readyUsers: [],
+    sockets: {},
+  };
+  return rooms[joinID];
+}
 
 io.on("connection", (socket) => {
-  console.log(" New user connected:", socket.id);
+  console.log(`A new client connected (Socket ID: ${socket.id})`);
 
-  socket.on("join-room", ({ joinID, user }) => {
-    if (!rooms[joinID]) {
-      rooms[joinID] = { users: [], readyUsers: [], sockets: {} };
+  // User joins a room
+  socket.on("join-room", async ({ joinID, user }) => {
+    const room = rooms[joinID] || createNewRoom(joinID);
+
+    // Add user if not already in room
+    const existingUser = room.users.find((u) => u.email === user.email);
+    if (!existingUser) {
+      room.users.push(user);
     }
 
-    const alreadyJoined = rooms[joinID].users.some(
-      (u) => u.email === user.email
+    room.sockets[socket.id] = user;
+    socket.join(joinID);
+
+    console.log(
+      `${user.name} joined room ${joinID}. Total users: ${room.users.length}`
     );
-    if (!alreadyJoined) {
-      rooms[joinID].users.push(user);
-      rooms[joinID].sockets[socket.id] = user;
 
-      socket.join(joinID); // join only if first time
-      io.to(joinID).emit("room-update", rooms[joinID]);
-      console.log(` ${user.name} joined room ${joinID}`);
+    io.to(joinID).emit("room-update", room);
+
+    // Fetch leaderboard or create new one
+    let leaderboardDoc = await Leaderboard.findOne({ joinID });
+    if (!leaderboardDoc) {
+      leaderboardDoc = new Leaderboard({ joinID, scores: [] });
+      await leaderboardDoc.save();
     }
+
+    // Convert leaderboard to object keyed by email
+    const leaderboardObj = {};
+    leaderboardDoc.scores.forEach((s) => {
+      leaderboardObj[s.email] = s;
+    });
+
+    socket.emit("score-broadcast", leaderboardObj);
   });
 
+  // User marks themselves ready
   socket.on("start-quiz", ({ joinID, user }) => {
-    if (!rooms[joinID]) return;
+    const room = rooms[joinID];
+    if (!room) return;
 
-    // Mark user as ready if not already
-    const alreadyReady = rooms[joinID].readyUsers.some(
-      (u) => u.email === user.email
-    );
-    if (!alreadyReady) {
-      rooms[joinID].readyUsers.push(user);
-    }
+    const alreadyReady = room.readyUsers.some((u) => u.email === user.email);
+    if (!alreadyReady) room.readyUsers.push(user);
 
-    console.log("Room state:", rooms[joinID]);
     console.log(
-      `Users: ${rooms[joinID].users.length}, Ready: ${rooms[joinID].readyUsers.length}`
+      `${user.name} is ready in room ${joinID}. Ready count: ${room.readyUsers.length}/${room.users.length}`
     );
-    console.log(`\n--- Start-quiz received from: ${user.email} ---`);
-    console.log(
-      "Users in room:",
-      rooms[joinID].users.map((u) => u.email)
-    );
-    console.log(
-      "Ready users in room:",
-      rooms[joinID].readyUsers.map((u) => u.email)
-    );
-    console.log(
-      `Total Users: ${rooms[joinID].users.length}, Ready: ${rooms[joinID].readyUsers.length}`
-    );
-    // Check if all users are ready
+
     const allReady =
-      rooms[joinID].users.length > 0 &&
-      rooms[joinID].users.every((u) =>
-        rooms[joinID].readyUsers.some((r) => r.email === u.email)
-      );
-
-    console.log("AllReady =", allReady);
+      room.users.length > 0 &&
+      room.users.every((u) => room.readyUsers.some((r) => r.email === u.email));
 
     if (allReady) {
+      console.log(`All users are ready in room ${joinID}. Starting quiz...`);
       io.to(joinID).emit("all-users-ready");
-      console.log(`✅ Quiz started in room ${joinID}`);
     } else {
       socket.emit("not-all-ready", {
         message: "Waiting for other players to ready...",
@@ -106,49 +108,75 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("disconnect", () => {
-    console.log(" User disconnected:", socket.id);
-
-    // Find and remove from all rooms
-    for (const joinID in rooms) {
-      const user = rooms[joinID].sockets[socket.id];
-      if (user) {
-        rooms[joinID].users = rooms[joinID].users.filter(
-          (u) => u.email !== user.email
-        );
-        rooms[joinID].readyUsers = rooms[joinID].readyUsers.filter(
-          (u) => u.email !== user.email
-        );
-        delete rooms[joinID].sockets[socket.id];
-
-        // Broadcast updated users
-        io.to(joinID).emit("room-update", rooms[joinID]);
-        console.log(` ${user.name} left room ${joinID}`);
+  // Update score
+  socket.on("score-update", async ({ joinID, user, score }) => {
+    try {
+      let leaderboardDoc = await Leaderboard.findOne({ joinID });
+      if (!leaderboardDoc) {
+        leaderboardDoc = new Leaderboard({ joinID, scores: [] });
       }
 
-      // Optional: remove empty room
-      if (
-        rooms[joinID].users.length === 0 &&
-        rooms[joinID].readyUsers.length === 0
-      ) {
-        delete rooms[joinID];
-        console.log(` Room ${joinID} deleted (empty).`);
+      const idx = leaderboardDoc.scores.findIndex(
+        (s) => s.email === user.email
+      );
+      if (idx >= 0) {
+        leaderboardDoc.scores[idx] = {
+          ...leaderboardDoc.scores[idx].toObject(),
+          ...score,
+          name: user.name,
+          updatedAt: new Date(),
+        };
+      } else {
+        leaderboardDoc.scores.push({
+          email: user.email,
+          name: user.name,
+          ...score,
+        });
       }
+
+      await leaderboardDoc.save();
+
+      // Convert to object keyed by email before emitting
+      const leaderboardObj = {};
+      leaderboardDoc.scores.forEach((s) => {
+        leaderboardObj[s.email] = s;
+      });
+
+      io.to(joinID).emit("score-broadcast", leaderboardObj);
+
+      console.log(`${user.name} updated their score in room ${joinID}:`, score);
+    } catch (err) {
+      console.error("Error saving score:", err);
     }
   });
 
-  //FOr leaderboard
-  socket.on("score-update", ({ joinID, user, score }) => {
-    if (!leaderboard[joinID]) leaderboard[joinID] = {};
-    leaderboard[joinID][user.email] = score;
+  // Handle user disconnect
+  socket.on("disconnect", () => {
+    for (const joinID in rooms) {
+      const room = rooms[joinID];
+      const user = room.sockets[socket.id];
 
-    // Broadcast updated scores to all users in the room
-    io.to(joinID).emit("score-broadcast", leaderboard[joinID]);
-    console.log("score-update received", joinID, user, score);
+      if (user) {
+        room.users = room.users.filter((u) => u.email !== user.email);
+        room.readyUsers = room.readyUsers.filter((u) => u.email !== user.email);
+        delete room.sockets[socket.id];
+
+        console.log(
+          `${user.name} left room ${joinID}. Remaining users: ${room.users.length}`
+        );
+
+        io.to(joinID).emit("room-update", room);
+      }
+
+      // Delete room if empty
+      if (room.users.length === 0) {
+        delete rooms[joinID];
+        console.log(`Room ${joinID} deleted because it became empty`);
+      }
+    }
   });
 });
 
-// Start server
 server.listen(PORT, () => {
   console.log(`Server running with Socket.IO on http://localhost:${PORT}`);
 });

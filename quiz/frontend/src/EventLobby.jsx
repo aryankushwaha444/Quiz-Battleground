@@ -10,7 +10,7 @@ function EventLobby() {
   const [users, setUsers] = useState([]);
   const [isReady, setIsReady] = useState(false);
 
-  // Existing useEffect for joining room and room updates
+  // First useEffect: Handle joining room + storing data in localStorage
   useEffect(() => {
     if (!user?.name || !user?.email) {
       alert("You must be logged in to join the lobby.");
@@ -18,11 +18,14 @@ function EventLobby() {
       return;
     }
 
-    socket.emit("join-room", {
-      joinID,
-      user: { name: user.name, email: user.email },
-    });
+    // Emit join-room to server
+    socket.emit("join-room", { joinID, user });
 
+    // Store room & user locally so we can reconnect on refresh
+    localStorage.setItem("joinID", joinID);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Listen for room updates
     const handleRoomUpdate = (room) => {
       if (room?.users) {
         setUsers(room.users);
@@ -38,10 +41,10 @@ function EventLobby() {
     };
   }, [joinID, user, navigate]);
 
-  // New useEffect for all-users-ready event
+  // Second useEffect: Handle when all users are ready
   useEffect(() => {
     const handleAllReady = () => {
-      navigate(`/eventquiz/${joinID}`); // Redirect when quiz starts
+      navigate(`/eventquiz/${joinID}`);
     };
 
     socket.on("all-users-ready", handleAllReady);
@@ -49,12 +52,12 @@ function EventLobby() {
     return () => {
       socket.off("all-users-ready", handleAllReady);
     };
-  }, [navigate]);
+  }, [navigate, joinID]);
 
   const handleReady = () => {
     socket.emit("start-quiz", {
       joinID,
-      user: { name: user.name, email: user.email },
+      user,
     });
     setIsReady(true);
   };
@@ -102,7 +105,7 @@ function EventLobby() {
           </button>
         ) : (
           <p className="text-center text-gray-600 mt-2">
-            Waiting for other players / ( Only you are! ) to Ready...
+            Waiting for other players...
           </p>
         )}
       </div>

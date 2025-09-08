@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { useAuth } from "./Auth/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,9 +7,36 @@ import fisherYatesShuffle from "./fisherYatesShuffle";
 import socket from "./Socket";
 
 function EventQuiz() {
-  const { joinID } = useParams(); // room ID from route
+  const { joinID } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // 🔹 RESET QUIZ IF JOINID CHANGES
+  useEffect(() => {
+    const storedJoinID = localStorage.getItem("quiz_joinID");
+    if (storedJoinID !== joinID) {
+      clearQuizStorage();
+      localStorage.setItem("quiz_joinID", joinID);
+    }
+  }, [joinID]);
+
+  const clearQuizStorage = () => {
+    [
+      "event_score",
+      "event_round",
+      "event_currentIndex",
+      "event_answers",
+      "event_quizEnded",
+      "event_questions",
+      "event_allQuestions",
+      "quiz_joinID",
+    ].forEach((key) => localStorage.removeItem(key));
+
+    // 🔹 Clear per-question timers
+    for (let i = 0; i < 100; i++) {
+      localStorage.removeItem(`event_timeLeft_${i}`);
+    }
+  };
 
   const [allQuestions, setAllQuestions] = useState([]);
   const [questions, setQuestions] = useState([]);
@@ -22,107 +49,153 @@ function EventQuiz() {
   const [score, setScore] = useState({ easy: 0, medium: 0, hard: 0 });
   const [quizEnded, setQuizEnded] = useState(false);
   const [leaderboard, setLeaderboard] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Prevent copy, right-click, and F12
+  // Join room
   useEffect(() => {
-    const handleContextMenu = (e) => e.preventDefault();
-    const handleKeyDown = (e) => {
-      if (
-        (e.ctrlKey && ["c", "x", "a"].includes(e.key.toLowerCase())) ||
-        e.key === "F12"
-      ) {
-        e.preventDefault();
-      }
-    };
-    document.addEventListener("contextmenu", handleContextMenu);
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+    if (user && joinID) socket.emit("join-room", { joinID, user });
+  }, [user, joinID]);
 
-  // Prevent refresh and back navigation
+  // Rejoin on reconnect
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "F5" || (e.ctrlKey && e.key.toLowerCase() === "r"))
-        e.preventDefault();
-      if (
-        e.key === "Backspace" &&
-        !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)
-      )
-        e.preventDefault();
+    const handleConnect = () => {
+      if (user && joinID) socket.emit("join-room", { joinID, user });
     };
-    const handlePopState = () => {
-      window.history.pushState(null, "", window.location.href);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("popstate", handlePopState);
-    window.history.pushState(null, "", window.location.href);
+    socket.on("connect", handleConnect);
+    return () => socket.off("connect", handleConnect);
+  }, [user, joinID]);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, []);
-
-  // Ensure user is authenticated
+  // Initialize quiz
   useEffect(() => {
-    if (!user?.email) navigate("/login");
-  }, [user, navigate]);
-
-  // Fetch questions
-  useEffect(() => {
-    const fetchQuestions = async () => {
+    const initializeQuiz = async () => {
       try {
-        const res = await axios.get("/api/user/eventquiz");
-        const shuffled = fisherYatesShuffle(
-          res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
-        );
-        setAllQuestions(shuffled);
-        const easyQs = shuffled.filter((q) => q.difficulty === "easy");
-        setQuestions(easyQs.slice(0, 5));
+        const savedAllQuestions = localStorage.getItem("event_allQuestions");
+        const savedQuestions = localStorage.getItem("event_questions");
+        const savedScore = localStorage.getItem("event_score");
+        const savedRound = localStorage.getItem("event_round");
+        const savedCurrentIndex = localStorage.getItem("event_currentIndex");
+        const savedAnswers = localStorage.getItem("event_answers");
+        const savedQuizEnded = localStorage.getItem("event_quizEnded");
+
+        if (savedAllQuestions && savedQuestions) {
+          setAllQuestions(JSON.parse(savedAllQuestions));
+          setQuestions(JSON.parse(savedQuestions));
+          if (savedScore) setScore(JSON.parse(savedScore));
+          if (savedRound) setRound(Number(savedRound));
+          if (savedCurrentIndex) setCurrentIndex(Number(savedCurrentIndex));
+          if (savedAnswers) setAnswers(JSON.parse(savedAnswers));
+          if (savedQuizEnded) setQuizEnded(savedQuizEnded === "true");
+        } else {
+          const res = await axios.get("/api/user/eventquiz");
+          const shuffled = fisherYatesShuffle(
+            res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
+          );
+          setAllQuestions(shuffled);
+          setQuestions(
+            shuffled.filter((q) => q.difficulty === "easy").slice(0, 5)
+          );
+        }
       } catch (err) {
-        console.error("Error fetching questions:", err);
+        console.error("Error initializing quiz:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchQuestions();
+    initializeQuiz();
   }, []);
 
-  // Timer
+  // Save quiz progress
   useEffect(() => {
-    if (submitted || !questions.length || currentIndex >= questions.length)
-      return;
-    if (timeLeft === 0) {
-      handleSubmit();
-      return;
-    }
-    const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [timeLeft, submitted, questions, currentIndex]);
+    if (!isLoading) localStorage.setItem("event_score", JSON.stringify(score));
+  }, [score, isLoading]);
+  useEffect(() => {
+    if (!isLoading) localStorage.setItem("event_round", round.toString());
+  }, [round, isLoading]);
+  useEffect(() => {
+    if (!isLoading)
+      localStorage.setItem("event_currentIndex", currentIndex.toString());
+  }, [currentIndex, isLoading]);
+  useEffect(() => {
+    if (!isLoading)
+      localStorage.setItem("event_answers", JSON.stringify(answers));
+  }, [answers, isLoading]);
+  useEffect(() => {
+    if (!isLoading)
+      localStorage.setItem("event_quizEnded", quizEnded.toString());
+  }, [quizEnded, isLoading]);
+  useEffect(() => {
+    if (!isLoading && questions.length > 0)
+      localStorage.setItem("event_questions", JSON.stringify(questions));
+  }, [questions, isLoading]);
+  useEffect(() => {
+    if (!isLoading && allQuestions.length > 0)
+      localStorage.setItem("event_allQuestions", JSON.stringify(allQuestions));
+  }, [allQuestions, isLoading]);
 
   // Listen for leaderboard updates
   useEffect(() => {
-    const handleScore = (allScores) => {
-      console.log("Received leaderboard:", allScores);
-      setLeaderboard({ ...allScores });
+    const handleScore = (scoresObj) => {
+      setLeaderboard(scoresObj);
+      if (user?.email && scoresObj[user.email]) {
+        const s = scoresObj[user.email];
+        setScore({
+          easy: s.easy || 0,
+          medium: s.medium || 0,
+          hard: s.hard || 0,
+        });
+      }
     };
-
     socket.on("score-broadcast", handleScore);
+    return () => socket.off("score-broadcast", handleScore);
+  }, [user]);
 
-    return () => {
-      socket.off("score-broadcast", handleScore);
+  // 🔹 TIMER FIX: set default time based on difficulty per question
+  useEffect(() => {
+    if (!questions.length || currentIndex >= questions.length) return;
+    const current = questions[currentIndex];
+    const defaultTime =
+      current.difficulty === "medium"
+        ? 15
+        : current.difficulty === "hard"
+        ? 20
+        : 10;
+    const savedTime = localStorage.getItem(`event_timeLeft_${currentIndex}`);
+    setTimeLeft(savedTime ? Number(savedTime) : defaultTime);
+  }, [currentIndex, questions]);
+
+  useEffect(() => {
+    if (
+      isLoading ||
+      submitted ||
+      !questions.length ||
+      currentIndex >= questions.length
+    )
+      return;
+
+    const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
+
+    // 🔹 Save timeLeft per question
+    localStorage.setItem(`event_timeLeft_${currentIndex}`, timeLeft.toString());
+
+    if (timeLeft === 0) handleSubmit();
+
+    return () => clearTimeout(timer);
+  }, [timeLeft, submitted, questions, currentIndex, isLoading]);
+
+  // Prevent refresh
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "";
     };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  // Unified answer handler (replaces direct score calculation inside handleSubmit)
   const handleAnswer = (difficulty, isCorrect) => {
     const updatedScore = { ...score };
     if (isCorrect) updatedScore[difficulty] += 1;
     setScore(updatedScore);
-    // console.log("Emitting score-update", joinID, user, updatedScore);
-
-    // Emit to backend
     socket.emit("score-update", {
       joinID,
       user: { name: user.name, email: user.email },
@@ -134,7 +207,6 @@ function EventQuiz() {
     const current = questions[currentIndex];
     const isCorrect = selectedOption === current.correctAnswer;
 
-    // use handleAnswer instead of direct score updates
     handleAnswer(current.difficulty, isCorrect);
 
     setAnswers((prev) => [
@@ -151,29 +223,30 @@ function EventQuiz() {
     setTimeout(() => {
       setSubmitted(false);
       setSelectedOption("");
-      setTimeLeft(10);
       setCurrentIndex((prev) => prev + 1);
     }, 1000);
+
+    // 🔹 Remove saved timer for this question
+    localStorage.removeItem(`event_timeLeft_${currentIndex}`);
   };
 
-  // Handle rounds and next questions
+  // Handle rounds
   useEffect(() => {
-    if (currentIndex === questions.length) {
-      if (round === 1 && score.easy >= 4) {
-        const mediumQs = allQuestions.filter((q) => q.difficulty === "medium");
-        setQuestions(mediumQs);
-        setCurrentIndex(0);
-        setRound(2);
-      } else if (round === 2 && score.medium >= 4) {
-        const hardQs = allQuestions.filter((q) => q.difficulty === "hard");
-        setQuestions(hardQs);
-        setCurrentIndex(0);
-        setRound(3);
-      } else {
-        submitFinalResult();
-      }
+    if (isLoading || currentIndex !== questions.length || !allQuestions.length)
+      return;
+
+    if (round === 1 && score.easy >= 4) {
+      setQuestions(allQuestions.filter((q) => q.difficulty === "medium"));
+      setCurrentIndex(0);
+      setRound(2);
+    } else if (round === 2 && score.medium >= 4) {
+      setQuestions(allQuestions.filter((q) => q.difficulty === "hard"));
+      setCurrentIndex(0);
+      setRound(3);
+    } else {
+      submitFinalResult();
     }
-  }, [currentIndex, round, score, allQuestions]);
+  }, [currentIndex, round, score, allQuestions, isLoading]);
 
   const submitFinalResult = () => {
     if (!user?.email || !answers.length) return;
@@ -185,78 +258,45 @@ function EventQuiz() {
     };
     axios
       .post("/api/user/playing-quiz", userResult)
-      .then(() => setQuizEnded(true))
-      .catch((err) => console.error(err));
+      .then(() => {
+        setQuizEnded(true);
+        clearQuizStorage();
+      })
+      .catch(console.error);
   };
 
-  if (quizEnded) {
-    const totalCorrect = answers.filter((a) => a.correct).length;
+  const sortedLeaderboard = useMemo(() => {
+    return Object.entries(leaderboard)
+      .map(([email, s]) => ({
+        email,
+        easy: s.easy || 0,
+        medium: s.medium || 0,
+        hard: s.hard || 0,
+        total: (s.easy || 0) * 1 + (s.medium || 0) * 2 + (s.hard || 0) * 3,
+      }))
+      .sort((a, b) => b.total - a.total);
+  }, [leaderboard]);
 
+  // --- UI ---
+
+  if (isLoading) return <LoadingScreen message="Loading Quiz..." />;
+  if (quizEnded)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
-        <div className="bg-purple-100 rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center">
-          <h1 className="text-3xl font-bold text-green-800 mb-6">
-            🎉 Quiz Completed!
-          </h1>
-
-          <p className="text-xl font-semibold text-gray-800 mb-2">
-            ✅ Correct Answers: {totalCorrect}
-          </p>
-          <p className="text-lg text-purple-800 font-medium mb-4">
-            🏆 Round : {round}
-          </p>
-
-          <div className="text-lg text-gray-700 mb-4">
-            <p>Easy: {score.easy}</p>
-            <p>Medium: {score.medium}</p>
-            <p>Hard: {score.hard}</p>
-            <p className="font-bold mt-2">
-              Total Points: {score.easy * 1 + score.medium * 2 + score.hard * 3}
-            </p>
-          </div>
-
-          {/* Leaderboard */}
-          <div className="text-left mt-6">
-            <h3 className="font-bold mb-2">Leaderboard:</h3>
-
-            {Object.entries(leaderboard)
-              .map(([email, s]) => ({
-                email,
-                easy: s.easy,
-                medium: s.medium,
-                hard: s.hard,
-                total: s.easy * 1 + s.medium * 2 + s.hard * 3,
-              }))
-              .sort((a, b) => b.total - a.total)
-              .map((player, index) => (
-                <div
-                  key={player.email}
-                  className={`flex justify-between items-center p-2 rounded-lg mb-1 ${
-                    index === 0
-                      ? "bg-yellow-200 font-bold shadow-md"
-                      : "bg-gray-100"
-                  }`}
-                >
-                  <span className="text-sm">{player.email}</span>
-                  <span className="text-sm font-semibold">
-                    {player.total} pts
-                    <span className="ml-2 text-xs text-gray-500">
-                      (E:{player.easy} M:{player.medium} H:{player.hard})
-                    </span>
-                  </span>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
+      <QuizEndScreen
+        score={score}
+        answers={answers}
+        round={round}
+        leaderboard={sortedLeaderboard}
+      />
     );
-  }
-
-  if (currentIndex >= questions.length && !quizEnded)
-    return <div>Preparing next round...</div>;
+  if (!questions.length)
+    return <MessageScreen message="No questions available" />;
+  if (currentIndex >= questions.length)
+    return <MessageScreen message="Preparing next round..." />;
 
   const current = questions[currentIndex];
-  // console.log("Leaderboard state:", leaderboard);
+
+  if (!current) return <MessageScreen message="Question not found" />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
@@ -275,7 +315,6 @@ function EventQuiz() {
               current.difficulty.slice(1)}
           </span>
         </div>
-
         <div className="absolute top-4 right-4 flex items-center space-x-2">
           <span className="bg-purple-200 text-purple-800 text-sm font-bold px-4 py-1 rounded-full shadow-md">
             Round {round}
@@ -300,51 +339,84 @@ function EventQuiz() {
             Submit
           </button>
         )}
-
         {submitted && (
           <p className="mt-4 text-center text-green-700 font-semibold">
             Answer Submitted!
           </p>
         )}
 
-        {/* Live leaderboard */}
-        <div className="mt-6 text-left">
-          <h3 className="font-bold mb-2">Leaderboard:</h3>
-
-          {Object.entries(leaderboard)
-            // convert object into array with calculated total score
-            .map(([email, s]) => ({
-              email,
-              easy: s.easy,
-              medium: s.medium,
-              hard: s.hard,
-              total: s.easy * 1 + s.medium * 2 + s.hard * 3, // points system
-            }))
-            // sort by total score descending
-            .sort((a, b) => b.total - a.total)
-            // render leaderboard
-            .map((player, index) => (
-              <div
-                key={player.email}
-                className={`flex justify-between items-center p-2 rounded-lg mb-1 ${
-                  index === 0
-                    ? "bg-yellow-200 font-bold shadow-md" // highlight top scorer
-                    : "bg-gray-100"
-                }`}
-              >
-                <span className="text-sm">{player.email}</span>
-                <span className="text-sm font-semibold">
-                  {player.total} pts
-                  <span className="ml-2 text-xs text-gray-500">
-                    (E:{player.easy} M:{player.medium} H:{player.hard})
-                  </span>
-                </span>
-              </div>
-            ))}
-        </div>
+        <LeaderboardDisplay sortedLeaderboard={sortedLeaderboard} />
       </div>
     </div>
   );
 }
+
+// ----- Helper components -----
+
+const LoadingScreen = ({ message }) => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center text-xl font-semibold text-purple-800">
+      {message}
+    </div>
+  </div>
+);
+
+const MessageScreen = ({ message }) => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center text-xl font-semibold text-red-600">
+      {message}
+    </div>
+  </div>
+);
+
+const QuizEndScreen = ({ score, answers, round, leaderboard }) => {
+  const totalCorrect = answers.filter((a) => a.correct).length;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-purple-100 rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center">
+        <h1 className="text-3xl font-bold text-green-800 mb-6">
+          Quiz Completed!
+        </h1>
+        <p className="text-xl font-semibold text-gray-800 mb-2">
+          Correct Answers: {totalCorrect}
+        </p>
+        <p className="text-lg text-purple-800 font-medium mb-4">
+          Round: {round}
+        </p>
+        <div className="text-lg text-gray-700 mb-4">
+          <p>Easy: {score.easy}</p>
+          <p>Medium: {score.medium}</p>
+          <p>Hard: {score.hard}</p>
+          <p className="font-bold mt-2">
+            Total Points: {score.easy + score.medium * 2 + score.hard * 3}
+          </p>
+        </div>
+        <LeaderboardDisplay sortedLeaderboard={leaderboard} />
+      </div>
+    </div>
+  );
+};
+
+const LeaderboardDisplay = ({ sortedLeaderboard }) => (
+  <div className="mt-6 text-left">
+    <h3 className="font-bold mb-2">Leaderboard:</h3>
+    {sortedLeaderboard.map((player, index) => (
+      <div
+        key={player.email}
+        className={`flex justify-between items-center p-2 rounded-lg mb-1 ${
+          index === 0 ? "bg-yellow-200 font-bold shadow-md" : "bg-gray-100"
+        }`}
+      >
+        <span className="text-sm">{player.email}</span>
+        <span className="text-sm font-semibold">
+          {player.total} pts{" "}
+          <span className="ml-2 text-xs text-gray-500">
+            (E:{player.easy} M:{player.medium} H:{player.hard})
+          </span>
+        </span>
+      </div>
+    ))}
+  </div>
+);
 
 export default EventQuiz;
