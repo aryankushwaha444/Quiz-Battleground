@@ -6,6 +6,38 @@ import QuestionCard from "./QuestionCard";
 import fisherYatesShuffle from "./fisherYatesShuffle";
 import socket from "./Socket";
 
+
+
+// Custom hook to block navigation
+function useNavigationGuard(enabled) {
+  useEffect(() => {
+    if (!enabled) return;
+
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "Your quiz progress will be lost!";
+    };
+
+    const handleClick = (e) => {
+      const anchor = e.target.closest("a");
+      if (anchor && anchor.href) {
+        e.preventDefault();
+        alert("Navigation is disabled during the quiz! Your quiz cannot be stopped!");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("click", handleClick);
+    };
+  }, [enabled]);
+}
+
+
+
 function EventQuiz() {
   const { joinID } = useParams();
   const { user } = useAuth();
@@ -25,7 +57,60 @@ function EventQuiz() {
   const [isLoading, setIsLoading] = useState(true);
   const [feedbackMessage, setFeedbackMessage] = useState(""); // New
 
-  const QUESTION_DURATION = { easy: 10, medium: 15, hard: 20 };
+  const QUESTION_DURATION = { easy: 10, medium: 10, hard: 10 };
+
+    // Block navigation while quiz is running
+    useNavigationGuard(!quizEnded);
+
+
+  // Prevent right-click & shortcuts
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey && ["c", "x", "a"].includes(e.key.toLowerCase())) || e.key === "F12") {
+        e.preventDefault();
+        alert("Copying and inspecting are disabled!");
+      }
+    };
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+
+
+
+    // Prevent back/refresh
+    useEffect(() => {
+      const handleKeyDown = (e) => {
+        if (e.key === "F5" || (e.ctrlKey && e.key.toLowerCase() === "r")) {
+          e.preventDefault();
+          alert("Refreshing is disabled!");
+        }
+        if (e.key === "Backspace" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
+          e.preventDefault();
+          alert("Going back is disabled!");
+        }
+      };
+      const handlePopState = () => {
+        window.history.pushState(null, "", window.location.href);
+        if (!quizEnded) alert("Going back is disabled!");
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("popstate", handlePopState);
+      window.history.pushState(null, "", window.location.href);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }, [quizEnded]);
+  
+
+
+
 
   // Reset quiz if joinID changes
   useEffect(() => {
