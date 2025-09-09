@@ -1,0 +1,167 @@
+[
+  {
+    "question": "What is reverse engineering?",
+    "difficulty": "easy",
+    "answer": "Analyzing software to understand its design and behavior",
+    "option": [
+      "Writing new code from scratch",
+      "Testing software for bugs",
+      "Analyzing software to understand its design and behavior",
+      "Installing software updates"
+    ]
+  },
+  {
+    "question": "Which file type is commonly reverse-engineered?",
+    "difficulty": "easy",
+    "answer": "Executable files",
+    "option": [
+      "Text documents",
+      "PDF files",
+      "Executable files",
+      "Image files"
+    ]
+  },
+  {
+    "question": "Which tool is commonly used for reverse engineering binaries?",
+    "difficulty": "easy",
+    "answer": "IDA Pro",
+    "option": [
+      "Nmap",
+      "IDA Pro",
+      "Netcat",
+      "Postman"
+    ]
+  },
+  {
+    "question": "What is a disassembler?",
+    "difficulty": "easy",
+    "answer": "A tool that converts machine code into assembly code",
+    "option": [
+      "A tool that compiles source code",
+      "A tool that deletes files",
+      "A tool that converts machine code into assembly code",
+      "A tool that encrypts data"
+    ]
+  },
+  {
+    "question": "Which type of malware analysis involves reverse engineering?",
+    "difficulty": "easy",
+    "answer": "Static analysis",
+    "option": [
+      "Performance tuning",
+      "Static analysis",
+      "Code formatting",
+      "Network configuration"
+    ]
+  },
+  {
+    "question": "Which tool is used for debugging in reverse engineering?",
+    "difficulty": "medium",
+    "answer": "x64dbg",
+    "option": [
+      "GIMP",
+      "Nmap",
+      "x64dbg",
+      "Burp Suite"
+    ]
+  },
+  {
+    "question": "What is assembly language?",
+    "difficulty": "medium",
+    "answer": "Low-level language used to represent machine code",
+    "option": [
+      "A high-level scripting language",
+      "Low-level language used to represent machine code",
+      "A markup language",
+      "A language used for web design"
+    ]
+  },
+  {
+    "question": "What does obfuscation do?",
+    "difficulty": "medium",
+    "answer": "Makes code harder to understand or reverse engineer",
+    "option": [
+      "Improves performance",
+      "Makes code readable",
+      "Makes code harder to understand or reverse engineer",
+      "Optimizes file size"
+    ]
+  },
+  {
+    "question": "Which format is analyzed in reverse engineering Android apps?",
+    "difficulty": "medium",
+    "answer": "APK",
+    "option": [
+      "PDF",
+      "EXE",
+      "APK",
+      "ISO"
+    ]
+  },
+  {
+    "question": "Which tool decompiles Java bytecode into readable Java code?",
+    "difficulty": "medium",
+    "answer": "JD-GUI",
+    "option": [
+      "IDA Pro",
+      "JD-GUI",
+      "x64dbg",
+      "OllyDbg"
+    ]
+  },
+  {
+    "question": "Which section in a PE (Portable Executable) file contains code?",
+    "difficulty": "hard",
+    "answer": ".text",
+    "option": [
+      ".data",
+      ".rdata",
+      ".text",
+      ".rsrc"
+    ]
+  },
+  {
+    "question": "What is the purpose of a packer in malware?",
+    "difficulty": "hard",
+    "answer": "To compress or encrypt an executable to avoid detection",
+    "option": [
+      "To increase file size",
+      "To compress or encrypt an executable to avoid detection",
+      "To remove malicious code",
+      "To compile source code"
+    ]
+  },
+  {
+    "question": "Which technique is used to analyze software without executing it?",
+    "difficulty": "hard",
+    "answer": "Static analysis",
+    "option": [
+      "Dynamic analysis",
+      "Behavioral analysis",
+      "Static analysis",
+      "Network analysis"
+    ]
+  },
+  {
+    "question": "What does API hooking allow a reverse engineer to do?",
+    "difficulty": "hard",
+    "answer": "Intercept and modify function calls",
+    "option": [
+      "Encrypt the application",
+      "Monitor keyboard inputs",
+      "Intercept and modify function calls",
+      "Access RAM directly"
+    ]
+  },
+  {
+    "question": "What is a symbol table used for in reverse engineering?",
+    "difficulty": "hard",
+    "answer": "To map addresses to function or variable names",
+    "option": [
+      "To encrypt code",
+      "To compress executables",
+      "To map addresses to function or variable names",
+      "To increase execution speed"
+    ]
+  }
+]

@@ -17,6 +17,7 @@ import EventLobby from "./EventLobby.jsx";
 import Offensive from "./Offensive.jsx";
 import Defesive from "./Defensive.jsx";
 import ReverseEngineer from "./ReverseEngineer.jsx";
+import EventQuiz from "./EventQuiz.jsx";
 
 function App() {
   return (
@@ -36,6 +37,14 @@ function App() {
           <Route path="/offensive" element={<Offensive />} />
           <Route path="/defensive" element={<Defesive />} />
           <Route path="/reverse-engineering" element={<ReverseEngineer />} />
+          <Route
+            path="/eventquiz"
+            element={
+              <PrivateRoute>
+                <EventQuiz />
+              </PrivateRoute>
+            }
+          />
           <Route path="/event-lobby/:joinID" element={<EventLobby />} />
 
           <Route
