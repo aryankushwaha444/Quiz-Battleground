@@ -6,12 +6,111 @@ import QuestionCard from "./QuestionCard";
 import fisherYatesShuffle from "./fisherYatesShuffle";
 import socket from "./Socket";
 
+// Custom hook to block navigation
+function useNavigationGuard(enabled) {
+  useEffect(() => {
+    if (!enabled) return;
+
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "Your quiz progress will be lost!";
+    };
+
+    const handleClick = (e) => {
+      const anchor = e.target.closest("a");
+      if (anchor && anchor.href) {
+        e.preventDefault();
+        alert(
+          "Navigation is disabled during the quiz! Your quiz cannot be stopped!"
+        );
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("click", handleClick);
+    };
+  }, [enabled]);
+}
+
+const ROUND_ITERATIONS = { easy: 6, medium: 6, hard: Infinity };
+const ROUND_THRESHOLDS = { easy: 4, medium: 10, hard: 40 };
+const QUESTION_DURATION = { easy: 10, medium: 15, hard: 20 };
+
 function EventQuiz() {
   const { joinID } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // 🔹 RESET QUIZ IF JOINID CHANGES
+  const [allQuestions, setAllQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [timeLeft, setTimeLeft] = useState(10);
+  const [submitted, setSubmitted] = useState(false);
+  const [answers, setAnswers] = useState([]);
+  const [round, setRound] = useState(1);
+  const [score, setScore] = useState({ easy: 0, medium: 0, hard: 0 });
+  const [quizEnded, setQuizEnded] = useState(false);
+  const [leaderboard, setLeaderboard] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+
+  // Block navigation while quiz is running
+  useNavigationGuard(!quizEnded);
+
+  // Prevent right-click & shortcuts
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    const handleKeyDown = (e) => {
+      if (
+        (e.ctrlKey && ["c", "x", "a"].includes(e.key.toLowerCase())) ||
+        e.key === "F12"
+      ) {
+        e.preventDefault();
+        alert("Copying and inspecting are disabled!");
+      }
+    };
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  // Prevent back/refresh
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "F5" || (e.ctrlKey && e.key.toLowerCase() === "r")) {
+        e.preventDefault();
+        alert("Refreshing is disabled!");
+      }
+      if (
+        e.key === "Backspace" &&
+        !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)
+      ) {
+        e.preventDefault();
+        alert("Going back is disabled!");
+      }
+    };
+    const handlePopState = () => {
+      window.history.pushState(null, "", window.location.href);
+      if (!quizEnded) alert("Going back is disabled!");
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("popstate", handlePopState);
+    window.history.pushState(null, "", window.location.href);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [quizEnded]);
+
+  // Reset quiz if joinID changes
   useEffect(() => {
     const storedJoinID = localStorage.getItem("quiz_joinID");
     if (storedJoinID !== joinID) {
@@ -32,31 +131,16 @@ function EventQuiz() {
       "quiz_joinID",
     ].forEach((key) => localStorage.removeItem(key));
 
-    // 🔹 Clear per-question timers
     for (let i = 0; i < 100; i++) {
-      localStorage.removeItem(`event_timeLeft_${i}`);
+      localStorage.removeItem(`event_questionStart_${i}`);
     }
   };
 
-  const [allQuestions, setAllQuestions] = useState([]);
-  const [questions, setQuestions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [timeLeft, setTimeLeft] = useState(10);
-  const [submitted, setSubmitted] = useState(false);
-  const [answers, setAnswers] = useState([]);
-  const [round, setRound] = useState(1);
-  const [score, setScore] = useState({ easy: 0, medium: 0, hard: 0 });
-  const [quizEnded, setQuizEnded] = useState(false);
-  const [leaderboard, setLeaderboard] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Join room
+  // Join socket room
   useEffect(() => {
     if (user && joinID) socket.emit("join-room", { joinID, user });
   }, [user, joinID]);
 
-  // Rejoin on reconnect
   useEffect(() => {
     const handleConnect = () => {
       if (user && joinID) socket.emit("join-room", { joinID, user });
@@ -87,12 +171,34 @@ function EventQuiz() {
           if (savedQuizEnded) setQuizEnded(savedQuizEnded === "true");
         } else {
           const res = await axios.get("/api/user/eventquiz");
-          const shuffled = fisherYatesShuffle(
-            res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
-          );
+          const normalize = (s) =>
+            (s || "")
+              .toString()
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, " ")
+              .trim();
+          const withAlignedAnswers = res.data.map((q) => {
+            const options = Array.isArray(q.option) ? q.option : [];
+            const normalizedAnswer = normalize(q.answer);
+            const exact = options.find(
+              (opt) => normalize(opt) === normalizedAnswer
+            );
+            const loose =
+              exact ||
+              options.find(
+                (opt) =>
+                  normalize(opt) &&
+                  (normalize(opt).includes(normalizedAnswer) ||
+                    normalizedAnswer.includes(normalize(opt)))
+              );
+            return { ...q, correctAnswer: loose || q.answer };
+          });
+          const shuffled = fisherYatesShuffle(withAlignedAnswers);
           setAllQuestions(shuffled);
           setQuestions(
-            shuffled.filter((q) => q.difficulty === "easy").slice(0, 5)
+            shuffled
+              .filter((q) => q.difficulty === "easy")
+              .slice(0, ROUND_ITERATIONS.easy)
           );
         }
       } catch (err) {
@@ -104,7 +210,7 @@ function EventQuiz() {
     initializeQuiz();
   }, []);
 
-  // Save quiz progress
+  // Persist quiz state
   useEffect(() => {
     if (!isLoading) localStorage.setItem("event_score", JSON.stringify(score));
   }, [score, isLoading]);
@@ -124,15 +230,15 @@ function EventQuiz() {
       localStorage.setItem("event_quizEnded", quizEnded.toString());
   }, [quizEnded, isLoading]);
   useEffect(() => {
-    if (!isLoading && questions.length > 0)
+    if (!isLoading && questions.length)
       localStorage.setItem("event_questions", JSON.stringify(questions));
   }, [questions, isLoading]);
   useEffect(() => {
-    if (!isLoading && allQuestions.length > 0)
+    if (!isLoading && allQuestions.length)
       localStorage.setItem("event_allQuestions", JSON.stringify(allQuestions));
   }, [allQuestions, isLoading]);
 
-  // Listen for leaderboard updates
+  // Leaderboard updates
   useEffect(() => {
     const handleScore = (scoresObj) => {
       setLeaderboard(scoresObj);
@@ -145,69 +251,90 @@ function EventQuiz() {
         });
       }
     };
+    const handleWinner = ({ winner }) => {
+      if (winner) {
+        setQuizEnded(true);
+        localStorage.setItem("event_quizEnded", "true");
+        sessionStorage.setItem("quiz_active", "false");
+        alert(
+          `${winner.name} has won the game with ${winner.totalPoints} points!`
+        );
+      }
+    };
     socket.on("score-broadcast", handleScore);
-    return () => socket.off("score-broadcast", handleScore);
+    socket.on("winner-declared", handleWinner);
+    return () => {
+      socket.off("score-broadcast", handleScore);
+      socket.off("winner-declared", handleWinner);
+    };
   }, [user]);
 
-  // 🔹 TIMER FIX: set default time based on difficulty per question
+  // Timer per question
   useEffect(() => {
-    if (!questions.length || currentIndex >= questions.length) return;
-    const current = questions[currentIndex];
-    const defaultTime =
-      current.difficulty === "medium"
-        ? 15
-        : current.difficulty === "hard"
-        ? 20
-        : 10;
-    const savedTime = localStorage.getItem(`event_timeLeft_${currentIndex}`);
-    setTimeLeft(savedTime ? Number(savedTime) : defaultTime);
-  }, [currentIndex, questions]);
-
-  useEffect(() => {
-    if (
-      isLoading ||
-      submitted ||
-      !questions.length ||
-      currentIndex >= questions.length
-    )
+    if (!questions.length || currentIndex >= questions.length || submitted)
       return;
+    const current = questions[currentIndex];
+    const duration = QUESTION_DURATION[current.difficulty] || 10;
 
-    const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
+    if (!localStorage.getItem(`event_questionStart_${currentIndex}`)) {
+      localStorage.setItem(
+        `event_questionStart_${currentIndex}`,
+        Date.now().toString()
+      );
+    }
 
-    // 🔹 Save timeLeft per question
-    localStorage.setItem(`event_timeLeft_${currentIndex}`, timeLeft.toString());
+    const tick = () => {
+      const startTime = Number(
+        localStorage.getItem(`event_questionStart_${currentIndex}`)
+      );
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const remaining = Math.max(0, duration - elapsed);
+      setTimeLeft(remaining);
 
-    if (timeLeft === 0) handleSubmit();
+      if (remaining <= 0 && !submitted) handleSubmit();
+    };
 
-    return () => clearTimeout(timer);
-  }, [timeLeft, submitted, questions, currentIndex, isLoading]);
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, [questions, currentIndex, submitted]);
 
-  // Prevent refresh
   useEffect(() => {
+    // Mark quiz active for this tab
+    sessionStorage.setItem("quiz_active", "true");
     const handleBeforeUnload = (e) => {
       e.preventDefault();
       e.returnValue = "";
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      sessionStorage.setItem("quiz_active", "false");
+    };
   }, []);
 
-  const handleAnswer = (difficulty, isCorrect) => {
+  // Submit answer
+  const handleSubmit = () => {
+    const current = questions[currentIndex];
+    if (!current) return;
+
+    const isCorrect = selectedOption === current.correctAnswer;
+
+    setFeedbackMessage(
+      isCorrect
+        ? "✅ Correct!"
+        : `❌ Wrong! Correct answer: ${current.correctAnswer}`
+    );
+
     const updatedScore = { ...score };
-    if (isCorrect) updatedScore[difficulty] += 1;
+    if (isCorrect) updatedScore[current.difficulty] += 1;
     setScore(updatedScore);
+
     socket.emit("score-update", {
       joinID,
       user: { name: user.name, email: user.email },
       score: updatedScore,
     });
-  };
-
-  const handleSubmit = () => {
-    const current = questions[currentIndex];
-    const isCorrect = selectedOption === current.correctAnswer;
-
-    handleAnswer(current.difficulty, isCorrect);
 
     setAnswers((prev) => [
       ...prev,
@@ -220,14 +347,19 @@ function EventQuiz() {
     ]);
 
     setSubmitted(true);
+
     setTimeout(() => {
       setSubmitted(false);
+      setFeedbackMessage("");
       setSelectedOption("");
       setCurrentIndex((prev) => prev + 1);
-    }, 1000);
+      localStorage.setItem(
+        `event_questionStart_${currentIndex + 1}`,
+        Date.now().toString()
+      );
+    }, 1500);
 
-    // 🔹 Remove saved timer for this question
-    localStorage.removeItem(`event_timeLeft_${currentIndex}`);
+    localStorage.removeItem(`event_questionStart_${currentIndex}`);
   };
 
   // Handle rounds
@@ -235,32 +367,59 @@ function EventQuiz() {
     if (isLoading || currentIndex !== questions.length || !allQuestions.length)
       return;
 
-    if (round === 1 && score.easy >= 4) {
-      setQuestions(allQuestions.filter((q) => q.difficulty === "medium"));
-      setCurrentIndex(0);
-      setRound(2);
-    } else if (round === 2 && score.medium >= 4) {
-      setQuestions(allQuestions.filter((q) => q.difficulty === "hard"));
-      setCurrentIndex(0);
-      setRound(3);
-    } else {
+    if (round === 1) {
+      // Easy round completed - check if player has at least 4 points to advance
+      if (score.easy >= 4) {
+        setQuestions(
+          allQuestions.filter((q) => q.difficulty === "medium").slice(0, 6)
+        );
+        setCurrentIndex(0);
+        setRound(2);
+      } else {
+        // Player didn't meet threshold, end quiz
+        submitFinalResult();
+      }
+    } else if (round === 2) {
+      // Medium round completed - check if player has at least 10 medium points to advance
+      if (score.medium >= 6) {
+        setQuestions(allQuestions.filter((q) => q.difficulty === "hard"));
+        setCurrentIndex(0);
+        setRound(3);
+      } else {
+        // Player didn't meet threshold, end quiz
+        submitFinalResult();
+      }
+    } else if (round === 3) {
+      // Hard round completed - end the quiz
       submitFinalResult();
     }
   }, [currentIndex, round, score, allQuestions, isLoading]);
 
+  // Check for hard round victory condition during gameplay
+  useEffect(() => {
+    if (round === 3 && !quizEnded) {
+      const totalPoints = score.easy + score.medium * 2 + score.hard * 3;
+      if (totalPoints >= 40) {
+        // Player reached 40 points, end the quiz immediately
+        submitFinalResult();
+      }
+    }
+  }, [score, round, quizEnded]);
+
   const submitFinalResult = () => {
     if (!user?.email || !answers.length) return;
-    const userResult = {
-      email: user.email,
-      nameCategory: "Event Quiz",
-      round,
-      questions: answers,
-    };
+
     axios
-      .post("/api/user/playing-quiz", userResult)
+      .post("/api/user/playing-quiz", {
+        email: user.email,
+        nameCategory: "Event Quiz",
+        round,
+        questions: answers,
+      })
       .then(() => {
         setQuizEnded(true);
-        clearQuizStorage();
+        localStorage.setItem("event_quizEnded", "true");
+        sessionStorage.setItem("quiz_active", "false");
       })
       .catch(console.error);
   };
@@ -278,7 +437,6 @@ function EventQuiz() {
   }, [leaderboard]);
 
   // --- UI ---
-
   if (isLoading) return <LoadingScreen message="Loading Quiz..." />;
   if (quizEnded)
     return (
@@ -295,7 +453,6 @@ function EventQuiz() {
     return <MessageScreen message="Preparing next round..." />;
 
   const current = questions[currentIndex];
-
   if (!current) return <MessageScreen message="Question not found" />;
 
   return (
@@ -329,6 +486,8 @@ function EventQuiz() {
           selectedOption={selectedOption}
           onSelectOption={setSelectedOption}
           disabled={submitted}
+          submitted={submitted}
+          correctAnswer={current.correctAnswer}
         />
 
         {selectedOption && !submitted && (
@@ -339,9 +498,15 @@ function EventQuiz() {
             Submit
           </button>
         )}
+
         {submitted && (
-          <p className="mt-4 text-center text-green-700 font-semibold">
-            Answer Submitted!
+          <p
+            className="mt-4 text-center font-semibold"
+            style={{
+              color: feedbackMessage.startsWith("✅") ? "green" : "red",
+            }}
+          >
+            {feedbackMessage}
           </p>
         )}
 
@@ -351,8 +516,7 @@ function EventQuiz() {
   );
 }
 
-// ----- Helper components -----
-
+// --- Helper components ---
 const LoadingScreen = ({ message }) => (
   <div className="min-h-screen flex items-center justify-center">
     <div className="text-center text-xl font-semibold text-purple-800">

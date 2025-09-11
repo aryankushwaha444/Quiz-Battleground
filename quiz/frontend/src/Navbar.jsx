@@ -20,7 +20,9 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
-  // const { isQuizActive } = useQuiz();
+  const [isQuizActive, setIsQuizActive] = useState(
+    sessionStorage.getItem("quiz_active") === "true"
+  );
   const dropdownRef = useRef();
 
   const logouthandler = () => {
@@ -40,6 +42,22 @@ function Navbar() {
   useEffect(() => {
     setIsOpen(false); // Close menu when route changes
   }, [location.pathname]);
+
+  // Keep isQuizActive in sync with sessionStorage updates
+  useEffect(() => {
+    const sync = () => {
+      const active = sessionStorage.getItem("quiz_active") === "true";
+      setIsQuizActive(active);
+    };
+    const interval = setInterval(sync, 300);
+    window.addEventListener("visibilitychange", sync);
+    window.addEventListener("focus", sync);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("visibilitychange", sync);
+      window.removeEventListener("focus", sync);
+    };
+  }, []);
 
   const menuItems = [
     { label: "Home", path: "/", icon: <HomeIcon fontSize="small" /> },
@@ -94,6 +112,7 @@ function Navbar() {
                     ? "text-red-400 font-semibold"
                     : "text-gray-300 hover:text-red-400"
                 }`}
+                onClick={(e) => handleNavigation(e, path)}
               >
                 {icon}
                 <span>{label}</span>
@@ -164,7 +183,10 @@ function Navbar() {
                       ? "text-red-400 font-semibold"
                       : "text-gray-300 hover:text-red-400"
                   }`}
-                  onClick={() => setIsOpen(false)} // Close after click
+                  onClick={(e) => {
+                    const ok = handleNavigation(e, path);
+                    if (ok) setIsOpen(false);
+                  }} // Close after click when allowed
                 >
                   {icon}
                   <span>{label}</span>

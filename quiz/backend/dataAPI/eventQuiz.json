@@ -9,104 +9,431 @@
     "question": "Which planet is known as the Red Planet?",
     "difficulty": "easy",
     "answer": "Mars",
-    "option": ["Mars", "Venus", "Jupiter", "Saturn"]
+    "option": ["Earth", "Mars", "Jupiter", "Venus"]
   },
   {
-    "question": "Who wrote the play 'Romeo and Juliet'?",
+    "question": "What is H2O commonly known as?",
+    "difficulty": "easy",
+    "answer": "Water",
+    "option": ["Water", "Oxygen", "Hydrogen", "Salt"]
+  },
+  {
+    "question": "Who wrote 'Romeo and Juliet'?",
     "difficulty": "easy",
     "answer": "William Shakespeare",
-    "option": [
-      "William Shakespeare",
-      "Charles Dickens",
-      "Mark Twain",
-      "Jane Austen"
-    ]
+    "option": ["William Shakespeare", "Charles Dickens", "Mark Twain", "Jane Austen"]
   },
   {
-    "question": "In what year did the Titanic sink?",
-    "difficulty": "medium",
-    "answer": "1912",
-    "option": ["1912", "1905", "1918", "1925"]
-  },
-  {
-    "question": "What is the largest mammal in the world?",
+    "question": "What is the largest mammal on Earth?",
     "difficulty": "easy",
     "answer": "Blue Whale",
-    "option": ["Blue Whale", "Elephant", "Giraffe", "Shark"]
+    "option": ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"]
   },
   {
-    "question": "Which element has the chemical symbol 'O'?",
+    "question": "Which gas do plants absorb from the atmosphere?",
     "difficulty": "easy",
-    "answer": "Oxygen",
-    "option": ["Oxygen", "Osmium", "Oxide", "Ozone"]
+    "answer": "Carbon Dioxide",
+    "option": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"]
   },
   {
-    "question": "What is the smallest prime number?",
+    "question": "Which organ pumps blood throughout the human body?",
+    "difficulty": "easy",
+    "answer": "Heart",
+    "option": ["Lungs", "Liver", "Heart", "Kidney"]
+  },
+  {
+    "question": "What is the chemical symbol for gold?",
+    "difficulty": "easy",
+    "answer": "Au",
+    "option": ["Ag", "Au", "Gd", "Go"]
+  },
+  {
+    "question": "Which continent is Egypt part of?",
+    "difficulty": "easy",
+    "answer": "Africa",
+    "option": ["Asia", "Africa", "Europe", "South America"]
+  },
+  {
+    "question": "What do bees produce?",
+    "difficulty": "easy",
+    "answer": "Honey",
+    "option": ["Milk", "Honey", "Wax", "Silk"]
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "difficulty": "easy",
+    "answer": "Leonardo da Vinci",
+    "option": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"]
+  },
+  {
+    "question": "What is the boiling point of water at sea level?",
+    "difficulty": "easy",
+    "answer": "100°C",
+    "option": ["90°C", "100°C", "80°C", "120°C"]
+  },
+  {
+    "question": "Which instrument measures temperature?",
+    "difficulty": "easy",
+    "answer": "Thermometer",
+    "option": ["Barometer", "Thermometer", "Hygrometer", "Seismometer"]
+  },
+  {
+    "question": "Which is the smallest prime number?",
     "difficulty": "easy",
     "answer": "2",
-    "option": ["2", "1", "3", "5"]
+    "option": ["1", "2", "3", "0"]
   },
   {
-    "question": "Which continent is the Sahara Desert located in?",
-    "difficulty": "medium",
-    "answer": "Africa",
-    "option": ["Africa", "Asia", "Australia", "South America"]
-  },
-  {
-    "question": "Who was the first President of the United States?",
+    "question": "Which is the fastest land animal?",
     "difficulty": "easy",
-    "answer": "George Washington",
-    "option": [
-      "George Washington",
-      "Thomas Jefferson",
-      "John Adams",
-      "Abraham Lincoln"
-    ]
+    "answer": "Cheetah",
+    "option": ["Lion", "Tiger", "Cheetah", "Horse"]
   },
   {
-    "question": "Which gas do plants absorb from the atmosphere during photosynthesis?",
-    "difficulty": "medium",
-    "answer": "Carbon Dioxide",
-    "option": ["Carbon Dioxide", "Oxygen", "Nitrogen", "Hydrogen"]
+    "question": "Which element is needed for breathing?",
+    "difficulty": "easy",
+    "answer": "Oxygen",
+    "option": ["Oxygen", "Carbon", "Hydrogen", "Nitrogen"]
   },
   {
-    "question": "What is the square root of 144?",
-    "difficulty": "medium",
+    "question": "What is 5 + 7?",
+    "difficulty": "easy",
     "answer": "12",
-    "option": ["12", "14", "10", "16"]
+    "option": ["10", "12", "11", "13"]
   },
   {
-    "question": "Which ocean is the largest by surface area?",
+    "question": "Which shape has three sides?",
+    "difficulty": "easy",
+    "answer": "Triangle",
+    "option": ["Square", "Triangle", "Circle", "Rectangle"]
+  },
+  {
+    "question": "Which day comes after Monday?",
+    "difficulty": "easy",
+    "answer": "Tuesday",
+    "option": ["Wednesday", "Tuesday", "Thursday", "Friday"]
+  },
+  {
+    "question": "What is the main language spoken in Spain?",
+    "difficulty": "easy",
+    "answer": "Spanish",
+    "option": ["Spanish", "English", "Portuguese", "French"]
+  },
+
+  {
+    "question": "If a car travels 60 km in 2 hours, what is its speed?",
     "difficulty": "medium",
-    "answer": "Pacific Ocean",
-    "option": [
-      "Pacific Ocean",
-      "Atlantic Ocean",
-      "Indian Ocean",
-      "Arctic Ocean"
-    ]
+    "answer": "30 km/h",
+    "option": ["20 km/h", "30 km/h", "60 km/h", "120 km/h"]
   },
   {
-    "question": "In which year did World War II end?",
+    "question": "Which force keeps planets in orbit around the sun?",
     "difficulty": "medium",
-    "answer": "1945",
-    "option": ["1945", "1939", "1940", "1950"]
+    "answer": "Gravity",
+    "option": ["Magnetism", "Gravity", "Friction", "Centrifugal Force"]
   },
   {
-    "question": "Who developed the theory of relativity?",
-    "difficulty": "hard",
-    "answer": "Albert Einstein",
-    "option": [
-      "Albert Einstein",
-      "Isaac Newton",
-      "Niels Bohr",
-      "Galileo Galilei"
-    ]
+    "question": "If x + 5 = 12, what is x?",
+    "difficulty": "medium",
+    "answer": "7",
+    "option": ["5", "7", "12", "17"]
   },
   {
-    "question": "Which is the hardest natural substance on Earth?",
-    "difficulty": "hard",
-    "answer": "Diamond",
-    "option": ["Diamond", "Graphite", "Gold", "Steel"]
-  }
+    "question": "Which organ converts food into energy?",
+    "difficulty": "medium",
+    "answer": "Stomach",
+    "option": ["Liver", "Stomach", "Heart", "Kidney"]
+  },
+  {
+    "question": "A rectangle has a length of 10 and width of 5. Find its area.",
+    "difficulty": "medium",
+    "answer": "50",
+    "option": ["15", "50", "25", "100"]
+  },
+  {
+    "question": "What is the chemical formula of table salt?",
+    "difficulty": "medium",
+    "answer": "NaCl",
+    "option": ["NaCl", "KCl", "NaHCO3", "CaCl2"]
+  },
+  {
+    "question": "Which gas is produced in photosynthesis?",
+    "difficulty": "medium",
+    "answer": "Oxygen",
+    "option": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"]
+  },
+  {
+    "question": "If a train travels 90 km in 1.5 hours, what is its speed?",
+    "difficulty": "medium",
+    "answer": "60 km/h",
+    "option": ["45 km/h", "60 km/h", "90 km/h", "120 km/h"]
+  },
+  {
+    "question": "Which device converts electrical energy into mechanical energy?",
+    "difficulty": "medium",
+    "answer": "Motor",
+    "option": ["Motor", "Generator", "Battery", "Transformer"]
+  },
+  {
+    "question": "Which of these is a renewable energy source?",
+    "difficulty": "medium",
+    "answer": "Solar",
+    "option": ["Coal", "Oil", "Solar", "Natural Gas"]
+  },
+  {
+    "question": "Which type of bond shares electrons between atoms?",
+    "difficulty": "medium",
+    "answer": "Covalent Bond",
+    "option": ["Ionic Bond", "Covalent Bond", "Hydrogen Bond", "Metallic Bond"]
+  },
+  {
+    "question": "Which programming language is used to style web pages?",
+    "difficulty": "medium",
+    "answer": "CSS",
+    "option": ["HTML", "CSS", "JavaScript", "Python"]
+  },
+  {
+    "question": "What is 15% of 200?",
+    "difficulty": "medium",
+    "answer": "30",
+    "option": ["25", "30", "35", "40"]
+  },
+  {
+    "question": "Which part of the plant conducts water from roots to leaves?",
+    "difficulty": "medium",
+    "answer": "Xylem",
+    "option": ["Phloem", "Xylem", "Stomata", "Chloroplast"]
+  },
+  {
+    "question": "Which blood cells help fight infection?",
+    "difficulty": "medium",
+    "answer": "White Blood Cells",
+    "option": ["Red Blood Cells", "Platelets", "White Blood Cells", "Plasma"]
+  },
+  {
+    "question": "A cube has a volume of 27 cm³. What is the length of one side?",
+    "difficulty": "medium",
+    "answer": "3 cm",
+    "option": ["3 cm", "9 cm", "6 cm", "27 cm"]
+  },
+  {
+    "question": "Which type of circuit allows current to flow in only one path?",
+    "difficulty": "medium",
+    "answer": "Series Circuit",
+    "option": ["Series Circuit", "Parallel Circuit", "Short Circuit", "Open Circuit"]
+  },
+
+
+    {
+      "question": "Evaluate: If a company reduces its carbon footprint, which benefit is most likely?",
+      "difficulty": "hard",
+      "answer": "Improved sustainability and public image",
+      "option": [
+        "Reduced profits",
+        "Improved sustainability and public image",
+        "Increased emissions",
+        "No effect"
+      ]
+    },
+    {
+      "question": "Design a simple experiment to test if music affects concentration.",
+      "difficulty": "hard",
+      "answer": "Have participants complete tasks with and without music and compare scores",
+      "option": [
+        "Ask participants if they like music",
+        "Have participants complete tasks with and without music and compare scores",
+        "Play music only for one group",
+        "Give everyone the same tasks without music"
+      ]
+    },
+    {
+      "question": "Critically analyze: Which renewable energy source is best for urban areas?",
+      "difficulty": "hard",
+      "answer": "Solar energy, because rooftops can generate power efficiently",
+      "option": [
+        "Wind energy, because of turbines",
+        "Solar energy, because rooftops can generate power efficiently",
+        "Hydropower, because of rivers",
+        "Coal, because it's cheap"
+      ]
+    },
+    {
+      "question": "Create a security policy for employee passwords in a corporate network.",
+      "difficulty": "hard",
+      "answer": "Require 12+ characters, letters, numbers, symbols, and no reuse",
+      "option": [
+        "Any password is allowed",
+        "Require letters only",
+        "Require numbers only",
+        "Require 12+ characters, letters, numbers, symbols, and no reuse"
+      ]
+    },
+    {
+      "question": "Evaluate: Which programming paradigm is suitable for large-scale modular applications?",
+      "difficulty": "hard",
+      "answer": "Object-Oriented Programming",
+      "option": ["Procedural", "Functional", "Object-Oriented Programming", "Logic-based"]
+    },
+    {
+      "question": "Design a simple scoring system for competitive online quizzes.",
+      "difficulty": "hard",
+      "answer": "Assign points by difficulty, add streak bonus, and track leaderboard",
+      "option": [
+        "Random points",
+        "Assign points by difficulty, add streak bonus, and track leaderboard",
+        "No points",
+        "Points only for first player"
+      ]
+    },
+    {
+      "question": "Critically analyze: Why is cheat detection crucial in online exams?",
+      "difficulty": "hard",
+      "answer": "Ensures fairness, integrity, and accuracy of results",
+      "option": [
+        "Not important",
+        "Only for fun",
+        "Ensures fairness, integrity, and accuracy of results",
+        "Just to track users"
+      ]
+    },
+    {
+      "question": "Create a mnemonic to remember the order of colors in a rainbow.",
+      "difficulty": "hard",
+      "answer": "ROYGBIV: Red, Orange, Yellow, Green, Blue, Indigo, Violet",
+      "option": [
+        "Random colors",
+        "ROYGBIV: Red, Orange, Yellow, Green, Blue, Indigo, Violet",
+        "RGB only",
+        "Any color sequence"
+      ]
+    },
+    {
+      "question": "Evaluate: Which database type is best for unstructured data?",
+      "difficulty": "hard",
+      "answer": "NoSQL databases",
+      "option": ["Relational", "NoSQL databases", "Flat files", "CSV only"]
+    },
+    {
+      "question": "Design a workflow for handling customer complaints efficiently.",
+      "difficulty": "hard",
+      "answer": "Receive complaint, categorize, assign to agent, resolve, follow up",
+      "option": [
+        "Ignore complaints",
+        "Receive complaint, categorize, assign to agent, resolve, follow up",
+        "Send automated reply only",
+        "Resolve randomly"
+      ]
+    },
+    {
+      "question": "Critically analyze: Why are agile methodologies effective for software development?",
+      "difficulty": "hard",
+      "answer": "They allow iterative improvements and quick response to changes",
+      "option": [
+        "They are slower",
+        "They allow iterative improvements and quick response to changes",
+        "They avoid communication",
+        "They use fewer resources"
+      ]
+    },
+    {
+      "question": "Create a basic encryption strategy for secure messaging.",
+      "difficulty": "hard",
+      "answer": "Use end-to-end encryption with strong keys and authentication",
+      "option": [
+        "Send messages in plain text",
+        "Use weak passwords only",
+        "Use end-to-end encryption with strong keys and authentication",
+        "Only hash messages"
+      ]
+    },
+    {
+      "question": "Evaluate: Which machine learning algorithm is suitable for classification?",
+      "difficulty": "hard",
+      "answer": "Random Forest or Logistic Regression",
+      "option": [
+        "K-Means Clustering",
+        "Random Forest or Logistic Regression",
+        "Linear Regression",
+        "PCA only"
+      ]
+    },
+    {
+      "question": "Design a system to detect fraudulent transactions in real-time.",
+      "difficulty": "hard",
+      "answer": "Use anomaly detection with transaction rules and alerts",
+      "option": [
+        "Ignore transactions",
+        "Use anomaly detection with transaction rules and alerts",
+        "Check transactions weekly",
+        "Allow all transactions"
+      ]
+    },
+    {
+      "question": "Critically analyze: Why is version control important in team projects?",
+      "difficulty": "hard",
+      "answer": "Tracks changes, prevents conflicts, and maintains history",
+      "option": [
+        "Not necessary",
+        "Tracks changes, prevents conflicts, and maintains history",
+        "Makes project slower",
+        "Only for documentation"
+      ]
+    },
+    {
+      "question": "Create a dashboard to monitor server performance metrics.",
+      "difficulty": "hard",
+      "answer": "Display CPU, memory, disk, and network stats with alerts",
+      "option": [
+        "Show only CPU",
+        "Display CPU, memory, disk, and network stats with alerts",
+        "Ignore memory",
+        "Only log data"
+      ]
+    },
+    {
+      "question": "Evaluate: Which cybersecurity practice best prevents phishing attacks?",
+      "difficulty": "hard",
+      "answer": "Employee training and email filtering",
+      "option": [
+        "Ignore emails",
+        "Employee training and email filtering",
+        "Only use antivirus",
+        "Change passwords weekly"
+      ]
+    },
+    {
+      "question": "Design a balanced diet plan for optimal cognitive performance.",
+      "difficulty": "hard",
+      "answer": "Include fruits, vegetables, whole grains, lean protein, and hydration",
+      "option": [
+        "Eat only protein",
+        "Include fruits, vegetables, whole grains, lean protein, and hydration",
+        "Fast regularly",
+        "Only eat carbs"
+      ]
+    },
+    {
+      "question": "Critically analyze: Why is testing crucial before software deployment?",
+      "difficulty": "hard",
+      "answer": "Ensures reliability, identifies bugs, and improves user experience",
+      "option": [
+        "Not important",
+        "Ensures reliability, identifies bugs, and improves user experience",
+        "Slows down deployment",
+        "Only checks syntax"
+      ]
+    },
+    {
+      "question": "Create a mnemonic to remember the first 10 elements of the periodic table.",
+      "difficulty": "hard",
+      "answer": "Hi He Likes Being Called Naughty Oliver For Nice Naughty Mango",
+      "option": [
+        "Random words",
+        "Hi He Likes Being Called Naughty Oliver For Nice Naughty Mango",
+        "Only letters",
+        "Numbers only"
+      ]
+    }
+
+  
 ]

@@ -1,3 +1,4 @@
+import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer.jsx";
 import HomePage from "./HomePage.jsx";
@@ -6,7 +7,13 @@ import Register from "./Register.jsx";
 import About from "./About.jsx";
 import Contact from "./Contact.jsx";
 import JoinQuiz from "./JoinQuiz.jsx";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { AuthProvider } from "./Auth/AuthContext";
 import PrivateRoute from "./PrivateRoute.jsx";
 import UserLeaderboard from "./UserLeaderboard.jsx";
@@ -25,6 +32,7 @@ function App() {
       {" "}
       {/*  Provide authentication context */}
       <Router>
+        <QuizNavigationGuard />
         <Navbar /> {/*  Navbar will now respond to login status */}
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -82,3 +90,24 @@ function App() {
 }
 
 export default App;
+
+// Redirect away from any route if an active quiz is in progress
+function QuizNavigationGuard() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const joinID = localStorage.getItem("quiz_joinID");
+    const quizEnded = localStorage.getItem("event_quizEnded") === "true";
+    const isActiveThisTab = sessionStorage.getItem("quiz_active") === "true";
+
+    if (joinID && !quizEnded && isActiveThisTab) {
+      const quizPath = `/eventquiz/${joinID}`;
+      if (location.pathname !== quizPath) {
+        navigate(quizPath, { replace: true });
+      }
+    }
+  }, [location.pathname, navigate]);
+
+  return null;
+}

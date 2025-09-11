@@ -46,11 +46,18 @@ function EventLobby() {
     const handleAllReady = () => {
       navigate(`/eventquiz/${joinID}`);
     };
+    const handleNotAllReady = (payload) => {
+      if (payload?.message) {
+        alert(payload.message);
+      }
+    };
 
     socket.on("all-users-ready", handleAllReady);
+    socket.on("not-all-ready", handleNotAllReady);
 
     return () => {
       socket.off("all-users-ready", handleAllReady);
+      socket.off("not-all-ready", handleNotAllReady);
     };
   }, [navigate, joinID]);
 
