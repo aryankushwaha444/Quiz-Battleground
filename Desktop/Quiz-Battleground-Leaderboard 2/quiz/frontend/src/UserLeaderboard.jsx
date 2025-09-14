@@ -88,7 +88,7 @@ const Leaderboard = () => {
       </div>
 
       {/* Leaderboard List */}
-      <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
+      <div className="flex flex-col lg:flex-row gap-8 pb-8 max-w-6xl mx-auto">
         <div className="bg-purple-100 rounded-2xl shadow-2xl mb-10 p-6 flex-1 h-96 overflow-y-auto">
           <h1 className="text-3xl font-bold text-center mb-6 text-indigo-700">
             Participants

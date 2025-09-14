@@ -47,7 +47,7 @@ function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center p-18">
       <div className="bg-white rounded-3xl shadow-2xl px-8 py-12 w-full max-w-4xl">
         <h1 className="text-4xl font-bold text-center text-blue-500 mb-8">
           Contact Us

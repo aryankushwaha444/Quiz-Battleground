@@ -536,7 +536,7 @@ const MessageScreen = ({ message }) => (
 const QuizEndScreen = ({ score, answers, round, leaderboard }) => {
   const totalCorrect = answers.filter((a) => a.correct).length;
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
       <div className="bg-purple-100 rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center">
         <h1 className="text-3xl font-bold text-green-800 mb-6">
           Quiz Completed!
