@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import axios from "axios";
 import { useAuth } from "./Auth/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import QuestionCard from "./QuestionCard";
 import fisherYatesShuffle from "./fisherYatesShuffle";
 import socket from "./Socket";
+import useCamera from "./hooks/useCamera";
+import useFaceDetection from "./hooks/useFaceDetection";
 
 // Custom hook to block navigation
 function useNavigationGuard(enabled) {
@@ -12,13 +14,15 @@ function useNavigationGuard(enabled) {
     if (!enabled) return;
 
     const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = "Your quiz progress will be lost!";
+      if (enabled) {
+        e.preventDefault();
+        e.returnValue = "Your quiz progress will be lost!";
+      }
     };
 
     const handleClick = (e) => {
       const anchor = e.target.closest("a");
-      if (anchor && anchor.href) {
+      if (enabled && anchor && anchor.href) {
         e.preventDefault();
         alert(
           "Navigation is disabled during the quiz! Your quiz cannot be stopped!"
@@ -58,9 +62,21 @@ function EventQuiz() {
   const [leaderboard, setLeaderboard] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [cheatTriggered, setCheatTriggered] = useState(false);
 
-  // Block navigation while quiz is running
-  useNavigationGuard(!quizEnded);
+  // single navigation guard controlled by quiz state & cheat detection
+  useNavigationGuard(!quizEnded && !cheatTriggered);
+
+  // video ref and camera/face hooks
+  const videoRef = useRef(null);
+  useCamera(videoRef, !quizEnded && !cheatTriggered);
+  useFaceDetection(videoRef, () => {
+    if (!quizEnded && !cheatTriggered) {
+      setCheatTriggered(true);
+      setQuizEnded(true);
+      submitFinalResult();
+    }
+  });
 
   // Prevent right-click & shortcuts
   useEffect(() => {
@@ -115,8 +131,9 @@ function EventQuiz() {
     const storedJoinID = localStorage.getItem("quiz_joinID");
     if (storedJoinID !== joinID) {
       clearQuizStorage();
-      localStorage.setItem("quiz_joinID", joinID);
+      localStorage.setItem("quiz_joinID", joinID || "");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [joinID]);
 
   const clearQuizStorage = () => {
@@ -208,6 +225,7 @@ function EventQuiz() {
       }
     };
     initializeQuiz();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Persist quiz state
@@ -297,6 +315,7 @@ function EventQuiz() {
     tick();
     const timer = setInterval(tick, 1000);
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions, currentIndex, submitted]);
 
   useEffect(() => {
@@ -368,8 +387,8 @@ function EventQuiz() {
       return;
 
     if (round === 1) {
-      // Easy round completed - check if player has at least 4 points to advance
-      if (score.easy >= 4) {
+      // Easy round completed - check if player has at least threshold to advance
+      if (score.easy >= ROUND_THRESHOLDS.easy) {
         setQuestions(
           allQuestions.filter((q) => q.difficulty === "medium").slice(0, 6)
         );
@@ -380,30 +399,29 @@ function EventQuiz() {
         submitFinalResult();
       }
     } else if (round === 2) {
-      // Medium round completed - check if player has at least 10 medium points to advance
-      if (score.medium >= 6) {
+      // Medium round completed
+      if (score.medium >= ROUND_THRESHOLDS.medium) {
         setQuestions(allQuestions.filter((q) => q.difficulty === "hard"));
         setCurrentIndex(0);
         setRound(3);
       } else {
-        // Player didn't meet threshold, end quiz
         submitFinalResult();
       }
     } else if (round === 3) {
-      // Hard round completed - end the quiz
       submitFinalResult();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, round, score, allQuestions, isLoading]);
 
   // Check for hard round victory condition during gameplay
   useEffect(() => {
     if (round === 3 && !quizEnded) {
       const totalPoints = score.easy + score.medium * 2 + score.hard * 3;
-      if (totalPoints >= 40) {
-        // Player reached 40 points, end the quiz immediately
+      if (totalPoints >= ROUND_THRESHOLDS.hard) {
         submitFinalResult();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score, round, quizEnded]);
 
   const submitFinalResult = () => {
@@ -458,6 +476,13 @@ function EventQuiz() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-purple-100 p-8 rounded-2xl shadow-2xl relative select-none">
+        {/* Video feed - top middle */}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          className="absolute top-[-50px] left-3/7 transform -translate-x-1/2 w-32 h-24 rounded-lg shadow-lg border-2 border-purple-400"
+        />
         <div className="absolute top-4 left-4">
           <span
             className={`px-3 py-1 rounded-full text-xs font-bold ${
@@ -534,6 +559,12 @@ const MessageScreen = ({ message }) => (
 );
 
 const QuizEndScreen = ({ score, answers, round, leaderboard }) => {
+  const navigate = useNavigate();
+
+  const handleGoHome = () => {
+    navigate("/");
+  };
+
   const totalCorrect = answers.filter((a) => a.correct).length;
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
@@ -555,6 +586,14 @@ const QuizEndScreen = ({ score, answers, round, leaderboard }) => {
             Total Points: {score.easy + score.medium * 2 + score.hard * 3}
           </p>
         </div>
+
+        <button
+          onClick={handleGoHome}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105 mb-4"
+        >
+          🏠 Go Home
+        </button>
+
         <LeaderboardDisplay sortedLeaderboard={leaderboard} />
       </div>
     </div>
@@ -564,22 +603,26 @@ const QuizEndScreen = ({ score, answers, round, leaderboard }) => {
 const LeaderboardDisplay = ({ sortedLeaderboard }) => (
   <div className="mt-6 text-left">
     <h3 className="font-bold mb-2">Leaderboard:</h3>
-    {sortedLeaderboard.map((player, index) => (
-      <div
-        key={player.email}
-        className={`flex justify-between items-center p-2 rounded-lg mb-1 ${
-          index === 0 ? "bg-yellow-200 font-bold shadow-md" : "bg-gray-100"
-        }`}
-      >
-        <span className="text-sm">{player.email}</span>
-        <span className="text-sm font-semibold">
-          {player.total} pts{" "}
-          <span className="ml-2 text-xs text-gray-500">
-            (E:{player.easy} M:{player.medium} H:{player.hard})
+    {sortedLeaderboard && sortedLeaderboard.length ? (
+      sortedLeaderboard.map((player, index) => (
+        <div
+          key={player.email}
+          className={`flex justify-between items-center p-2 rounded-lg mb-1 ${
+            index === 0 ? "bg-yellow-200 font-bold shadow-md" : "bg-gray-100"
+          }`}
+        >
+          <span className="text-sm">{player.email}</span>
+          <span className="text-sm font-semibold">
+            {player.total} pts{" "}
+            <span className="ml-2 text-xs text-gray-500">
+              (E:{player.easy} M:{player.medium} H:{player.hard})
+            </span>
           </span>
-        </span>
-      </div>
-    ))}
+        </div>
+      ))
+    ) : (
+      <div className="text-sm text-gray-500">No players yet</div>
+    )}
   </div>
 );
 
