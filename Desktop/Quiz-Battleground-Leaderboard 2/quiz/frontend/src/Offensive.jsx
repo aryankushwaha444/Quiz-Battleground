@@ -1,13 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
+import QuestionCard from "./QuestionCard";
+import fisherYatesShuffle from "./fisherYatesShuffle";
+import useCamera from "./hooks/useCamera";
+import useFaceDetection from "./hooks/useFaceDetection";
 import { useNavigate } from "react-router-dom";
-import fisherYatesShuffle, { createLCG } from "./fisherYatesShuffle.jsx";
-import useTabSwitchDetection from "./useTabSwitchDetection";
-import TabSwitchWarning from "./TabSwitchWarning";
+
+// Custom hook to block navigation
+function useNavigationGuard(enabled) {
+  useEffect(() => {
+    if (!enabled) return;
+
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "Your quiz progress will be lost!";
+    };
+
+    const handleClick = (e) => {
+      const anchor = e.target.closest("a");
+      if (anchor && anchor.href) {
+        e.preventDefault();
+        alert("Navigation is disabled during the quiz!");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("click", handleClick);
+    };
+  }, [enabled]);
+}
+
+const ROUND_ITERATIONS = { easy: 6, medium: 6, hard: Infinity };
+const QUESTION_DURATION = { easy: 10, medium: 15, hard: 20 };
 
 function Offensive() {
+  const { user } = useAuth();
+
   const [allQuestions, setAllQuestions] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,31 +51,38 @@ function Offensive() {
   const [round, setRound] = useState(1);
   const [score, setScore] = useState({ easy: 0, medium: 0, hard: 0 });
   const [quizEnded, setQuizEnded] = useState(false);
+  const [leaderboard, setLeaderboard] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [cheatTriggered, setCheatTriggered] = useState(false);
 
-  const { user } = useAuth();
+  // Block navigation while quiz is running
+  useNavigationGuard(!quizEnded && !cheatTriggered);
+
   const navigate = useNavigate();
+  const videoRef = useRef(null);
 
-  // Tab switch detection
-  const handleTabSwitch = () => console.log("Tab switch detected! Quiz ending...");
-  const handleTimeExpired = () => {
-    console.log("Quiz ended due to tab switch! Auto-submitting...");
-    setQuizEnded(true);
-    submitFinalResult();
-  };
+  // --- Hooks at top level only ---
+  useCamera(videoRef, !quizEnded && !cheatTriggered);
 
-  const { isTabActive, timeLeft: tabTimeLeft, showWarning } = useTabSwitchDetection(
-    handleTabSwitch,
-    handleTimeExpired,
-    5
-  );
+  useFaceDetection(videoRef, () => {
+    if (!quizEnded && !cheatTriggered) {
+      setCheatTriggered(true);
+      setQuizEnded(true);
+      submitFinalResult();
+    }
+  });
 
-  // Prevent copy, right-click, and shortcuts
+  // Prevent right-click & shortcuts
   useEffect(() => {
     const handleContextMenu = (e) => e.preventDefault();
     const handleKeyDown = (e) => {
-      if ((e.ctrlKey && ["c", "x", "a"].includes(e.key.toLowerCase())) || e.key === "F12") {
+      if (
+        (e.ctrlKey && ["c", "x", "a"].includes(e.key.toLowerCase())) ||
+        e.key === "F12"
+      ) {
         e.preventDefault();
-        alert("Copying and inspecting are disabled during the quiz!");
+        alert("Copying and inspecting are disabled!");
       }
     };
     document.addEventListener("contextmenu", handleContextMenu);
@@ -53,73 +93,204 @@ function Offensive() {
     };
   }, []);
 
-  // Prevent refresh & back
+  // Prevent back/refresh
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "F5" || (e.ctrlKey && e.key.toLowerCase() === "r")) {
         e.preventDefault();
-        alert("Refreshing is disabled during the quiz!");
+        alert("Refreshing is disabled!");
       }
-      if (e.key === "Backspace" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
+      if (
+        e.key === "Backspace" &&
+        !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)
+      ) {
         e.preventDefault();
-        alert("Going back is disabled during the quiz!");
+        alert("Going back is disabled!");
       }
     };
     const handlePopState = () => {
       window.history.pushState(null, "", window.location.href);
-      alert("Going back is disabled!");
+      if (!quizEnded) alert("Going back is disabled!");
     };
-
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("popstate", handlePopState);
     window.history.pushState(null, "", window.location.href);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("popstate", handlePopState);
     };
-  }, []);
+  }, [quizEnded]);
 
-  // Fetch questions
+  // Reset quiz
+  const clearQuizStorage = () => {
+    [
+      "offensive_score",
+      "offensive_round",
+      "offensive_currentIndex",
+      "offensive_answers",
+      "offensive_quizEnded",
+      "offensive_questions",
+      "offensive_allQuestions",
+    ].forEach((key) => localStorage.removeItem(key));
+
+    for (let i = 0; i < 100; i++) {
+      localStorage.removeItem(`offensive_questionStart_${i}`);
+    }
+  };
+
+  // Initialize quiz
   useEffect(() => {
-    const fetchQuestions = async () => {
+    const initializeQuiz = async () => {
       try {
-        const res = await axios.get("/api/user/offensive");
-        const rng = createLCG(Date.now());
-        const shuffled = fisherYatesShuffle(
-          res.data.map((q) => ({ ...q, correctAnswer: q.answer })),
-          rng
-        );
-        setAllQuestions(shuffled);
-        const easyQs = shuffled.filter((q) => q.difficulty === "easy");
-        setQuestions(easyQs.slice(0, 5));
+        const savedAllQuestions = localStorage.getItem("offensive_allQuestions");
+        const savedQuestions = localStorage.getItem("offensive_questions");
+        const savedScore = localStorage.getItem("offensive_score");
+        const savedRound = localStorage.getItem("offensive_round");
+        const savedCurrentIndex = localStorage.getItem("offensive_currentIndex");
+        const savedAnswers = localStorage.getItem("offensive_answers");
+        const savedQuizEnded = localStorage.getItem("offensive_quizEnded");
+
+        if (savedAllQuestions && savedQuestions) {
+          setAllQuestions(JSON.parse(savedAllQuestions));
+          setQuestions(JSON.parse(savedQuestions));
+          if (savedScore) setScore(JSON.parse(savedScore));
+          if (savedRound) setRound(Number(savedRound));
+          if (savedCurrentIndex) setCurrentIndex(Number(savedCurrentIndex));
+          if (savedAnswers) setAnswers(JSON.parse(savedAnswers));
+          if (savedQuizEnded) setQuizEnded(savedQuizEnded === "true");
+        } else {
+          const res = await axios.get("/api/user/offensive");
+          const normalize = (s) =>
+            (s || "")
+              .toString()
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, " ")
+              .trim();
+          const withAlignedAnswers = res.data.map((q) => {
+            const options = Array.isArray(q.option) ? q.option : [];
+            const normalizedAnswer = normalize(q.answer);
+            const exact = options.find(
+              (opt) => normalize(opt) === normalizedAnswer
+            );
+            const loose =
+              exact ||
+              options.find(
+                (opt) =>
+                  normalize(opt) &&
+                  (normalize(opt).includes(normalizedAnswer) ||
+                    normalizedAnswer.includes(normalize(opt)))
+              );
+            return { ...q, correctAnswer: loose || q.answer };
+          });
+          const shuffled = fisherYatesShuffle(withAlignedAnswers);
+          setAllQuestions(shuffled);
+          setQuestions(
+            shuffled
+              .filter((q) => q.difficulty === "easy")
+              .slice(0, ROUND_ITERATIONS.easy)
+          );
+        }
       } catch (err) {
-        console.error("Error fetching questions:", err);
+        console.error("Error initializing quiz:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchQuestions();
+    initializeQuiz();
   }, []);
 
-  // Timer
+  // Persist quiz state
   useEffect(() => {
-    if (submitted || !questions.length || currentIndex >= questions.length) return;
-    if (timeLeft === 0) {
-      handleSubmit();
-      return;
-    }
-    const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [timeLeft, submitted, questions, currentIndex]);
+    if (!isLoading)
+      localStorage.setItem("offensive_score", JSON.stringify(score));
+  }, [score, isLoading]);
+  useEffect(() => {
+    if (!isLoading) localStorage.setItem("offensive_round", round.toString());
+  }, [round, isLoading]);
+  useEffect(() => {
+    if (!isLoading)
+      localStorage.setItem("offensive_currentIndex", currentIndex.toString())
+  }, [currentIndex, isLoading]);
+  useEffect(() => {
+    if (!isLoading)
+      localStorage.setItem("offensive_answers", JSON.stringify(answers));
+  }, [answers, isLoading]);
+  useEffect(() => {
+    if (!isLoading)
+      localStorage.setItem("offensive_quizEnded", quizEnded.toString());
+  }, [quizEnded, isLoading]);
+  useEffect(() => {
+    if (!isLoading && questions.length)
+      localStorage.setItem("offensive_questions", JSON.stringify(questions));
+  }, [questions, isLoading]);
+  useEffect(() => {
+    if (!isLoading && allQuestions.length)
+      localStorage.setItem(
+        "offensive_allQuestions",
+        JSON.stringify(allQuestions)
+      );
+  }, [allQuestions, isLoading]);
 
-  // Submit
+  // Timer per question
+  useEffect(() => {
+    if (!questions.length || currentIndex >= questions.length || submitted)
+      return;
+    const current = questions[currentIndex];
+    const duration = QUESTION_DURATION[current.difficulty] || 10;
+
+    if (!localStorage.getItem(`offensive_questionStart_${currentIndex}`)) {
+      localStorage.setItem(
+        `offensive_questionStart_${currentIndex}`,
+        Date.now().toString()
+      );
+    }
+
+    const tick = () => {
+      const startTime = Number(
+        localStorage.getItem(`offensive_questionStart_${currentIndex}`)
+      );
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const remaining = Math.max(0, duration - elapsed);
+      setTimeLeft(remaining);
+
+      if (remaining <= 0 && !submitted) handleSubmit();
+    };
+
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, [questions, currentIndex, submitted]);
+
+  useEffect(() => {
+    // Mark quiz active for this tab
+    sessionStorage.setItem("quiz_active", "true");
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      sessionStorage.setItem("quiz_active", "false");
+    };
+  }, []);
+
+  // Submit answer
   const handleSubmit = () => {
     const current = questions[currentIndex];
+    if (!current) return;
+
     const isCorrect = selectedOption === current.correctAnswer;
 
-    setSubmitted(true);
-    if (isCorrect) {
-      setScore((prev) => ({ ...prev, [current.difficulty]: prev[current.difficulty] + 1 }));
-    }
+    setFeedbackMessage(
+      isCorrect
+        ? "✅ Correct!"
+        : `❌ Wrong! Correct answer: ${current.correctAnswer}`
+    );
+
+    const updatedScore = { ...score };
+    if (isCorrect) updatedScore[current.difficulty] += 1;
+    setScore(updatedScore);
 
     setAnswers((prev) => [
       ...prev,
@@ -131,56 +302,89 @@ function Offensive() {
       },
     ]);
 
+    setSubmitted(true);
+
     setTimeout(() => {
       setSubmitted(false);
+      setFeedbackMessage("");
       setSelectedOption("");
-      setTimeLeft(10);
       setCurrentIndex((prev) => prev + 1);
-    }, 1000);
+      localStorage.setItem(
+        `offensive_questionStart_${currentIndex + 1}`,
+        Date.now().toString()
+      );
+    }, 1500);
+
+    localStorage.removeItem(`offensive_questionStart_${currentIndex}`);
   };
 
-  // Round logic
+  // Handle rounds
   useEffect(() => {
-    if (currentIndex === questions.length && questions.length > 0) {
-      if (round === 1 && score.easy >= 4) {
-        const mediumQs = allQuestions.filter((q) => q.difficulty === "medium").slice(0, 5);
-        setQuestions(mediumQs);
+    if (isLoading || currentIndex !== questions.length || !allQuestions.length)
+      return;
+
+    if (round === 1) {
+      // Easy round completed - check if player has at least 4 points to advance
+      if (score.easy >= 4) {
+        setQuestions(
+          allQuestions.filter((q) => q.difficulty === "medium").slice(0, 6)
+        );
         setCurrentIndex(0);
         setRound(2);
-      } else if (round === 2 && score.medium >= 4) {
-        const hardQs = allQuestions.filter((q) => q.difficulty === "hard").slice(0, 5);
-        setQuestions(hardQs);
+      } else {
+        // Player didn't meet threshold, end quiz
+        submitFinalResult();
+      }
+    } else if (round === 2) {
+      // Medium round completed - check if player has at least 10 medium points to advance
+      if (score.medium >= 6) {
+        setQuestions(allQuestions.filter((q) => q.difficulty === "hard"));
         setCurrentIndex(0);
         setRound(3);
       } else {
+        // Player didn't meet threshold, end quiz
+        submitFinalResult();
+      }
+    } else if (round === 3) {
+      // Hard round completed - end the quiz
+      submitFinalResult();
+    }
+  }, [currentIndex, round, score, allQuestions, isLoading]);
+
+  // Check for hard round victory condition during gameplay
+  useEffect(() => {
+    if (round === 3 && !quizEnded) {
+      const totalPoints = score.easy + score.medium * 2 + score.hard * 3;
+      if (totalPoints >= 40) {
+        // Player reached 40 points, end the quiz immediately
         submitFinalResult();
       }
     }
-  }, [currentIndex, round, score, allQuestions, questions.length]);
+  }, [score, round, quizEnded]);
 
   const submitFinalResult = () => {
-    const userResult = {
-      nameUser: user.nameUser,
-      email: user.email,
-      nameCategory: "Offensive",
-      round,
-      score,
-      questions: answers,
-      finishedAt: new Date(),
-    };
+    if (!user?.email || !answers.length) return;
 
     axios
-      .post("/api/user/playing-quiz", userResult)
-      .then(() => {
-        console.log("Results saved to MongoDB");
-        setQuizEnded(true);
+      .post("/api/user/playing-quiz", {
+        email: user.email,
+        nameCategory: "Offensive",
+        round,
+        questions: answers,
       })
-      .catch((err) => console.error("Saving result failed:", err));
+      .then(() => {
+        setQuizEnded(true);
+        localStorage.setItem("offensive_quizEnded", "true");
+        sessionStorage.setItem("quiz_active", "false");
+      })
+      .catch(console.error);
   };
 
+  // Reset Quiz ( Play Again)
   const resetQuiz = () => {
-    const easyQs = allQuestions.filter((q) => q.difficulty === "easy");
-    setQuestions(easyQs.slice(0, 5));
+    clearQuizStorage();
+    setAllQuestions([]);
+    setQuestions([]);
     setCurrentIndex(0);
     setSelectedOption("");
     setTimeLeft(10);
@@ -189,47 +393,41 @@ function Offensive() {
     setRound(1);
     setScore({ easy: 0, medium: 0, hard: 0 });
     setQuizEnded(false);
+    setIsLoading(true);
+    setFeedbackMessage("");
+    window.location.reload();
   };
 
-  if (quizEnded) {
-    const totalCorrect = answers.filter((a) => a.correct).length;
+  // --- UI ---
+  if (isLoading) return <LoadingScreen message="Loading Quiz..." />;
+  if (quizEnded)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
-        <div className="bg-purple-100 rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center">
-          <h1 className="text-3xl font-bold text-green-800 mb-6">🎉 Quiz Completed!</h1>
-          <p className="text-xl font-semibold text-gray-800 mb-2">✅ Correct Answers: {totalCorrect}</p>
-          <p className="text-lg text-purple-800 font-medium mb-4">🏆 Round : {round}</p>
-          <div className="text-lg text-gray-700 mb-4">
-            <p>Easy: {score.easy}</p>
-            <p>Medium: {score.medium}</p>
-            <p>Hard: {score.hard}</p>
-          </div>
-          <button
-            onClick={resetQuiz}
-            className="bg-purple-500 hover:bg-red-600 text-white font-semibold py-2 px-6 mt-4 rounded-full shadow-lg transition-transform transform hover:scale-105"
-          >
-            🔄 Play Again
-          </button>
-        </div>
-      </div>
+      <QuizEndScreen
+        score={score}
+        answers={answers}
+        round={round}
+        resetQuiz={resetQuiz}
+      />
     );
-  }
-
-  if (currentIndex >= questions.length && !quizEnded) return <div>Preparing next round...</div>;
-
-  if (showWarning) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
-        <TabSwitchWarning timeLeft={tabTimeLeft} />
-      </div>
-    );
-  }
+  if (!questions.length)
+    return <MessageScreen message="No questions available" />;
+  if (currentIndex >= questions.length)
+    return <MessageScreen message="Preparing next round..." />;
 
   const current = questions[currentIndex];
+  if (!current) return <MessageScreen message="Question not found" />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-purple-100 p-8 rounded-2xl shadow-2xl relative select-none">
+        {/* Video feed - top middle */}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          className="absolute top-[-50px] left-3/7 transform -translate-x-1/2 w-32 h-24 rounded-lg shadow-lg border-2 border-purple-400"
+        />
+
         <div className="absolute top-4 left-4">
           <span
             className={`px-3 py-1 rounded-full text-xs font-bold ${
@@ -240,12 +438,12 @@ function Offensive() {
                 : "bg-red-200 text-red-800"
             }`}
           >
-            {current.difficulty.charAt(0).toUpperCase() + current.difficulty.slice(1)}
+            {current.difficulty.charAt(0).toUpperCase() +
+              current.difficulty.slice(1)}
           </span>
         </div>
-
-        <div className="absolute top-4 right-4 flex items-center space-x-2 animate-pulse">
-          <span className="bg-purple-200 text-purple-800 text-sm font-bold px-4 py-1 rounded-full shadow-md animate-pulse">
+        <div className="absolute top-4 right-4 flex items-center space-x-2">
+          <span className="bg-purple-200 text-purple-800 text-sm font-bold px-4 py-1 rounded-full shadow-md">
             Round {round}
           </span>
           <span className="text-2xl text-red-600">⏳</span>
@@ -272,11 +470,95 @@ function Offensive() {
         )}
 
         {submitted && (
-          <p className="mt-4 text-center text-green-700 font-semibold">Answer Submitted!</p>
+          <p
+            className="mt-4 text-center font-semibold"
+            style={{
+              color: feedbackMessage.startsWith("✅") ? "green" : "red",
+            }}
+          >
+            {feedbackMessage}
+          </p>
         )}
       </div>
     </div>
   );
 }
+
+// --- Helper components ---
+const LoadingScreen = ({ message }) => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center text-xl font-semibold text-purple-800">
+      {message}
+    </div>
+  </div>
+);
+
+const MessageScreen = ({ message }) => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center text-xl font-semibold text-red-600">
+      {message}
+    </div>
+  </div>
+);
+
+const QuizEndScreen = ({ score, answers, round, leaderboard, resetQuiz }) => {
+  const totalCorrect = answers.filter((a) => a.correct).length;
+  const navigate = useNavigate();
+
+  const handleGoHome = () => {
+    navigate("/");
+  };
+
+  const handleGoToLeaderboard = () => {
+    navigate("/leaderboard");
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex items-center justify-center px-4">
+      <div className="bg-purple-100 rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center">
+        <h1 className="text-3xl font-bold text-green-800 mb-6">
+          Quiz Completed!
+        </h1>
+        <p className="text-xl font-semibold text-gray-800 mb-2">
+          Correct Answers: {totalCorrect}
+        </p>
+        <p className="text-lg text-purple-800 font-medium mb-4">
+          Round: {round}
+        </p>
+        <div className="text-lg text-gray-700 mb-4">
+          <p>Easy: {score.easy}</p>
+          <p>Medium: {score.medium}</p>
+          <p>Hard: {score.hard}</p>
+          <p className="font-bold mt-2">
+            Total Points: {score.easy + score.medium * 2 + score.hard * 3}
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <button
+            onClick={resetQuiz}
+            className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105"
+          >
+            🔄 Play Again
+          </button>
+
+          <button
+            onClick={handleGoHome}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105"
+          >
+            🏠 Go Home
+          </button>
+
+          <button
+            onClick={handleGoToLeaderboard}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105"
+          >
+            🏆 Leaderboard
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Offensive;
