@@ -3,7 +3,7 @@ import { FaFacebookF, FaLinkedinIn, FaGlobe, FaGithub } from "react-icons/fa";
 const teamMembers = [
   {
     name: "Aaryan Kushawaha",
-    image: "../images/ourTeam/leader.PNG",
+    image: "/images/ourTeam/leader.png",
     links: {
       facebook: "https://www.facebook.com/rupnarayan444",
       linkedin: "https://www.linkedin.com/in/aryan-kushwaha-47479033b/",
@@ -13,7 +13,7 @@ const teamMembers = [
   },
   {
     name: "Arabin Shrestha",
-    image: "../images/ourTeam/one.JPG",
+    image: "/images/ourTeam/one.jpg",
     links: {
       facebook: "https://www.facebook.com/arbin.stha.77",
       linkedin: "https://www.linkedin.com/in/arabin-shrestha-00056a23a/",
@@ -22,7 +22,7 @@ const teamMembers = [
   },
   {
     name: "Saurav Gautam",
-    image: "../images/ourTeam/two.jpg",
+    image: "/images/ourTeam/two.jpg",
     links: {
       facebook: "https://www.facebook.com/saurav1101/",
       github: "https://github.com/saurav624"
