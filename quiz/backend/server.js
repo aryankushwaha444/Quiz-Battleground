@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-// require("dotenv").config();
 
 import express from "express";
 import connectDB from "./db/mongoDB.connection.js";
@@ -28,20 +27,48 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      // Allow requests without origin
+      // such as Postman/server-to-server requests
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
 );
 
 /* =========================
-   Database Connection
+   Health Check
+========================= */
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Quiz Battleground API is running",
+  });
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+  });
+});
+
+/* =========================
+   Database
 ========================= */
 
 connectDB();
 
 /* =========================
-   Routes
+   API Routes
 ========================= */
 
 app.use("/api/user", userRoutes);
@@ -71,27 +98,22 @@ const io = new Server(server, {
 
 const rooms = {};
 
-/*
-  Format:
-
-  {
-    joinID: {
-      users: [],
-      readyUsers: [],
-      sockets: {}
-    }
-  }
-*/
-
 /* =========================
-   Socket.IO Events
+   Socket.IO
 ========================= */
 
 io.on("connection", (socket) => {
-  console.log("New user connected:", socket.id);
+  console.log("🔌 New user connected:", socket.id);
 
-  /* Join Room */
+  /* =========================
+     Join Room
+  ========================= */
+
   socket.on("join-room", ({ joinID, user }) => {
+    if (!joinID || !user?.email || !user?.name) {
+      return;
+    }
+
     socket.join(joinID);
 
     if (!rooms[joinID]) {
@@ -102,31 +124,46 @@ io.on("connection", (socket) => {
       };
     }
 
-    /* Prevent duplicate users */
     const alreadyJoined = rooms[joinID].users.some(
       (u) => u.email === user.email
     );
 
     if (!alreadyJoined) {
-      rooms[joinID].users.push(user);
-      rooms[joinID].sockets[socket.id] = user;
+      rooms[joinID].users.push({
+        name: user.name,
+        email: user.email,
+      });
     }
+
+    // Always associate socket with the user
+    rooms[joinID].sockets[socket.id] = {
+      name: user.name,
+      email: user.email,
+    };
 
     io.to(joinID).emit("room-update", rooms[joinID]);
 
     console.log(`${user.name} joined room ${joinID}`);
   });
 
-  /* Player Ready */
+  /* =========================
+     Player Ready
+  ========================= */
+
   socket.on("player-ready", ({ joinID, user }) => {
-    if (!rooms[joinID]) return;
+    if (!rooms[joinID] || !user?.email) {
+      return;
+    }
 
     const alreadyReady = rooms[joinID].readyUsers.some(
       (u) => u.email === user.email
     );
 
     if (!alreadyReady) {
-      rooms[joinID].readyUsers.push(user);
+      rooms[joinID].readyUsers.push({
+        name: user.name,
+        email: user.email,
+      });
     }
 
     io.to(joinID).emit("room-update", rooms[joinID]);
@@ -134,57 +171,68 @@ io.on("connection", (socket) => {
     console.log(`${user.name} is ready in room ${joinID}`);
   });
 
-  /* Start Quiz */
+  /* =========================
+     Start Quiz
+  ========================= */
+
   socket.on("start-quiz", ({ joinID }) => {
-    if (!rooms[joinID]) return;
+    if (!rooms[joinID]) {
+      return;
+    }
 
-    if (rooms[joinID].users.length >= 2) {
-      const allReady =
-        rooms[joinID].users.length === rooms[joinID].readyUsers.length;
+    const room = rooms[joinID];
 
-      if (allReady) {
-        io.to(joinID).emit("all-users-ready");
+    if (room.users.length < 2) {
+      socket.emit("not-all-ready", {
+        message: "At least 2 players are required.",
+      });
 
-        console.log(`Quiz started in room ${joinID}`);
-      } else {
-        socket.emit("not-all-ready", {
-          message: "Waiting for other players / (Only you are!) to Ready...",
-        });
-      }
+      return;
+    }
+
+    const allReady = room.users.length === room.readyUsers.length;
+
+    if (allReady) {
+      io.to(joinID).emit("all-users-ready");
+
+      console.log(`Quiz started in room ${joinID}`);
+    } else {
+      socket.emit("not-all-ready", {
+        message: "Waiting for all players to be ready.",
+      });
     }
   });
 
-  /* Disconnect */
+  /* =========================
+     Disconnect
+  ========================= */
+
   socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
+    console.log("🔌 User disconnected:", socket.id);
 
     for (const joinID in rooms) {
-      const user = rooms[joinID].sockets[socket.id];
+      const room = rooms[joinID];
 
-      if (user) {
-        rooms[joinID].users = rooms[joinID].users.filter(
-          (u) => u.email !== user.email
-        );
+      const user = room.sockets[socket.id];
 
-        rooms[joinID].readyUsers = rooms[joinID].readyUsers.filter(
-          (u) => u.email !== user.email
-        );
-
-        delete rooms[joinID].sockets[socket.id];
-
-        io.to(joinID).emit("room-update", rooms[joinID]);
-
-        console.log(`${user.name} left room ${joinID}`);
+      if (!user) {
+        continue;
       }
 
-      /* Delete empty room */
-      if (
-        rooms[joinID].users.length === 0 &&
-        rooms[joinID].readyUsers.length === 0
-      ) {
+      room.users = room.users.filter((u) => u.email !== user.email);
+
+      room.readyUsers = room.readyUsers.filter((u) => u.email !== user.email);
+
+      delete room.sockets[socket.id];
+
+      io.to(joinID).emit("room-update", room);
+
+      console.log(`${user.name} left room ${joinID}`);
+
+      if (room.users.length === 0 && room.readyUsers.length === 0) {
         delete rooms[joinID];
 
-        console.log(`Room ${joinID} deleted (empty).`);
+        console.log(`Room ${joinID} deleted.`);
       }
     }
   });
@@ -195,5 +243,5 @@ io.on("connection", (socket) => {
 ========================= */
 
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running with Socket.IO on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

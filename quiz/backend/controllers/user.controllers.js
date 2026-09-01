@@ -14,6 +14,8 @@ export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
+    const normalizedEmail = email.trim().toLowerCase();
+
     if (!username || !email || !password) {
       return res.status(400).json({
         message: "Username, email, and password are required.",
@@ -21,7 +23,7 @@ export const registerUser = async (req, res) => {
     }
 
     const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
+      $or: [{ email: normalizedEmail }, { username }],
     });
 
     if (existingUser) {
@@ -33,8 +35,8 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await argon2.hash(password);
 
     const newUser = await User.create({
-      username,
-      email,
+      username: username.trim(),
+      email: normalizedEmail,
       password: hashedPassword,
     });
 
