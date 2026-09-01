@@ -1,50 +1,68 @@
 import { useNavigate } from "react-router-dom";
-import Card from "./Card";
 import { useAuth } from "./Auth/AuthContext.jsx";
 
 function HomePage() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
-  const handleAuthQueiz = async () => {
+  const handleAuthQuiz = () => {
     isAuthenticated ? navigate("/quiz") : navigate("/login");
   };
 
   return (
-<div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex flex-col items-center pt-24 pb-10">
-<h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-500 animate-fade-in">
-        Quiz Battleground
-      </h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#74ebd5] via-[#acb6e5] to-[#ffffff] flex flex-col">
+      {/* Main Hero Banner */}
+      <section className="w-full px-4 pt-24 pb-12">
+        <div className="max-w-7xl mx-auto bg-gradient-to-r from-indigo-700 via-purple-600 to-pink-500 rounded-3xl shadow-2xl overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+            {/* Left Content */}
+            <div className="p-8 sm:p-12 lg:p-16 text-center md:text-left">
+              <span className="inline-block bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold mb-5">
+                ⚡ Real-Time Quiz Battles
+              </span>
 
-      <p className="text-black text-lg text-center max-w-xl mt-4 mb-8 animate-fade-in delay-200">
-        Compete in real-time quiz battles with friends and challenge your
-        knowledge.
-      </p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
+                Quiz
+                <span className="text-yellow-300"> Battleground</span>
+              </h1>
 
-      <button
-        onClick={handleAuthQueiz}
-        className="bg-purple-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105 mb-12"
-      >
-        Play Quiz
-      </button>
+              <p className="text-white/90 text-base sm:text-lg lg:text-xl max-w-xl mt-5 mb-8">
+                Test your knowledge, challenge your friends, and compete in
+                real-time quiz battles.
+              </p>
 
-      <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 mb-8 w-full max-w-6xl ">
-        {/* <Card
-          title="Quiz Questioning"
-          imgSrc="../images/homePage/quiz-question.gif"
-          desc="Create thought-provoking questions and craft your own quiz challenges for others to solve."
-        />
-        <Card
-          title="Quiz Time"
-          imgSrc="../images/homePage/quiz-time.png"
-          desc="Jump into the action—join a live quiz session and test your speed and knowledge."
-        />
-        <Card
-          title="Quiz Winner"
-          imgSrc="../images/homePage/quiz-winner.jpg"
-          desc="Climb the leaderboard and celebrate your victory as a top trivia champion."
-        /> */}
-      </div>
+              <button
+                onClick={handleAuthQuiz}
+                className="bg-white text-indigo-700 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-300 hover:text-gray-900 transition-all duration-300 transform hover:scale-105"
+              >
+                🎮 Play Quiz
+              </button>
+            </div>
+
+            {/* Right Banner Image */}
+            <div className="flex justify-center items-center p-6 md:p-8 lg:p-10">
+              <img
+                src="/images/quiz-battleground-banner.png"
+                alt="Quiz Battleground"
+                className="w-full max-w-xl h-auto object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Optional Section Below Banner */}
+      <section className="flex-1 flex items-center justify-center px-4 pb-10">
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-800">
+            Ready for the Battle?
+          </h2>
+
+          <p className="text-gray-600 mt-2">
+            Choose your quiz and prove your knowledge.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
