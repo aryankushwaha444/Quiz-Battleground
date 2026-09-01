@@ -32,11 +32,14 @@ function Register() {
     }
 
     try {
-      const res = await axios.post("/api/user/register", {
-        email: formData.email,
-        username: formData.username,
-        password: formData.password,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/user/register`,
+        {
+          email: formData.email,
+          username: formData.username,
+          password: formData.password,
+        }
+      );
 
       setMessage("Registration successful! Redirecting to login...");
       console.log("User registered:", res.data);

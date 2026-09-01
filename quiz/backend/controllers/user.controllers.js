@@ -9,23 +9,47 @@ import ReverseEngineering from "../models/reverseEngineering.models.js";
 import EventQuiz from "../models/eventQuiz.model.js";
 import User from "../models/user.models.js";
 
-
 // Register User
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        message: "Username, email, and password are required.",
+      });
+    }
+
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }],
+    });
+
+    if (existingUser) {
+      return res.status(409).json({
+        message: "User already exists with this email or username.",
+      });
+    }
+
     const hashedPassword = await argon2.hash(password);
+
     const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
     });
 
-    res.status(201).json({ message: "User registered", user: newUser });
+    return res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        username: newUser.username,
+        email: newUser.email,
+      },
+    });
   } catch (error) {
-    res.status(500).json({
-      message: "User already exists with this email or username.",
-      error: error.message,
+    console.error("Registration error:", error);
+
+    return res.status(500).json({
+      message: "Internal server error.",
     });
   }
 };
@@ -53,55 +77,6 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-// Store data for user result
-// export const storeUserResult = async(req, res) => {
-//     try {
-//         const { email, nameCategory, questions, roundClear } = req.body;
-//         let score = { easy: 0, medium: 0, hard: 0 };
-
-//         const processedQuestions = await Promise.all(
-//             questions.map(async(q) => {
-//                 const dbQuestion = await Malwares.findOne({ question: q.question });
-//                 if (!dbQuestion) {
-//                     return {
-//                         question: q.question,
-//                         answer: q.answer || null,
-//                         correct: false,
-//                         score: 0,
-//                         error: "Question not found in DB",
-//                     };
-//                 }
-
-//                 const isCorrect = q.answer === dbQuestion.answer;
-//                 const difficulty = dbQuestion.difficulty ? dbQuestion.difficulty.toLowerCase() : "easy";
-//                 if (isCorrect && score[difficulty] !== undefined) {
-//                     score[difficulty]++;
-//                 }
-
-//                 return {
-//                     question: dbQuestion.question,
-//                     answer: q.answer || null,
-//                     correct: isCorrect,
-//                 };
-//             })
-//         );
-
-//         const result = await ResultCategory.findOneAndUpdate({ email, nameCategory }, {
-//             email,
-//             nameCategory,
-//             roundClear,
-//             score,
-//             questions: processedQuestions,
-//             finishedAt: new Date(),
-//         }, { new: true, upsert: true, setDefaultsOnInsert: true });
-
-//         res.status(200).json({ message: "User result saved successfully", result });
-//     } catch (error) {
-//         console.error("Error saving user result:", error);
-//         res.status(500).json({ message: "Failed to save user result" });
-//     }
-// };
 
 export const storeUserResult = async (req, res) => {
   try {
@@ -133,9 +108,9 @@ export const storeUserResult = async (req, res) => {
       case "reverse engineering":
         QuestionModel = ReverseEngineering;
         break;
-        case "event quiz":
-          QuestionModel = EventQuiz;
-          break;
+      case "event quiz":
+        QuestionModel = EventQuiz;
+        break;
       default:
         return res.status(400).json({ message: "Invalid category name" });
     }
@@ -210,67 +185,62 @@ export const getLeaderboardStats = async (req, res) => {
 
     const groupedResults = {};
 
-   // Category-based results
-results.forEach(({ email, score, questions }) => {
-  if (!groupedResults[email]) {
-    groupedResults[email] = {
-      email,
-      correct: 0,
-      totalQuestions: 0,
-      score: 0,
-      wins: 0,
-      points: 0,
-    };
-  }
+    // Category-based results
+    results.forEach(({ email, score, questions }) => {
+      if (!groupedResults[email]) {
+        groupedResults[email] = {
+          email,
+          correct: 0,
+          totalQuestions: 0,
+          score: 0,
+          wins: 0,
+          points: 0,
+        };
+      }
 
-  const correct = questions.reduce(
-    (sum, q) => sum + (q.correct ? 1 : 0),
-    0
-  );
-  const totalQuestions = questions.length;
-  const categoryScore =
-    (score.easy || 0) * 1 +
-    (score.medium || 0) * 2 +
-    (score.hard || 0) * 3;
+      const correct = questions.reduce(
+        (sum, q) => sum + (q.correct ? 1 : 0),
+        0
+      );
+      const totalQuestions = questions.length;
+      const categoryScore =
+        (score.easy || 0) * 1 + (score.medium || 0) * 2 + (score.hard || 0) * 3;
 
-  groupedResults[email].correct += correct;
-  groupedResults[email].totalQuestions += totalQuestions;
-  groupedResults[email].score += categoryScore;
-});
+      groupedResults[email].correct += correct;
+      groupedResults[email].totalQuestions += totalQuestions;
+      groupedResults[email].score += categoryScore;
+    });
 
-// Event-based results
-eventResults.forEach(({ email, score, questions }) => {
-  if (!groupedResults[email]) {
-    groupedResults[email] = {
-      email,
-      correct: 0,
-      totalQuestions: 0,
-      score: 0,
-      wins: 0,
-      points: 0,
-    };
-  }
+    // Event-based results
+    eventResults.forEach(({ email, score, questions }) => {
+      if (!groupedResults[email]) {
+        groupedResults[email] = {
+          email,
+          correct: 0,
+          totalQuestions: 0,
+          score: 0,
+          wins: 0,
+          points: 0,
+        };
+      }
 
-  const correct = questions.reduce(
-    (sum, q) => sum + (q.correct ? 1 : 0),
-    0
-  );
-  const totalQuestions = questions.length;
-  const eventScore =
-    (score.easy || 0) * 1 +
-    (score.medium || 0) * 2 +
-    (score.hard || 0) * 3;
+      const correct = questions.reduce(
+        (sum, q) => sum + (q.correct ? 1 : 0),
+        0
+      );
+      const totalQuestions = questions.length;
+      const eventScore =
+        (score.easy || 0) * 1 + (score.medium || 0) * 2 + (score.hard || 0) * 3;
 
-  groupedResults[email].correct += correct;
-  groupedResults[email].totalQuestions += totalQuestions;
-  groupedResults[email].score += eventScore;
-});
+      groupedResults[email].correct += correct;
+      groupedResults[email].totalQuestions += totalQuestions;
+      groupedResults[email].score += eventScore;
+    });
 
-// Final Points (only difficulty weights)
-Object.values(groupedResults).forEach((user) => {
-  user.points = user.score;
-});
-
+    // Final Points (only difficulty weights)
+    Object.values(groupedResults).forEach((user) => {
+      user.points = user.score;
+    });
 
     const leaderboard = Object.values(groupedResults)
       .sort((a, b) => b.points - a.points)
@@ -303,7 +273,6 @@ export const checkPlayed = async (req, res) => {
     res.status(500).json({ played: false });
   }
 };
-
 
 // Fetching All Questions by Category
 export const malwareFetch = async (req, res) => {
@@ -353,7 +322,6 @@ export const reverseEngineerFetch = async (req, res) => {
   }
 };
 
-
 export const eventQuizFetch = async (req, res) => {
   try {
     const data = await EventQuiz.find();
@@ -362,4 +330,3 @@ export const eventQuizFetch = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch DevOps questions" });
   }
 };
-

@@ -22,6 +22,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://quiz-battleground.vercel.app",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
@@ -29,6 +30,7 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
 );
 
