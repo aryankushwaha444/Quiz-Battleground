@@ -40,7 +40,7 @@ function HomePage() {
             </div>
 
             {/* Right Banner Image */}
-            <div className="flex justify-center items-center p-6 md:p-8 lg:p-10">
+            <div className="flex justify-center items-center md:p-8 lg:p-10">
               <img
                 src="/images/quiz-battleground-banner.png"
                 alt="Quiz Battleground"
@@ -48,19 +48,6 @@ function HomePage() {
               />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Optional Section Below Banner */}
-      <section className="flex-1 flex items-center justify-center px-4 pb-10">
-        <div className="text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-800">
-            Ready for the Battle?
-          </h2>
-
-          <p className="text-gray-600 mt-2">
-            Choose your quiz and prove your knowledge.
-          </p>
         </div>
       </section>
     </div>

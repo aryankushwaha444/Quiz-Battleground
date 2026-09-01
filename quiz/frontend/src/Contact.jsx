@@ -7,7 +7,7 @@ const teamMembers = [
     links: {
       facebook: "https://www.facebook.com/rupnarayan444",
       linkedin: "https://www.linkedin.com/in/aryan-kushwaha-47479033b/",
-      website: "https://www.aaryankushwaha.com.np",
+      website: "https://www.aaryankushawaha.com.np",
       github: "https://github.com/aryankushwaha444",
     },
   },
