@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import fisherYatesShuffle from "./fisherYatesShuffle";
+import api from "../api/axios";
 
 function Devops() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -70,13 +70,11 @@ function Devops() {
     };
   }, []);
 
-
-
   // Fetch questions
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await axios.get("/api/user/devops");
+        const res = await api.get("/user/devops");
         const shuffled = fisherYatesShuffle(
           res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
         );
@@ -104,7 +102,6 @@ function Devops() {
     return () => clearTimeout(timer);
   }, [timeLeft, submitted, questions, currentIndex]);
 
-  
   // Submit
   const handleSubmit = () => {
     const current = questions[currentIndex];
@@ -136,8 +133,8 @@ function Devops() {
     }, 1000);
   };
 
-  // Round 
-  
+  // Round
+
   useEffect(() => {
     if (currentIndex === questions.length) {
       if (round === 1 && score.easy >= 4) {
@@ -168,8 +165,8 @@ function Devops() {
       finishedAt: new Date(),
     };
 
-    axios
-      .post("/api/user/playing-quiz", userResult)
+    api
+      .post("/user/playing-quiz", userResult)
       .then(() => {
         console.log("Results saved to MongoDB");
         setQuizEnded(true);
@@ -239,7 +236,8 @@ function Devops() {
                 : "bg-red-200 text-red-800"
             }`}
           >
-            {current.difficulty.charAt(0).toUpperCase() + current.difficulty.slice(1)}
+            {current.difficulty.charAt(0).toUpperCase() +
+              current.difficulty.slice(1)}
           </span>
         </div>
 

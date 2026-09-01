@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from "./Auth/AuthContext.jsx";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import api from "../api/axios.js";
 
 const Leaderboard = () => {
   const { user } = useAuth();
@@ -15,7 +15,7 @@ const Leaderboard = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const { data } = await axios.get("/api/user/leaderboard");
+        const { data } = await api.get("/user/leaderboard");
         if (!Array.isArray(data)) {
           throw new Error("Unexpected response format");
         }

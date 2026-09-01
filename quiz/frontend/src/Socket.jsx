@@ -1,7 +1,9 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5001", {
-  transports: ["websocket"], // optional
+const socket = io(import.meta.env.VITE_SOCKET_URL, {
+  transports: ["websocket"],
+  withCredentials: true,
+  autoConnect: true,
 });
 
 export default socket;

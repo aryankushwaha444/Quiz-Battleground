@@ -4,6 +4,7 @@ import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import fisherYatesShuffle from "./fisherYatesShuffle";
+import api from "../api/axios";
 
 function ReverseEngineeering() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -11,7 +12,7 @@ function ReverseEngineeering() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
   const [timeLeft, setTimeLeft] = useState(10);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);``
   const [answers, setAnswers] = useState([]);
   const [round, setRound] = useState(1);
   const [score, setScore] = useState({ easy: 0, medium: 0, hard: 0 });
@@ -76,7 +77,7 @@ function ReverseEngineeering() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await axios.get("/api/user/reverse-engineering");
+        const res = await api.get("/user/reverse-engineering");
         const shuffled = fisherYatesShuffle(
           res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
         );
@@ -168,8 +169,8 @@ function ReverseEngineeering() {
       finishedAt: new Date(),
     };
 
-    axios
-      .post("/api/user/playing-quiz", userResult)
+    api
+      .post("/user/playing-quiz", userResult)
       .then(() => {
         console.log("Results saved to MongoDB");
         setQuizEnded(true);

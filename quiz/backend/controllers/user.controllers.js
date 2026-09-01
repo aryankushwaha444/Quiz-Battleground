@@ -60,10 +60,12 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(401).json({ message: "Invalid email" });
+    if (!user)
+      return res.status(401).json({ message: "invalid email or password" });
 
     const isMatch = await argon2.verify(user.password, password);
-    if (!isMatch) return res.status(401).json({ message: "Invalid password" });
+    if (!isMatch)
+      return res.status(401).json({ message: "invalid email or password" });
 
     return res.status(200).json({
       message: "Login successful",

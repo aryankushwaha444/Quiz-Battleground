@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import QuestionCard from "./QuestionCard";
 import { useAuth } from "./Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import fisherYatesShuffle from "./fisherYatesShuffle";
+import api from "../api/axios";
 
 function Defensive() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -76,7 +76,7 @@ function Defensive() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await axios.get("/api/user/defensive");
+        const res = await api.get("/user/defensive");
         const shuffled = fisherYatesShuffle(
           res.data.map((q) => ({ ...q, correctAnswer: q.answer }))
         );
@@ -168,8 +168,8 @@ function Defensive() {
       finishedAt: new Date(),
     };
 
-    axios
-      .post("/api/user/playing-quiz", userResult)
+    api
+      .post("/user/playing-quiz", userResult)
       .then(() => {
         console.log("Results saved to MongoDB");
         setQuizEnded(true);
