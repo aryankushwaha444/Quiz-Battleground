@@ -1,6 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -32,8 +32,7 @@ function Register() {
     }
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user/register`,
+      const res = await api.post("/user/register",
         {
           email: formData.email,
           username: formData.username,

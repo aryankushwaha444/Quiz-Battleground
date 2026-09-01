@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
 import { useAuth } from "./Auth/AuthContext";
+import api from "../api/axios";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,8 +16,8 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/user/login", {
-        email,
+      const res = await api.post("/user/login", {
+        email: email.trim().toLowerCase(),
         password,
       });
 
