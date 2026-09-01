@@ -1,25 +1,19 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url); // Get current file's full path
-const __dirname = path.dirname(__filename);        // Derive directory from it
-
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
+dotenv.config();
 
 const connectDB = async () => {
   try {
     const URL = process.env.MONGO_URI;
 
-    await mongoose.connect(URL,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
-    console.log('MongoDB connected');
+    if (!URL) {
+      throw new Error('MONGO_URI is not defined');
+    }
+
+    await mongoose.connect(URL);
+
+    console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error.message);
     process.exit(1);
