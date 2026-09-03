@@ -8,6 +8,7 @@ import adminRoutes from "./routes/admin.routes.js";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
+import { generalLimiter } from "./middleware/rateLimitMiddleware.js";
 
 const PORT = process.env.PORT || 5001;
 
@@ -70,6 +71,9 @@ connectDB();
 /* =========================
    API Routes
 ========================= */
+
+// API Rate Limiting
+app.use("/api", generalLimiter);
 
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
