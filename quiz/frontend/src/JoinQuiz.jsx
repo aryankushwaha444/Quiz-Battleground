@@ -31,7 +31,7 @@ function JoinQuiz() {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <label className="block text-lg text-gray-700">
-            Enter 8-character Join ID <span><sup className="text-xl text-red-600">*</sup></span>
+            Enter any character/number to Join ID <span><sup className="text-xl text-red-600">*</sup></span>
           </label>
           <input
             required
